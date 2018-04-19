@@ -1,20 +1,71 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<img class="center-image" src="./assets/dark_logo.jpeg" width=26 height=26>
 
+<div id="container">
+  <div class="center-vert title-container">
+
+    <div class="center-vert title title-1">
+      <p class="justified">
+        S A M A N T A M I N K <span class="image-placeholder"></span>
+      </p>
+    </div>
+
+    <div class="center-vert title title-2">
+      <p class="justified">
+        <span class="image-placeholder"></span> B O D Y O F W O R K
+       </p>
+    </div>
+
+    <!-- <div style="position:absolute; bottom: 0; width: 100%"> -->
+
+      <div #linksContainer class="links-container">
+        <p class="justified">
+          <a *ngFor="let url of topUrls; let i = index">{{ url.text }}{{ i !== topUrls.length - 1 ? ' ' : '' }}</a>
+        </p>
+
+        <p class="center" [style.wordSpacing]="(linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length - 1) + 'px'">
+          <a *ngFor="let url of bottomUrls; let i = index">{{ url.text }}{{ i !== topUrls.length - 1 ? ' ' : '' }}</a>
+        </p>
+
+        <span #topUrlsSpan>
+          <ng-container *ngFor="let url of topUrls">
+            {{ url.text }}
+          </ng-container>
+        </span><br>
+        <span>
+          <ng-container *ngFor="let url of bottomUrls">
+            {{ url.text }}
+          </ng-container>
+        </span><br>
+        <span style="font-size: 30px">{{linksContainer.offsetWidth}}-{{ topUrlsSpan.offsetWidth }}-{{ (linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length - 1) }}</span>
+      </div>
+
+    <!-- </div> -->
+
+  </div>
+
+  <div class="footer-container">
+    <div class="footer">
+      <div class="footer-element-container">
+        <div class="footer-element">
+          <p class="justified">c o n t a c t @ s a m a n t h a m i n k . c o m</p>
+        </div>
+      </div>
+      <div class="footer-element-container">
+        <div class="footer-element">
+          <p class="justified">@ _ s a m a n t h a m i n k _</p>
+        </div>
+      </div>
+      <div class="footer-element-container">
+        <div class="footer-element">
+          <p class="justified">+ 1 3 1 0 9 6 8 2 1 4 8</p>
+        </div>
+      </div>
+      <div class="footer-element-container">
+        <div class="footer-element">
+          <p class="justified">c u l v e r c i t y , c a</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

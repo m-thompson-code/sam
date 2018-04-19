@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+	font-family: BurinSansStd;
+	margin: 0;
+	padding: 0;
+	font-size: 6pt;
+
+	overflow:hidden;
+}
+
+html {
+	margin: 0;
+	padding: 0;
+}
+
+#container {
+	width: 100vw;
+	height: 100vh;
+
+	overflow:hidden;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+p.center {
+	text-align: center;
+}
+
+/* https://css-tricks.com/forums/topic/one-line-justified-text-design/ */
+.justified {
+	/*height: 1em;
+	line-height: 1em;*/
+	text-align: justify;
+	text-align-last: justify;
+}
+
+/*.justified:after {
+	content: '';
+	display: inline-block;
+	width: 100%;
+}*/
+
+body {
+	color: white;
+	background-image: url('./assets/dark_background.jpeg');
+    -webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
