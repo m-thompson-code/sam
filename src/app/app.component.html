@@ -26,17 +26,17 @@
           <a *ngFor="let url of bottomUrls; let i = index">{{ url.text }}{{ i !== topUrls.length - 1 ? ' ' : '' }}</a>
         </p>
 
-        <span #topUrlsSpan>
+        <span #topUrlsSpan [style.visibility]="'hidden'">
           <ng-container *ngFor="let url of topUrls">
             {{ url.text }}
           </ng-container>
         </span><br>
-        <span>
+        <span [style.visibility]="'hidden'">
           <ng-container *ngFor="let url of bottomUrls">
             {{ url.text }}
           </ng-container>
         </span><br>
-        <span style="font-size: 30px">{{linksContainer.offsetWidth}}-{{ topUrlsSpan.offsetWidth }}-{{ (linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length - 1) }}</span>
+        <span [style.visibility]="'hidden'" style="font-size: 30px">{{linksContainer.offsetWidth}}-{{ topUrlsSpan.offsetWidth }}-{{ (linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length - 1) }}</span>
       </div>
 
     <!-- </div> -->
