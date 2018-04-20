@@ -1,10 +1,44 @@
+a:hover {
+	color: black;
+	transition: color 1.5s;
+}
+
 .center-image {
 	position: absolute;
-	opacity: .5;
+	/*opacity: .5;*/
 	z-index: 1;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.light-image, .light-image:hover {
+	opacity: 0;
+	transition: opacity .5s;
+	cursor: pointer;
+}
+
+.light-image.light {
+	opacity: 1;
+}
+.light-image.light:hover {
+	opacity: .66;
+}
+
+.dark-image {
+	position: absolute;
+	top: 0;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	cursor: pointer;
+}
+
+.dark-image.dark {
+	opacity: 1;
+	width: 26px;
+	height: 26px;
+	transition: opacity 1s;
 }
 
 .center-vert {
@@ -19,7 +53,7 @@
 	top: 6.5px; /* icon size / 4 */
 	/*transform: perspective(1px) translateY(-50%);*/
 	/*width: 100%;*/
-	opacity: .5;
+	/*opacity: .5;*/
 
 }
 
@@ -63,6 +97,17 @@
 
     position: absolute;
     top: 100%;
+
+    transition: opacity 1s;
+    opacity: 0;
+}
+
+.links-container.active {
+	opacity: 1;
+}
+
+.links-text {
+	letter-spacing: 6pt;
 }
 
 .footer-container {
@@ -71,6 +116,13 @@
 	bottom: 0;
 	
 	padding-bottom: 70px;
+
+    transition: opacity 1s;
+    opacity: 0;
+}
+
+.footer-container.active {
+	opacity: 1;
 }
 
 .footer {

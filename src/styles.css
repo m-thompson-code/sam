@@ -7,9 +7,18 @@ body {
 	overflow:hidden;
 }
 
+img {
+	display: block;
+}
+
 html {
 	margin: 0;
 	padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }
 
 #container {
@@ -17,6 +26,16 @@ html {
 	height: 100vh;
 
 	overflow:hidden;
+	background: white;
+	opacity: 0;
+	transition: opacity 1s;
+	background-image: url('./assets/dark_background.jpeg');
+}
+
+#container.dark {
+	background: black;
+	opacity: 1;
+	/*background-image: url('./assets/dark_background.jpeg');*/
 }
 
 p {
@@ -44,7 +63,6 @@ p.center {
 
 body {
 	color: white;
-	background-image: url('./assets/dark_background.jpeg');
     -webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
