@@ -1,8 +1,12 @@
+.extra-spacing {
+	letter-spacing: 6pt;
+}
+
 body {
 	font-family: BurinSansStd;
 	margin: 0;
 	padding: 0;
-	font-size: 6pt;
+	font-size: 7pt;
 
 	overflow:hidden;
 }
@@ -26,14 +30,19 @@ a {
 	height: 100vh;
 
 	overflow:hidden;
-	background: white;
+	background-color: white;
 	opacity: 0;
 	transition: opacity 1s;
+	
 	background-image: url('./assets/dark_background.jpeg');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 #container.dark {
-	background: black;
+	background-color: black;
 	opacity: 1;
 	/*background-image: url('./assets/dark_background.jpeg');*/
 }

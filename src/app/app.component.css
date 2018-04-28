@@ -1,6 +1,15 @@
+.top-urls-justified {
+	display: flex;
+	justify-content: space-between;
+}
+
+.top-urls-container {
+	display: inline-block;
+}
+
 a:hover {
 	color: black;
-	transition: color 1.5s;
+	transition: color 2s;
 }
 
 .center-image {
@@ -25,7 +34,7 @@ a:hover {
 	opacity: .66;
 }
 
-.dark-image {
+.dark-image, .dark-image:hover {
 	position: absolute;
 	top: 0;
 	opacity: 0;
@@ -35,11 +44,46 @@ a:hover {
 }
 
 .dark-image.dark {
+	z-index: 1;
 	opacity: 1;
 	width: 26px;
 	height: 26px;
-	transition: opacity 1s;
+	transition: opacity 2s;
 }
+.dark-image.dark:hover {
+	opacity: .66;
+	transition: opacity .5s;
+}
+
+.first-only::first-line {
+	/*color: blue !important;*/
+	/*text-align: justify;*/
+	display: none;
+}
+
+.first-only {
+	/*color: red !important;*/
+}
+
+.height-p::first-line {
+	/*word-spacing: normal;*/
+	color: red;
+}
+
+.height-p:before {
+  content: '';
+  float: right;
+  /*width: 10em;*/
+  width: 100%;
+}
+
+.height-p {
+	/*word-spacing: 100vw;*/
+	width: 50px;
+	color: green;
+}
+
+
 
 .center-vert {
 	position: absolute;
@@ -51,26 +95,20 @@ a:hover {
 .center-vert-rel {
 	position: relative;
 	top: 6.5px; /* icon size / 4 */
-	/*transform: perspective(1px) translateY(-50%);*/
-	/*width: 100%;*/
-	/*opacity: .5;*/
-
 }
 
 .image-placeholder {
 	display: inline-block;
     width: 26px;
     height: 8px;
-    /*background: red;*/
-    /*opacity: .3;*/
 }
 
 .title-container {
-	height: 8pt;
+	height: 9pt;
 }
 
 .title {
-	font-size: 8pt;
+	font-size: 9pt;
 	width: calc(50% + 13px);
 }
 
@@ -86,6 +124,18 @@ a:hover {
 	margin-right: 70px;
 }
 
+.title-container-mobile {
+	
+}
+
+
+.title-mobile {
+	font-size: 9pt;
+	height: calc(50% - 13px - 20px);
+	width: 26px;
+}
+
+
 .links-container {
 	margin-top: 70px;
     margin-left: 140px;
@@ -98,7 +148,7 @@ a:hover {
     position: absolute;
     top: 100%;
 
-    transition: opacity 1s;
+    transition: opacity 2s;
     opacity: 0;
 }
 
@@ -117,7 +167,7 @@ a:hover {
 	
 	padding-bottom: 70px;
 
-    transition: opacity 1s;
+    transition: opacity 2s;
     opacity: 0;
 }
 
@@ -126,7 +176,7 @@ a:hover {
 }
 
 .footer {
-	height: 8pt;
+	height: 9pt;
 	margin: 0 -30px;
 	padding: 0 140px;
 }

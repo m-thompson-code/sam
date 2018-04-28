@@ -16,6 +16,8 @@ export class AppComponent {
 	topUrls: any;
 	bottomUrls: any;
 
+	urls: any;
+
 	@ViewChild("linksContainer") linksContainer: ElementRef;
 	@ViewChild("topUrlsSpan") topUrlsSpan: ElementRef;
 
@@ -31,7 +33,7 @@ export class AppComponent {
 			{text: 'SISTERCITY', href: 'https://www.architecturaldigest.com/story/ace-hotel-sister-city-bowery-manhattan-lower-east-side'},
 			{text: 'USEMBASSY', href: 'https://alliedworks.com/projects/us-embassy-mozambique'},
 			{text: "VETERANS'MEMORIAL", href: 'https://alliedworks.com/projects/ohio-veterans-memorial-and-museum'},
-			{text: 'ARVOPARTCENTER', href: 'https://alliedworks.com/projects/arvo-part-centre'},
+			{text: 'ARVOPÄRTCENTER', href: 'https://alliedworks.com/projects/arvo-part-centre'},
 		];
 
 		this.bottomUrls = [
@@ -40,6 +42,17 @@ export class AppComponent {
 			{text: 'PRESERVE24', href: 'https://www.urbandaddy.com/articles/23858/new-york/preserve-24-preserve-the-right-a-massive-den-made-of-pianos-and-boats'},
 			{text: 'THESTEINWAY', href: 'https://hotpads.com/1-bed-800-sqft-2395-los-angeles-ca-90026-1m2mh4q/pad'},
 		];
+
+		this.urls = [];
+
+		for (var i = 0; i < this.topUrls.length; i++) {
+			this.urls.push(this.topUrls[i]);
+		}
+		for (var i = 0; i < this.bottomUrls.length; i++) {
+			this.urls.push(this.bottomUrls[i]);
+		}
+
+		console.log(this.urls);
 	}
 
 	getUrlWordSpacing() {
@@ -59,7 +72,7 @@ export class AppComponent {
 				this.mode = 'dark';
 				this.modeTimeout = setTimeout(() => {
 					this.showOthers = true;
-				}, 1000);
+				}, 2000);
 			}, 500);
 		} else {
 			this.mode = '';

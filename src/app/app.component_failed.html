@@ -25,34 +25,32 @@
           <p class="justified links-text">
             <a *ngFor="let url of topUrls; let i = index" [href]="url.href" target='_blank'>{{ url.text }}{{ i !== topUrls.length - 1 ? ' ' : '' }}</a>
           </p>
-          <div class="top-urls-justified">
-            <a *ngFor="let url of topUrls; let i = index" [href]="url.href" target='_blank'>
-              <moo-spaced [chars]="url.text"></moo-spaced>
-              <span>{{ i !== topUrls.length - 1 ? '&nbsp;' : '' }}</span>
-            </a>
-          </div>
         <!-- </div> -->
 
-        <p class="center links-text" [style.wordSpacing]="(linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length) + 'px'">
+        <p class="center links-text" [style.wordSpacing]="(linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / (topUrls.length - 1) + 'px'">
           <a *ngFor="let url of urls; let i = index" [href]="url.href" target='_blank'>{{ url.text }}{{ i !== urls.length - 1 ? ' ' : '' }}</a>
         </p>
 
-        <!-- <span class="links-text" #topUrlsSpan [style.visibility]="'hidden'"> -->
-        <div #topUrlsSpan>
-          <moo-spaced *ngFor="let url of topUrls" [chars]="url.text"></moo-spaced>
-          <!-- PRIMESPARROWSISTERCITYUSEMBASSYVETERANS'MEMORIALARVOPÄRTCENTER -->
-        </div>
+        <p class="first-only links-text">
+          <ng-container *ngFor="let url of urls; let i = index">
+            <a [href]="url.href" target='_blank'>{{ url.text }}</a>{{ i !== urls.length ? ' ' : '' }}
+          </ng-container>
+        </p>
 
-        <div>
-          <moo-text-placement-test [strs]="topUrls"></moo-text-placement-test>
-        </div>
-        <!-- <br>
-        <span class="links-text" [style.visibility]="'hidden'">
+        <!-- <span class="links-text" #topUrlsSpan [style.visibility]="'hidden'"> -->
+        <span class="links-text" #topUrlsSpan>
+          <!-- <ng-container *ngFor="let url of topUrls">
+            {{ url.text }}
+          </ng-container> -->
+          PRIME SPARROW SISTERCITY USEMBASSY VETERANS'MEMORIAL ARVOPÄRTCENTER
+        </span>
+        <br>
+        <span class="links-text">
           <ng-container *ngFor="let url of bottomUrls">
             {{ url.text }}
           </ng-container>
         </span><br>
-        <span [style.visibility]="'hidden'" style="font-size: 30px">{{linksContainer.offsetWidth}}-{{ topUrlsSpan.offsetWidth }}-{{ (linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length - 1) }}</span> -->
+        <span style="font-size: 30px">{{linksContainer.getBoundingClientRect().width}}-{{ topUrlsSpan.getBoundingClientRect().width }}-{{ (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / (topUrls.length - 1) }}</span>
       </div>
 
     <!-- </div> -->

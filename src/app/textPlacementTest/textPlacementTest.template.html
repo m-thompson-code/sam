@@ -1,0 +1,8 @@
+<div #container>
+	<ng-container *ngFor="let str of strs; let i = index">
+		<moo-spaced #strComponent [chars]="str.text || str" [style.background]="viewLoaded && Math.round(strComponents[0].getBoundingClientRect().y) === Math.round(strComponents[i].getBoundingClientRect().y) ? 'red' : 'green'"></moo-spaced>
+		<!-- <moo-spaced #strComponent [chars]="str.text || str"></moo-spaced> -->
+		<!-- {{ viewLoaded && JSON.stringify(strComponents[i]) }} -->
+		{{ viewLoaded && i }}
+	</ng-container>
+</div>
