@@ -22,37 +22,74 @@
 
       <div #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
         <!-- <div class="top-urls-container"> -->
-          <p class="justified links-text">
-            <a *ngFor="let url of topUrls; let i = index" [href]="url.href" target='_blank'>{{ url.text }}{{ i !== topUrls.length - 1 ? ' ' : '' }}</a>
-          </p>
-          <div class="top-urls-justified">
+          <!-- <p class="justified links-text">
+            <ng-container *ngFor="let url of urls; let i = index"> -->
+              <!-- "" -->
+              <!-- <a *ngIf="url.y === 1" [href]="url.href" target='_blank'>{{ url.text }}</a>
+            </ng-container>
+          </p> -->
+
+          <!-- <div [style.visibility]="placementTester.viewLoaded ? '' : 'hidden'"> -->
+          <div [style.display]="'flex'" [style.justify-content]="'space-between'">
+            <ng-container *ngFor="let url of urls; let i = index">
+              <!-- "" -->
+              <moo-spaced *ngIf="url.y === 1" [chars]="url.text"></moo-spaced>
+            </ng-container>
+          </div>
+
+          <div>
+            <ng-container *ngFor="let url of urls; let i = index">
+              <!-- "" -->
+              <moo-spaced *ngIf="url.y === 1" [chars]="url.text" [style.margin-right]=" i < getUrlColCount(1) ? (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1) + 'px' : ''"></moo-spaced>
+              <!-- <moo-spaced *ngIf="url.y === 1" [chars]="url.text" [style.margin-right]=" i < 6 ? '36.95208740234375px' : ''"></moo-spaced> -->
+            </ng-container>
+          </div>
+
+          
+
+          <!-- <div class="top-urls-justified">
             <a *ngFor="let url of topUrls; let i = index" [href]="url.href" target='_blank'>
               <moo-spaced [chars]="url.text"></moo-spaced>
               <span>{{ i !== topUrls.length - 1 ? '&nbsp;' : '' }}</span>
             </a>
-          </div>
+          </div> -->
         <!-- </div> -->
 
-        <p class="center links-text" [style.wordSpacing]="(linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length) + 'px'">
+        <!-- <p class="center links-text" [style.wordSpacing]="(linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / (topUrls.length) + 'px'">
           <a *ngFor="let url of urls; let i = index" [href]="url.href" target='_blank'>{{ url.text }}{{ i !== urls.length - 1 ? ' ' : '' }}</a>
-        </p>
+        </p> -->
 
         <!-- <span class="links-text" #topUrlsSpan [style.visibility]="'hidden'"> -->
-        <div #topUrlsSpan>
-          <moo-spaced *ngFor="let url of topUrls" [chars]="url.text"></moo-spaced>
-          <!-- PRIMESPARROWSISTERCITYUSEMBASSYVETERANS'MEMORIALARVOPÄRTCENTER -->
+        <div #topUrlsSpan [style.display]="'inline-block'" [style.background]="'plum'">
+          <ng-container *ngFor="let url of urls">
+            <moo-spaced *ngIf="url.y === 1" [chars]="url.text"></moo-spaced>
+          </ng-container>
+        </div>
+
+        <div *ngFor="let x of urls; let i = index" [style.background]="'blue'">
+          <ng-container *ngFor="let url of urls; let j = index">
+            <!-- "" -->
+            <moo-spaced *ngIf="url.y === (i + 1)" [chars]="url.text" [style.margin-right]=" i < getUrlColCount(i) ? (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1) + 'px' : ''"></moo-spaced>
+          </ng-container>
         </div>
 
         <div>
-          <moo-text-placement-test [strs]="topUrls"></moo-text-placement-test>
+          <moo-text-placement-test #placementTester [urls]="urls" [containerWidth]="linksContainer.getBoundingClientRect().width" [marginRight]="(linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1)"></moo-text-placement-test>
+          <!-- <moo-text-placement-test [urls]="urls" [containerWidth]="linksContainer.getBoundingClientRect().width"></moo-text-placement-test> -->
         </div>
-        <!-- <br>
+
+        <!-- <div *ngFor="let y of urls">
+          <ng-container *ngFor="let str of urls; let i = index">
+            <moo-spaced [chars]="str.text || str"></moo-spaced>
+          </ng-container>
+        </div> -->
+        <br>
         <span class="links-text" [style.visibility]="'hidden'">
           <ng-container *ngFor="let url of bottomUrls">
             {{ url.text }}
           </ng-container>
         </span><br>
-        <span [style.visibility]="'hidden'" style="font-size: 30px">{{linksContainer.offsetWidth}}-{{ topUrlsSpan.offsetWidth }}-{{ (linksContainer.offsetWidth - topUrlsSpan.offsetWidth) / (topUrls.length - 1) }}</span> -->
+        <span style="font-size: 30px">{{linksContainer.getBoundingClientRect().width}}-{{ topUrlsSpan.getBoundingClientRect().width }}-{{ (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1) }}</span>
       </div>
 
     <!-- </div> -->

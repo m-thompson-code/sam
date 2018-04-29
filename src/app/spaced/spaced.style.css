@@ -1,0 +1,4 @@
+.spaced-chars-wrapper {
+	white-space: nowrap;
+	display: inline-block;
+}

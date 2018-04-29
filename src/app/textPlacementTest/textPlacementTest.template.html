@@ -1,8 +1,9 @@
-<div #container>
-	<ng-container *ngFor="let str of strs; let i = index">
-		<moo-spaced #strComponent [chars]="str.text || str" [style.background]="viewLoaded && Math.round(strComponents[0].getBoundingClientRect().y) === Math.round(strComponents[i].getBoundingClientRect().y) ? 'red' : 'green'"></moo-spaced>
-		<!-- <moo-spaced #strComponent [chars]="str.text || str"></moo-spaced> -->
-		<!-- {{ viewLoaded && JSON.stringify(strComponents[i]) }} -->
-		{{ viewLoaded && i }}
+<!-- <div #container [style.width]="(containerWidth + (viewLoaded && marginRight || 0)) + 'px'"> -->
+<div #container [style.width]="containerWidth + 'px'">
+<!-- <div #container [style.width]="(containerWidth) + 'px'"> -->
+	<ng-container *ngFor="let url of urls; let i = index">
+		<!-- "" -->
+		<!-- <moo-spaced #strComponent [chars]="url.text" [style.background]="viewLoaded && url.y === urls[0].y ? 'red' : 'green'" [style.margin-right]="0 + 'px'"></moo-spaced> -->
+		<moo-spaced #strComponent [chars]="url.text" [style.background]="viewLoaded && url.y === urls[0].y ? 'red' : 'green'" [style.margin-right]="(viewLoaded && marginRight || 0) + 'px'"></moo-spaced>
 	</ng-container>
 </div>

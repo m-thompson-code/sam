@@ -1,5 +1,5 @@
 .extra-spacing {
-	letter-spacing: 6pt;
+	letter-spacing: 2.5pt; /* Half of the font-size */
 }
 
 body {
@@ -9,6 +9,7 @@ body {
 	font-size: 7pt;
 
 	overflow:hidden;
+	background: purple;
 }
 
 img {

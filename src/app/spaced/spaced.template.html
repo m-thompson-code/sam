@@ -1,7 +1,13 @@
-<ng-container *ngFor="let char of chars.split(''); let i = index">
-	<div style="display: inline-block">
-		<span [class]="i !== chars.length - 1 ? 'extra-spacing' : ''">
-			{{ char }}
-		</span>
-	</div>
-</ng-container>
+<!-- <span [style.white-space]="'nowrap'"> -->
+<div class="spaced-chars-wrapper">
+
+	<ng-container *ngFor="let char of chars.split(''); let i = index">
+			<span [class]="i !== chars.length - 1 ? 'extra-spacing' : ''">
+				{{ char }}
+			</span>
+		
+	</ng-container>
+
+<!-- </span> -->
+</div>
+<!-- This comment is required to remove the white space between inline-block divs -->
