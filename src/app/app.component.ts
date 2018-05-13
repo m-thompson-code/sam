@@ -58,7 +58,7 @@ export class AppComponent {
 			{width: 0, text: 'SISTERCITY', href: 'https://www.architecturaldigest.com/story/ace-hotel-sister-city-bowery-manhattan-lower-east-side'},
 			{width: 0, text: 'EX NIHILO', href: 'https://www.instagram.com/explore/tags/pr00_exnihilo/'},
 			{width: 0, text: 'USEMBASSY', href: 'https://alliedworks.com/projects/us-embassy-mozambique'},
-			{width: 0, text: "VETERANS'\\MEMORIAL", href: 'https://alliedworks.com/projects/ohio-veterans-memorial-and-museum'},
+			{width: 0, text: "VETERANS\\MEMORIAL", href: 'https://alliedworks.com/projects/ohio-veterans-memorial-and-museum'},
 			{width: 0, text: 'ARVOPÄRT\\CENTER', href: 'https://alliedworks.com/projects/arvo-part-centre'},
 			{width: 0, text: 'UCSANTACRUZ', href: 'https://alliedworks.com/projects/institute-of-arts-and-sciences-ucsc'},
 			{width: 0, text: 'CLEMSON\\UNIVERSITY', href: 'https://alliedworks.com/projects/spaulding-paolozzi-center'},
