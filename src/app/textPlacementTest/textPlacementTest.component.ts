@@ -35,49 +35,34 @@ export class TextPlacementTestComponent {
 
 	ngAfterViewInit() {
 		console.log(this.container);
-		console.log(this.container.nativeElement.getBoundingClientRect().y);
-
 		console.log(this.strViewChildren);
 		
-		setTimeout(() => {
+		// setTimeout(() => {
 			this.strComponents = [];
-			// this.s = [];
 
 			this.strViewChildren.forEach(str => {
 				this.strComponents.push(str);
-				// this.s.push(0);
-
-				// console.log(str);
-				// console.log(str.nativeElement.getBoundingClientRect().y);
 			});
 
 			this.getStringRows();
-			setTimeout(() => {
-				this.viewLoaded = true;
-			}, 1);
-		}, 1);
+			this.viewLoaded = true;
+		// }, 1);
 	}
 
 	getStringRows() {
-		this.viewLoaded = false;
-		setTimeout(() => {
+		// this.viewLoaded = false;
+		// setTimeout(() => {
 			if (this.strViewChildren && this.strComponents) {
 				var y = 0, rowHeight = 0;
 				for (var i = 0; i < this.strComponents.length; i++) {
-					if (this.strComponents[i].nativeElement.getBoundingClientRect().y > rowHeight) {
-						y += 1;
-						rowHeight = this.strComponents[i].nativeElement.getBoundingClientRect().y;
-					}
-
-					this.urls[i].y = y;
-					console.log(this.urls[i].y);
-				}	
+					this.urls[i].width = this.strComponents[i].nativeElement.getBoundingClientRect().width;
+				}
 			}
 
-			setTimeout(() => {
+			// setTimeout(() => {
 				this.viewLoaded = true;
-			}, 1);
-		}, 1);
+			// }, 1);
+		// }, 1);
 	}
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive

@@ -4,121 +4,92 @@
 </div>
 
 <div id="container" [class]="mode">
-  <div class="center-vert title-container">
+  <ng-container *ngIf="(w <= 812 && h < 450) || (w < h && w < 750)">
+    <div class="wrapper-with-margins">
+      <div class="center-horizontal justify-vert title-vert title-vert-1">
+        <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
+        <div [style.width]="'13px'" [style.height]="'13px'"></div>
+      </div>
 
-    <div class="center-vert title title-1">
-      <p class="justified">
-        S A M A N T A M I N K <span class="image-placeholder"></span>
-      </p>
+      <div class="center-horizontal justify-vert title-vert title-vert-2">
+        <div [style.width]="'13px'" [style.height]="'13px'"></div>
+        <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
+      </div>
+
+      <div [class]="'mobile-text-container' + (showOthers ? ' active' : '')">
+        <a *ngFor="let url of urls" #a [href]="url.href" [style.margin-bottom]="'7pt'" class="mobile-text" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+          <span *ngFor="let char of url.text.split('')" [class]="char === '\\' ? 'new-line' : ''">
+            <ng-container *ngIf="char !== '\\'">
+              {{ char }}
+            </ng-container>
+          </span>
+        </a>
+      </div>
+
+      <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '')">
+        <div>
+          <!-- <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" class="mobile-text" (click)="a.blur(); a.style.color='white'"> -->
+          <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" class="mobile-text" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+            <span *ngFor="let char of url.text.split('')" [class]="char === '\\' ? 'new-line' : ''">
+              <ng-container *ngIf="char !== '\\'">
+                {{ char }}
+              </ng-container>
+            </span>
+          </a>
+        </div>
+      </div>
     </div>
+  </ng-container>
 
-    <div class="center-vert title title-2">
-      <p class="justified">
-        <span class="image-placeholder"></span> B O D Y O F W O R K
-       </p>
-    </div>
+  <ng-container *ngIf="(w > 812 || h >= 450) && (w >= h  || w >= 750)">
+    <div class="center-vert title-container">
 
-    <!-- <div style="position:absolute; bottom: 0; width: 100%"> -->
+      <div class="center-vert title title-1">
+        <div>
+          <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
+          <span class="image-placeholder"></span>
+        </div>
+      </div>
+
+      <div class="center-vert title title-2">
+        <div>
+          <span class="image-placeholder"></span>
+          <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>
+         </div>
+      </div>
 
       <div #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
-        <!-- <div class="top-urls-container"> -->
-          <!-- <p class="justified links-text">
-            <ng-container *ngFor="let url of urls; let i = index"> -->
-              <!-- "" -->
-              <!-- <a *ngIf="url.y === 1" [href]="url.href" target='_blank'>{{ url.text }}</a>
-            </ng-container>
-          </p> -->
-
-          <!-- <div [style.visibility]="placementTester.viewLoaded ? '' : 'hidden'"> -->
-          <div [style.display]="'flex'" [style.justify-content]="'space-between'">
-            <ng-container *ngFor="let url of urls; let i = index">
-              <!-- "" -->
-              <moo-spaced *ngIf="url.y === 1" [chars]="url.text"></moo-spaced>
-            </ng-container>
-          </div>
-
-          <div>
-            <ng-container *ngFor="let url of urls; let i = index">
-              <!-- "" -->
-              <moo-spaced *ngIf="url.y === 1" [chars]="url.text" [style.margin-right]=" i < getUrlColCount(1) ? (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1) + 'px' : ''"></moo-spaced>
-              <!-- <moo-spaced *ngIf="url.y === 1" [chars]="url.text" [style.margin-right]=" i < 6 ? '36.95208740234375px' : ''"></moo-spaced> -->
-            </ng-container>
-          </div>
-
-          
-
-          <!-- <div class="top-urls-justified">
-            <a *ngFor="let url of topUrls; let i = index" [href]="url.href" target='_blank'>
-              <moo-spaced [chars]="url.text"></moo-spaced>
-              <span>{{ i !== topUrls.length - 1 ? '&nbsp;' : '' }}</span>
-            </a>
-          </div> -->
-        <!-- </div> -->
-
-        <!-- <p class="center links-text" [style.wordSpacing]="(linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / (topUrls.length) + 'px'">
-          <a *ngFor="let url of urls; let i = index" [href]="url.href" target='_blank'>{{ url.text }}{{ i !== urls.length - 1 ? ' ' : '' }}</a>
-        </p> -->
-
-        <!-- <span class="links-text" #topUrlsSpan [style.visibility]="'hidden'"> -->
-        <div #topUrlsSpan [style.display]="'inline-block'" [style.background]="'plum'">
-          <ng-container *ngFor="let url of urls">
-            <moo-spaced *ngIf="url.y === 1" [chars]="url.text"></moo-spaced>
-          </ng-container>
-        </div>
-
-        <div *ngFor="let x of urls; let i = index" [style.background]="'blue'">
-          <ng-container *ngFor="let url of urls; let j = index">
+        <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
+          <ng-container *ngFor="let url of urlRow; let j = index">
             <!-- "" -->
-            <moo-spaced *ngIf="url.y === (i + 1)" [chars]="url.text" [style.margin-right]=" i < getUrlColCount(i) ? (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1) + 'px' : ''"></moo-spaced>
+            <!-- <a #a [href]="url.href" target="_blank" (click)="a.blur(); a.color='white'"> -->
+            <!-- <a #a (click)="a.blur();" (touchstart)="$event.preventDefault()" (touchstart)="$event.preventDefault()"> -->
+            <a #a [href]="url.href" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+              <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+            </a>
           </ng-container>
         </div>
 
-        <div>
-          <moo-text-placement-test #placementTester [urls]="urls" [containerWidth]="linksContainer.getBoundingClientRect().width" [marginRight]="(linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1)"></moo-text-placement-test>
-          <!-- <moo-text-placement-test [urls]="urls" [containerWidth]="linksContainer.getBoundingClientRect().width"></moo-text-placement-test> -->
-        </div>
-
-        <!-- <div *ngFor="let y of urls">
-          <ng-container *ngFor="let str of urls; let i = index">
-            <moo-spaced [chars]="str.text || str"></moo-spaced>
-          </ng-container>
-        </div> -->
-        <br>
-        <span class="links-text" [style.visibility]="'hidden'">
-          <ng-container *ngFor="let url of bottomUrls">
-            {{ url.text }}
-          </ng-container>
-        </span><br>
-        <span style="font-size: 30px">{{linksContainer.getBoundingClientRect().width}}-{{ topUrlsSpan.getBoundingClientRect().width }}-{{ (linksContainer.getBoundingClientRect().width - topUrlsSpan.getBoundingClientRect().width) / ((getUrlColCount(1) - 1) || 1) }}</span>
-      </div>
-
-    <!-- </div> -->
-
-  </div>
-
-  <div [class]="'footer-container' + (showOthers ? ' active' : '')">
-    <div class="footer">
-      <div class="footer-element-container">
-        <div class="footer-element">
-          <p class="justified"><a href="mailto:contact@samanthamink.com">c o n t a c t @ s a m a n t h a m i n k . c o m</a></p>
-        </div>
-      </div>
-      <div class="footer-element-container">
-        <div class="footer-element">
-          <p class="justified"><a href="https://www.instagram.com/_samanthamink_/" target='_blank'>@ _ s a m a n t h a m i n k _</a></p>
-        </div>
-      </div>
-      <div class="footer-element-container">
-        <div class="footer-element">
-          <p class="justified"><a href="tel:+13109682148">+ 1 3 1 0 9 6 8 2 1 4 8</a></p>
-        </div>
-      </div>
-      <div class="footer-element-container">
-        <div class="footer-element">
-          <p class="justified"><a href="https://goo.gl/maps/EDdHuFLuv882" target='_blank'>c u l v e r c i t y , c a</a></p>
+        <div [style.visibility]="'hidden'" [style.position]="'absolute'">
+          <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
         </div>
       </div>
     </div>
-  </div>
 
+    <div [class]="'footer-container' + (showOthers ? ' active' : '')">
+      <div class="footer">
+        <div *ngFor="let url of footerUrls" class="footer-element-container">
+          <div class="footer-element">
+            <a #a class="top-urls-justified" [style.width]="'100%'" [href]="url.href" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+              <span *ngFor="let char of url.text.split('')">
+                <ng-container *ngIf="char !== '\\'">
+                  {{ char }}
+                </ng-container>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

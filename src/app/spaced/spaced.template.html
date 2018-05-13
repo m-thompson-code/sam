@@ -2,10 +2,10 @@
 <div class="spaced-chars-wrapper">
 
 	<ng-container *ngFor="let char of chars.split(''); let i = index">
-			<span [class]="i !== chars.length - 1 ? 'extra-spacing' : ''">
-				{{ char }}
-			</span>
-		
+		<!-- "" -->
+		<span [class]="i !== chars.length - 1 ? 'extra-spacing' : ''" *ngIf="char !== '\\'">
+			{{ char }}
+		</span>
 	</ng-container>
 
 <!-- </span> -->
