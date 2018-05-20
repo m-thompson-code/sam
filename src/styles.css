@@ -24,9 +24,10 @@ body {
 
 img {
 	display: block;
+	-webkit-transform: translateZ(0);
+	width: 100%;
+	height: 100%;
 }
-
-
 
 html {
 	margin: 0;
@@ -37,6 +38,12 @@ a {
     text-decoration: none;
     color: white;
 	transition: color 0.5s;
+}
+
+.not-active {
+  pointer-events: none;
+  cursor: default;
+  /*text-decoration: none;*/
 }
 
 a:not(:focus):not(:active):hover {
@@ -63,7 +70,7 @@ a.active {
 	opacity: 0;
 	transition: opacity 1s;
 	
-	background-image: url('./assets/dark_background.jpeg');
+	background-image: url('./assets/dark_background_53.jpeg');
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

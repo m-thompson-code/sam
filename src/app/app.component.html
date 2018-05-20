@@ -1,6 +1,6 @@
-<div (click)="toggleMode()" class="center-image">
-  <img [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo.jpeg'" width=26 height=26>
-  <img [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo.jpeg'" width=26 height=26>
+<div (click)="toggleMode()" [class]="'center-image' + (w < h && w < 750 ? ' vertical' : '')">
+  <img [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo_26x26.jpeg'" width=26 height=26>
+  <img class="light-image" [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo_26x26.jpeg'" width=26 height=26>
 </div>
 
 <div id="container" [class]="mode">
@@ -8,30 +8,31 @@
     <div class="wrapper-with-margins">
       <div class="center-horizontal justify-vert title-vert title-vert-1">
         <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
-        <div [style.width]="'13px'" [style.height]="'13px'"></div>
+        <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
       </div>
 
       <div class="center-horizontal justify-vert title-vert title-vert-2">
-        <div [style.width]="'13px'" [style.height]="'13px'"></div>
+        <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
         <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
       </div>
 
-      <div [class]="'mobile-text-container' + (showOthers ? ' active' : '')">
-        <a *ngFor="let url of urls" #a [href]="url.href" [style.margin-bottom]="'7pt'" class="mobile-text" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-          <span *ngFor="let char of url.text.split('')" [class]="char === '\\' ? 'new-line' : ''">
-            <ng-container *ngIf="char !== '\\'">
+      <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+        <a *ngFor="let url of urls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [class]="'mobile-text' + (!showOthers ? ' not-active' : '')" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+          <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
+            <!-- "" -->
+            <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
               {{ char }}
             </ng-container>
           </span>
         </a>
       </div>
 
-      <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '')">
+      <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
         <div>
-          <!-- <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" class="mobile-text" (click)="a.blur(); a.style.color='white'"> -->
-          <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" class="mobile-text" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-            <span *ngFor="let char of url.text.split('')" [class]="char === '\\' ? 'new-line' : ''">
-              <ng-container *ngIf="char !== '\\'">
+          <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+            <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
+              <!-- "" -->
+              <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
                 {{ char }}
               </ng-container>
             </span>
@@ -62,9 +63,7 @@
         <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
           <ng-container *ngFor="let url of urlRow; let j = index">
             <!-- "" -->
-            <!-- <a #a [href]="url.href" target="_blank" (click)="a.blur(); a.color='white'"> -->
-            <!-- <a #a (click)="a.blur();" (touchstart)="$event.preventDefault()" (touchstart)="$event.preventDefault()"> -->
-            <a #a [href]="url.href" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+            <a #a [href]="url.href" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="(!showOthers ? 'not-active' : '')">
               <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
             </a>
           </ng-container>
@@ -80,12 +79,18 @@
       <div class="footer">
         <div *ngFor="let url of footerUrls" class="footer-element-container">
           <div class="footer-element">
-            <a #a class="top-urls-justified" [style.width]="'100%'" [href]="url.href" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-              <span *ngFor="let char of url.text.split('')">
+            <a #a [class]="'top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+              <ng-container *ngFor="let char of url.text.split(''); let i = index">
+                <!-- "" -->
                 <ng-container *ngIf="char !== '\\'">
-                  {{ char }}
+                  <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                    {{ '!' }}
+                  </span>
+                  <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
+                    {{ char }}
+                  </span>
                 </ng-container>
-              </span>
+              </ng-container>
             </a>
           </div>
         </div>
