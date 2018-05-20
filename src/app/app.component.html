@@ -1,10 +1,32 @@
-<div (click)="toggleMode()" [class]="'center-image' + (w < h && w < 750 ? ' vertical' : '')">
-  <img [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo.jpeg'" width=26 height=26>
-  <img class="light-image" [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo.jpeg'" width=26 height=26>
+<div *ngIf="showPoem" class="poem-container">
+  <!-- <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode" [style.margin-top]="(bottomPoem.getBoundingClientRect().height - topPoem.getBoundingClientRect().height) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'"> -->
+  <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')" [style.margin-top]="(getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) - getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height)) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
+    <!-- <span>{{ poem }}</span> -->
+    <!-- <span *ngFor="let char of poem.split('')">{{ char }}</span> -->
+    <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
+  </div>
+  <div #bottomPoem class="poem divided bottom" [class]="'poem divided bottom ' + mode" [style.height]="getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
+    <!-- <span>{{ poem }}</span> -->
+    <span class="bottom-poem-span">
+      <!-- <span *ngFor="let char of poem.split('')">{{ char }}</span> -->
+      <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
+    </span>
+  </div>
+</div>
+
+<div (click)="toggleMode()" [class]="'center-image' + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')">
+  <!-- <img class="dark-image" [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo.jpeg'" width=26 height=26> -->
+  <!-- <img class="dark-image" [class]="'dark-image' + ' ' + mode" [src]="darkIconEncoded"> -->
+  <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
+  <!-- <img class="light-image" [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo.jpeg'" width=26 height=26> -->
+  <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
+
+  <!-- <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.width]="0" [style.height]="0"> -->
+  <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.position]="'absolute'" [style.width]="'1px'" [style.height]="'1px'">
 </div>
 
 <div id="container" [class]="mode">
-  <div [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
+  <div [style.overflow]="'hidden'" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
     <div class="wrapper-with-margins">
       <div class="center-horizontal justify-vert title-vert title-vert-1">
         <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
@@ -97,4 +119,18 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="poem tester">
+  <!-- <span #poemTester>{{ poem }}</span> -->
+  <span #poemTester>
+    <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
+  </span>
+</div>
+<div class="poem tester">
+  <span #spanTester>moo</span>
+</div>
+<div class="poem tester">
+  <span #twoSpanTester [style.white-space]="'pre-wrap'">moo
+  cow</span>
 </div>

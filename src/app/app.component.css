@@ -1,3 +1,82 @@
+.poem {
+	opacity: 0;
+	transition: opacity .5s;
+}
+
+.poem.light {
+	opacity: 1;
+}
+
+.poem-container {
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+
+	position: absolute;
+
+	display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    flex-wrap: wrap;
+
+    flex-direction: column;
+}
+
+.poem {
+	color: black;
+	width: 33.3333333%;
+    text-align: justify;
+    text-align-last: justify;
+    hyphens: auto;
+}
+
+@media only screen and (max-width: 992px) {
+	.poem {
+		width: 50%;
+	}
+}
+@media only screen and (max-width: 600px) {
+	.poem {
+		width: calc(100% - 28pt);
+	}
+}
+
+.poem.divided {
+	overflow: hidden;
+}
+
+.poem.top {
+	margin-bottom: 52px;
+}
+.poem.top.vertical {
+	margin-bottom: 40px;
+}
+.poem.bottom {
+	position: relative;
+}
+
+.poem span {
+	line-height: 14pt;
+}
+
+.poem.bottom .bottom-poem-span {
+	position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.spaced-char {
+	margin: 0 7pt;
+}
+
+.poem.tester {
+	position: absolute;
+	visibility: hidden;
+	top: 0;
+}
+
 .justify-vert {
 	display: flex;
     align-items: center;
@@ -58,8 +137,6 @@
 	flex-wrap: wrap;
 }
 
-
-
 .new-line {
 	width: 100%;
 	display: inline;
@@ -92,13 +169,13 @@
 	width: 20px;/*calc(.85 * 26px);*/
     height: 20px;/*calc(.85 * 26px);*/
 }
-
+/*
 .vertical-image-placeholder {
 	width: 13px;
 	height: 13px;
-}
+}*/
 
-.vertical-image-placeholder.smaller {
+.vertical-image-placeholder {
 	width: 10px;/*calc(.85 * 13px);*/
 	height: 10px;/*calc(.85 * 13px);*/
 }
@@ -107,6 +184,7 @@
 	opacity: 0;
 	transition: opacity .5s;
 	cursor: pointer;
+	background-color: rgb(255, 255, 255);
 }
 
 .light-image.light {
@@ -117,12 +195,13 @@
 }
 
 .dark-image, .dark-image:hover {
-	position: absolute;
+	/*position: absolute;*/
 	top: 0;
 	opacity: 0;
 	width: 0;
 	height: 0;
 	cursor: pointer;
+	background-color: rgb(0, 0, 0);
 }
 
 .dark-image.dark {
@@ -133,6 +212,10 @@
 	width: 100%;
 	height: 100%;
 	transition: opacity 2s;
+}
+.dark-image-safari-fix {
+	/*opacity: 1;*/
+	position: absolute;
 }
 .dark-image.dark:hover {
 	opacity: .66;
