@@ -240,7 +240,9 @@ export class AppComponent {
 	@HostListener('window:resize')
     onResize() {
     	// '{
-       this.recalcEvertyhing();
+    	setTimeout(() => {
+       		this.recalcEvertyhing();
+       	}, 1);
     }
 
     @HostListener('window:orientationchange')

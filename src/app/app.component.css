@@ -84,6 +84,8 @@
 
 	/*-webkit-transform: translateZ(0);
 	width: calc(100% + .49px);*/
+	width: 26px;
+	height: 26px;
 }
 
 .center-image.vertical {

@@ -70,7 +70,8 @@ a.active {
 	opacity: 0;
 	transition: opacity 1s;
 	
-	background-image: url('./assets/dark_background_53.jpeg');
+	/*background-image: url('./assets/dark_background_53.jpeg');*/
+	background-image: url('./assets/dark_background.jpeg');
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

@@ -1,10 +1,10 @@
 <div (click)="toggleMode()" [class]="'center-image' + (w < h && w < 750 ? ' vertical' : '')">
-  <img [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo_26x26.jpeg'" width=26 height=26>
-  <img class="light-image" [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo_26x26.jpeg'" width=26 height=26>
+  <img [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo.jpeg'" width=26 height=26>
+  <img class="light-image" [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo.jpeg'" width=26 height=26>
 </div>
 
 <div id="container" [class]="mode">
-  <ng-container *ngIf="(w <= 812 && h < 450) || (w < h && w < 750)">
+  <div [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
     <div class="wrapper-with-margins">
       <div class="center-horizontal justify-vert title-vert title-vert-1">
         <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
@@ -40,9 +40,9 @@
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
 
-  <ng-container *ngIf="(w > 812 || h >= 450) && (w >= h  || w >= 750)">
+  <div [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
     <div class="center-vert title-container">
 
       <div class="center-vert title title-1">
@@ -96,5 +96,5 @@
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
 </div>
