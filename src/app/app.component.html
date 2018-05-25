@@ -1,16 +1,30 @@
+<!-- <ng-container *ngIf="true || loading">
+  <div class="preloader-wrapper small active">
+    <div class="spinner-layer spinner-black-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div><div class="gap-patch">
+        <div class="circle"></div>
+      </div><div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+ -->
+<ng-container *ngIf="!loading">
+<div class="fixed-full">
 <div *ngIf="showPoem" class="poem-container">
-  <!-- <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode" [style.margin-top]="(bottomPoem.getBoundingClientRect().height - topPoem.getBoundingClientRect().height) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'"> -->
-  <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')" [style.margin-top]="(getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) - getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height)) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
-    <!-- <span>{{ poem }}</span> -->
-    <!-- <span *ngFor="let char of poem.split('')">{{ char }}</span> -->
+<!--   <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')" [style.margin-top]="(getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) - getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height)) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
     <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
   </div>
   <div #bottomPoem class="poem divided bottom" [class]="'poem divided bottom ' + mode" [style.height]="getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
-    <!-- <span>{{ poem }}</span> -->
     <span class="bottom-poem-span">
-      <!-- <span *ngFor="let char of poem.split('')">{{ char }}</span> -->
       <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
     </span>
+  </div> -->
+  <div>
+    <img [class]="'poem-image ' + mode" src="./assets/poem_desktop.png">
   </div>
 </div>
 
@@ -22,20 +36,20 @@
   <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
 
   <!-- <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.width]="0" [style.height]="0"> -->
-  <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.position]="'absolute'" [style.width]="'1px'" [style.height]="'1px'">
+  <!-- <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.position]="'absolute'" [style.width]="'1px'" [style.height]="'1px'"> -->
 </div>
 
-<div id="container" [class]="mode">
-  <div [style.overflow]="'hidden'" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
+<div #container id="container" [class]="mode">
+  <div class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
     <div class="wrapper-with-margins">
       <div class="center-horizontal justify-vert title-vert title-vert-1">
-        <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
+        <div *ngFor="let char of header1.split('')">{{ char }}</div>
         <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
       </div>
 
       <div class="center-horizontal justify-vert title-vert title-vert-2">
         <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-        <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
+        <div *ngFor="let char of header2.split('')">{{ char }}</div>
       </div>
 
       <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
@@ -64,12 +78,12 @@
     </div>
   </div>
 
-  <div [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
+  <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
     <div class="center-vert title-container">
 
       <div class="center-vert title title-1">
         <div>
-          <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
+          <span *ngFor="let char of header1.split('')">{{ char }}</span>
           <span class="image-placeholder"></span>
         </div>
       </div>
@@ -77,7 +91,7 @@
       <div class="center-vert title title-2">
         <div>
           <span class="image-placeholder"></span>
-          <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>
+          <span *ngFor="let char of header2.split('')">{{ char }}</span>
          </div>
       </div>
 
@@ -121,16 +135,20 @@
   </div>
 </div>
 
-<div class="poem tester">
+<div *ngIf="poem" class="poem tester">
   <!-- <span #poemTester>{{ poem }}</span> -->
   <span #poemTester>
     <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
   </span>
 </div>
-<div class="poem tester">
+<div *ngIf="poem" class="poem tester">
   <span #spanTester>moo</span>
 </div>
-<div class="poem tester">
+<div *ngIf="poem" class="poem tester">
   <span #twoSpanTester [style.white-space]="'pre-wrap'">moo
   cow</span>
+</div>
+</div>
+</ng-container>
+<div #backgroundImageHolder class="background-image-holder">
 </div>
