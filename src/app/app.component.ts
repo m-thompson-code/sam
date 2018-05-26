@@ -47,10 +47,14 @@ export class AppComponent {
 	header1: string;
 	header2: string;
 
+	test: string;
+
 	constructor() {
   	}
 
 	ngOnInit() {
+		this.test = "moo";
+		
 		this.dataLoading = true;
 		this.backgroundImageLoading = true;
 		this.loading = true;

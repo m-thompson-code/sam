@@ -1,4 +1,4 @@
-<!-- <ng-container *ngIf="true || loading">
+<ng-container *ngIf="true || loading">
   <div class="preloader-wrapper small active">
     <div class="spinner-layer spinner-black-only">
       <div class="circle-clipper left">
@@ -10,9 +10,13 @@
       </div>
     </div>
   </div>
+  <div class="input-field">
+    <input id="first" type="text" [value]="test ? test : ''" (input)="test = $event.target.value">
+    <label for="first">label</label>
+  </div>
 </ng-container>
- -->
-<ng-container *ngIf="!loading">
+
+<ng-container *ngIf="false && !loading">
 <div class="fixed-full">
 <div *ngIf="showPoem" class="poem-container">
 <!--   <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')" [style.margin-top]="(getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) - getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height)) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
