@@ -1,0 +1,5 @@
+<div class="input-field">
+    <!-- <input id="first" type="text" [class]="text ? 'active' : ''" [value]="text ? text : ''" (input)="text = $event.target.value"> -->
+    <input #input id="first" type="text" (focus)="focused = true" (blur)="focused = false" [value]="text ? text : ''" (input)="valueChanged.emit($event.target.value)">
+    <label *ngIf="label" [class]="text || focused ? 'active' : ''" for="first">{{ label }}</label>
+</div>

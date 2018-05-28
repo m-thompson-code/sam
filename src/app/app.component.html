@@ -10,10 +10,11 @@
       </div>
     </div>
   </div>
-  <div class="input-field">
+  <!-- <div class="input-field">
     <input id="first" type="text" [value]="test ? test : ''" (input)="test = $event.target.value">
     <label for="first">label</label>
-  </div>
+  </div> -->
+  <moo-input [text]="test" [label]="'label moo :D'" (valueChanged)="test = $event"></moo-input>
 </ng-container>
 
 <ng-container *ngIf="false && !loading">

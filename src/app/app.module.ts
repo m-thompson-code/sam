@@ -7,6 +7,8 @@ import * as firebase from "firebase";
 import { SpacedModule } from './spaced/spaced.module';
 import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.module';
 
+import { InputModule } from './input/input.module';
+
 import { AppComponent } from './app.component';
 
 // Initialize Firebase Server
@@ -22,7 +24,9 @@ firebase.initializeApp(firebaseConfig);
     BrowserModule,
 
     SpacedModule,
-    TextPlacementTestModule
+    TextPlacementTestModule,
+
+    InputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
