@@ -285,4 +285,20 @@ p.center {
 		width: 10px;
 		height: 10px;
 	}*/
+
+	.management-wrapper {
+	  height: 100vw !important;
+	  width: 100vh !important;
+	}
+
+	.url-container {
+	    width: calc(100vh - 7pt) !important;
+	}
+	
+	@media only screen and (max-height: 600px) {
+		.input-container {
+		    width: 100% !important;
+		}
+	}
+
 }

@@ -4,7 +4,7 @@
 	<ng-container *ngFor="let char of chars.split(''); let i = index">
 		<!-- "" -->
 		<ng-container *ngIf="char !== '\\'">
-			<span [class]="i !== chars.length - 1 ? 'extra-spacing' : ''">
+			<span [class]="i !== chars.length - 1 && (!i || chars[i - 1] !== '\\' || char === 's') ? 'extra-spacing' : ''">
 				<!-- <ng-container *ngIf="i !== 0 && chars.split('')[i - 1] === '\\'">
 					{{ char === 's' ? ' ' : '' }}
 				</ng-container>

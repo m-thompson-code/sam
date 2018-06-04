@@ -1,23 +1,64 @@
-<ng-container *ngIf="true || loading">
-  <div class="preloader-wrapper small active">
-    <div class="spinner-layer spinner-black-only">
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
-      </div>
-    </div>
-  </div>
-  <!-- <div class="input-field">
-    <input id="first" type="text" [value]="test ? test : ''" (input)="test = $event.target.value">
-    <label for="first">label</label>
-  </div> -->
-  <moo-input [text]="test" [label]="'label moo :D'" (valueChanged)="test = $event"></moo-input>
+<ng-container *ngIf="loading || saving">
+  <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
-<ng-container *ngIf="false && !loading">
+<div *ngIf="true" [class]="'management-wrapper ' + mode">
+  <div class="management-container">
+    <div [style.color]="'grey'">
+      <a [style.color]="'grey'">Projects</a><a [style.color]="'grey'">Footer</a>
+    </div>
+    <ng-container *ngIf="managementMode !== 'projects'">
+      <ng-container *ngFor="let url of footerUrls; let i = index">
+        <!-- "" -->
+        <div class="url-container">
+          <div class="index-container" [style.color]="'grey'">
+            <span>moo</span><br>
+            <span>cow</span>
+          </div>
+          <div class="input-containers">
+            <div class="input-container">
+              <div>
+                  <moo-input [mode]="mode" [text]="url.text" [label]="'Footer text ' + (i + 1)" (valueChanged)="url.text = $event"></moo-input>
+              </div>
+            </div>
+            <div class="input-container">
+              <div>
+                  <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url ' + (i + 1)" (valueChanged)="url.href = $event"></moo-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div *ngIf="i !== urls.length - 1"></div> -->
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="managementMode === 'projects'">
+      <ng-container *ngFor="let url of urls; let i = index">
+        <!-- "" -->
+        <div class="url-container">
+          <div class="index-container" [style.color]="'grey'">
+            <span>moo</span><br>
+            <span>cow</span>
+          </div>
+          <div class="input-containers">
+            <div class="input-container">
+              <div>
+                  <moo-input [mode]="mode" [text]="url.text" [label]="'Project text ' + (i + 1)" (valueChanged)="url.text = $event"></moo-input>
+              </div>
+            </div>
+            <div class="input-container">
+              <div>
+                  <moo-input [mode]="mode" [text]="url.href" [label]="'Project url ' + (i + 1)" (valueChanged)="url.href = $event"></moo-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div *ngIf="i !== urls.length - 1"></div> -->
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-container *ngIf="!loading">
 <div class="fixed-full">
 <div *ngIf="showPoem" class="poem-container">
 <!--   <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')" [style.margin-top]="(getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) - getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height)) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
@@ -64,6 +105,9 @@
             <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
               {{ char }}
             </ng-container>
+            <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+              {{ ' ' }}
+            </ng-container>
           </span>
         </a>
       </div>
@@ -75,6 +119,9 @@
               <!-- "" -->
               <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
                 {{ char }}
+              </ng-container>
+              <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                {{ ' ' }}
               </ng-container>
             </span>
           </a>
@@ -125,7 +172,7 @@
                 <!-- "" -->
                 <ng-container *ngIf="char !== '\\'">
                   <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                    {{ '!' }}
+                    {{ ' ' }}
                   </span>
                   <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
                     {{ char }}

@@ -42,7 +42,8 @@ export class AppComponent {
 
 	dataLoading: boolean;
 	backgroundImageLoading: boolean;
-	loading : boolean;
+	loading: boolean;
+	saving: boolean;
 
 	header1: string;
 	header2: string;
@@ -90,6 +91,11 @@ export class AppComponent {
 			    this.backgroundImageLoading = false;
 				this.loading = this.backgroundImageLoading || this.dataLoading;
 			};
+
+			setTimeout(() => {
+				this.backgroundImageLoading = false;
+				this.loading = this.backgroundImageLoading || this.dataLoading;
+			}, 3 * 1000);
 
 			img.src = url;
 			// if (img.complete) {img.onload();}

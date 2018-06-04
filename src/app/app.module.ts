@@ -8,6 +8,7 @@ import { SpacedModule } from './spaced/spaced.module';
 import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.module';
 
 import { InputModule } from './input/input.module';
+import { PreloaderModule } from './preloader/preloader.module';
 
 import { AppComponent } from './app.component';
 
@@ -26,7 +27,8 @@ firebase.initializeApp(firebaseConfig);
     SpacedModule,
     TextPlacementTestModule,
 
-    InputModule
+    InputModule,
+    PreloaderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
