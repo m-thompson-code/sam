@@ -1,3 +1,5 @@
+import { DragulaModule, DragulaService } from 'ng2-dragula';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -22,6 +24,7 @@ firebase.initializeApp(firebaseConfig);
     AppComponent
   ],
   imports: [
+    DragulaModule,
     BrowserModule,
 
     SpacedModule,
@@ -30,7 +33,7 @@ firebase.initializeApp(firebaseConfig);
     InputModule,
     PreloaderModule
   ],
-  providers: [],
+  providers: [DragulaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

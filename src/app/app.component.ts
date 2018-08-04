@@ -1,4 +1,6 @@
-import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, NgZone } from '@angular/core';
+
+import { DragulaService } from 'ng2-dragula';
 
 import * as firebase from "firebase";
 
@@ -50,10 +52,131 @@ export class AppComponent {
 
 	test: string;
 
-	constructor() {
+	email: string;
+	password: string;
+
+	showLogin: boolean;
+	loggedIn: boolean;
+
+	trashUrls: any;
+	dragging: boolean;
+
+	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
+		// dragulaService.setOptions('another-bag', {
+	 //      	moves: function (el, container, handle) {
+	 //        	return handle.className === 'handle';
+	 //      	}
+	 //    });
+	 function hasClass(el: any, name: string) {
+		    return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
+		  }
+
+		  function addClass(el: any, name: string) {
+		    if (!hasClass(el, name)) {
+		      el.className = el.className ? [el.className, name].join(' ') : name;
+		    }
+		  }
+
+		  function removeClass(el: any, name: string) {
+		    if (hasClass(el, name)) {
+		      el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
+		    }
+		  }
+
+	 	// setTimeout(() => {
+	 	// alert("pause");
+
+	 	// }, 10000);
+
+		dragulaService.drag.subscribe(value => {
+			this.dragging = true;
+	    });
+
+	    (document as any).addEventListener("touchmove", (e) => {
+	    	if (this.dragging) {
+	    		e.preventDefault();
+ 				e.stopPropagation();	
+	    	}
+    	}, {passive:false});
+
+	 	// document.addEventListener('touchmove', function(e) {
+	 	// 	console.log(e);
+	 	// 	e.preventDefault();
+	 	// 	e.stopPropagation();
+	 	// });
+	 // 	document.body.addEventListener('touchmove',function(e) {
+		//     e = e || window.event;
+		//     var target = e.target || e.srcElement;
+		//     //in case $altNav is a class:
+		//     if (target.className.indexOf('dragula-handle') !== -1) {
+		//     	console.log("prevent touchmove");
+		//     	e.preventDefault();
+		//         e.stopPropagation();
+		//     }
+		// });
+
+		dragulaService.drop.subscribe(value => {
+	      	// console.log(`drag: ${value[0]}`);
+	      	// this.onDrag(value.slice(1));
+	      	console.log(value[0]);
+	      	console.log(value[1]);
+	      	console.log(value[2]);
+	      	console.log(value[3]);
+	      	if (hasClass(value[2], 'trash')) {
+	      		if (!confirm("Are you sure you want to delete this url?")) {
+	      			this.dragulaService.find('another-bag').drake.cancel(true);
+	      		}
+	      	}
+	      	this.dragging = false;
+	      	setTimeout(() => {
+	       		this.recalcEvertyhing();
+	    	}, 1);
+	    });
+
+		dragulaService.dragend.subscribe(value => {
+	      	// console.log(`drag: ${value[0]}`);
+	      	// this.onDrag(value.slice(1));
+	      	this.dragging = false;
+	      	removeClass(document.body, 'deleting');
+
+	      	setTimeout(() => {
+	       		this.recalcEvertyhing();
+	    	}, 1);
+	    });
+
+	    
+
+		dragulaService.over.subscribe(value => {
+			console.log(value);
+			console.log(value[1]);
+			console.log(value[2]);
+	      	if (hasClass(value[2], 'trash')) {
+	      		// this.willDelete = true;
+	      		// value[0] && value[0].addClass('deleting');
+	      		addClass(document.body, 'deleting');
+	      		// alert("added trashed");
+      		} else {
+	      		// this.willDelete = true;
+	      		// removeClass(value[0], 'deleting');
+	      		removeClass(document.body, 'deleting');
+      		}
+	    });
+
+	    dragulaService.setOptions('another-bag', {
+	      	moves: function (el, container, handle) {
+	      		console.log("el", el);
+	      		console.log("container", container);
+	      		console.log("handle", handle);
+	        	return handle.className.indexOf('dragula-handle') !== -1;
+	      	}
+	    });
   	}
 
 	ngOnInit() {
+		this.trashUrls = [];
+
+		this.authHandler();
+		
 		this.test = "moo";
 		
 		this.dataLoading = true;
@@ -195,7 +318,10 @@ export class AppComponent {
 			setTimeout(() => {
 				this.getLinksContainerWidth();
 	        	this.alignUrls();
-			});
+	        	setTimeout(() => {
+		       		this.recalcEvertyhing();
+		    	}, 1);
+			}, 1);
 		});
 	}
 
@@ -204,9 +330,15 @@ export class AppComponent {
 			this.mode = '';
 			this.modeTimeout = setTimeout(() => {
 				this.mode = 'dark';
+				setTimeout(() => {
+		       		this.recalcEvertyhing();
+		    	}, 1);
 				this.modeTimeout = setTimeout(() => {
 					if (this.mode === 'dark') {
 						this.showOthers = true;
+						setTimeout(() => {
+				       		this.recalcEvertyhing();
+				    	}, 1);
 					}
 				}, 2000);
 			}, 500);
@@ -379,6 +511,81 @@ export class AppComponent {
 		this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     }
 
+    firebasePasswordLogin() {
+	    if (this.loading) {
+			console.log("Please wait..", "grey");
+			return;
+	    }
+
+	    if (!this.email) {
+			console.log("Please type your email", "red");
+			return;
+	    }
+
+	    if (!this.password) {
+			console.log("Please type your password", "red");
+			return;
+	    }
+
+	    return firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(error => {
+	      if (error) {
+	        var errorMessage: string;
+
+	        if (error.code) {
+	          if (error.code === 'auth/invalid-email') {
+	            errorMessage = "It appears your email is invalid";
+	          } else if (error.code === 'auth/user-disabled') {
+	            errorMessage = "It appears this user has been disabled";
+	          } else if (error.code === 'auth/user-not-found') {
+	            errorMessage = "It appears this email has not been registered";
+	          } else if (error.code === 'auth/wrong-password') {
+	            errorMessage = "The password is incorrect";
+	          }
+	        }
+
+	        errorMessage = errorMessage || error.message || error;
+
+	        console.log(errorMessage, "red");
+	      } else {
+	        this.showLogin = false;
+	        console.log("no errors");
+	      }
+	    }).then(user => {
+	      if (user) {
+	      	this.loggedIn = true;
+	        console.log("user signed in", user);
+	      } else {
+	      	this.loggedIn = false;
+	      }
+	    });
+	}
+
+	authHandler() {
+		firebase.auth().onAuthStateChanged(user => {
+          this.ngZone.run(() => {
+          	console.log("authHandler triggered");
+          	console.log(user);
+          	if (user) {
+
+          		this.loggedIn = true;
+          	} else {
+          		this.loggedIn = false;
+          	}
+          });
+      	});
+	}
+
+	logUserOut() {
+		return firebase.auth().signOut().then(() => {
+			console.log('signed out');
+			this.loggedIn = false;
+			this.showLogin = false;
+			// this.hideManagement = true;
+		}, error => {
+		  console.error(error);
+		});
+	}
+
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive
 	@HostListener('window:resize')
     onResize() {
@@ -395,4 +602,9 @@ export class AppComponent {
        		this.recalcEvertyhing();
     	}, 1);
     }
+
+ //    @HostListener('touchmove', ['$event'])
+	// private onTouchMoveEvent(event:Event): void {
+	// 	event.preventDefault();
+	// }
 }
