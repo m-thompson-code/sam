@@ -1,242 +1,215 @@
 <ng-container *ngIf="loading || saving">
-  <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
+    <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
 <div *ngIf="!loggedIn && showLogin" class="sign-in">
-  <div>
-    <moo-input [mode]="mode" [text]="email" [label]="'Email'" (valueChanged)="email = $event"></moo-input>
-  </div>
-  <div>
-    <moo-input [mode]="mode" [text]="password" [label]="'Password'" (valueChanged)="password = $event"></moo-input>
-  </div>
-  <div>
-    <!-- <a [class]="'visible-on-mode ' + mode">Continue</a> -->
-    <a [class]="'waves-effect waves-light btn-small ' + mode" (click)="firebasePasswordLogin()">Login</a>
-  </div>
+    <div>
+        <moo-input [mode]="mode" [text]="email" [label]="'Email'" (valueChanged)="email = $event"></moo-input>
+    </div>
+    <div>
+        <moo-input [mode]="mode" [text]="password" [label]="'Password'" (valueChanged)="password = $event"></moo-input>
+    </div>
+    <div>
+        <a [class]="'waves-effect waves-light btn-small dark-btn ' + mode" (click)="firebasePasswordLogin()">Login</a>
+    </div>
 </div>
 
-<div class="top-nav" [style.display]="'none'">
-  <div *ngIf="loggedIn" [class]="'management-top-nav management-hide ' + mode" (click)="hideManagement = !hideManagement">
-    <div *ngIf="!hideManagement" class="top-nav-text">Hide</div>
-    <div *ngIf="hideManagement" class="top-nav-text">Show</div>
-  </div>
-  <div *ngIf="!loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="showLogin = !showLogin">
-    <div class="top-nav-text">Login</div>
-  </div>
-  <div *ngIf="loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="logUserOut()">
-    <div class="top-nav-text">Logout</div>
-  </div>
+<div class="top-nav">
+    <div *ngIf="loggedIn" [class]="'management-top-nav management-hide ' + mode" (click)="hideManagement = !hideManagement">
+        <div *ngIf="!hideManagement" class="top-nav-text">Hide</div>
+        <div *ngIf="hideManagement" class="top-nav-text">Show</div>
+    </div>
+    <div *ngIf="!loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="showLogin = !showLogin">
+        <div class="top-nav-text">Login</div>
+    </div>
+    <div *ngIf="loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="logUserOut()">
+        <div class="top-nav-text">Logout</div>
+    </div>
 </div>
 
 <div *ngIf="loggedIn" [style.display]="hideManagement ? 'none' : ''" [class]="'management-wrapper ' + mode">
-  <div [class]="'trash fixed-action-btn ' + mode" [style.bottom]="'102px'" [dragula]='"another-bag"' [dragulaModel]='trashUrls'>
-    <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode"><i class="material-icons">remove</i></a>
-  </div>
-  <div [class]="'fixed-action-btn ' + mode">
-    <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode"><i class="material-icons">add</i></a>
-  </div>
+    <div [class]="'trash fixed-action-btn ' + mode" [style.bottom]="'102px'" [dragula]='"another-bag"' [(dragulaModel)]='trashUrls'>
+        <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode"><i class="material-icons">remove</i></a>
+    </div>
+    <div [class]="'fixed-action-btn ' + mode">
+        <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode"><i class="material-icons">add</i></a>
+    </div>
 
-  <div [class]="'management-container ' + dragging ? 'dragging' : ''">
-    <div [style.margin-bottom]="'7pt'">
-      <span [class]="'manage-mode-selector ' + mode" (click)="managementMode = 'projects'">Projects</span>
-    </div>
-    <div [style.width]="'100%'" [dragula]='"another-bag"' [dragulaModel]='urls'>
-      <ng-container *ngFor="let url of urls; let i = index">
-        <!-- "" -->
-        <div class="url-container">
-          <div class="index-container">
-            <div [class]="'dragula-handle index-number ' + mode">
-              {{ (i + 1) }}
-            </div>
-          </div>
-          <div class="input-containers">
-            <div class="input-container">
-              <div>
-                  <moo-input [mode]="mode" [text]="url.text" [label]="'Project text ' + (i + 1)" (valueChanged)="url.text = $event"></moo-input>
-              </div>
-            </div>
-            <div class="input-container">
-              <div>
-                  <moo-input [mode]="mode" [text]="url.href" [label]="'Project url ' + (i + 1)" (valueChanged)="url.href = $event"></moo-input>
-              </div>
-            </div>
-          </div>
+    <div [class]="'management-container ' + dragging ? 'dragging' : ''">
+        <div [style.margin-bottom]="'7pt'">
+        <span [class]="'manage-mode-selector ' + mode" (click)="managementMode = 'projects'">Projects</span>
         </div>
-      </ng-container>
-    </div>
-    <div [style.margin-bottom]="'7pt'">
-      <span [class]="'manage-mode-selector ' + mode" (click)="managementMode = 'footer'">Footer</span>
-    </div>
-    <div [style.width]="'100%'" *ngIf="managementMode !== 'projects'" [dragula]='"another-bag"' [dragulaModel]='footerUrls'>
-      <ng-container *ngFor="let url of footerUrls; let i = index">
-        <!-- "" -->
-        <div class="url-container">
-          <div class="index-container">
-            <div [class]="'dragula-handle index-number ' + mode">
-              {{ (i + 1) }}
+        <div [style.width]="'100%'" [dragula]='"another-bag"' [(dragulaModel)]='urls'>
+        <ng-container *ngFor="let url of urls; let i = index">
+            <!-- "" -->
+            <div class="url-container">
+            <div class="index-container">
+                <div [class]="'dragula-handle index-number ' + mode">
+                {{ (i + 1) }}
+                </div>
             </div>
-          </div>
-          <div class="input-containers">
-            <div class="input-container">
-              <div>
-                  <moo-input [mode]="mode" [text]="url.text" [label]="'Footer text ' + (i + 1)" (valueChanged)="url.text = $event"></moo-input>
-              </div>
+            <div class="input-containers">
+                <div class="input-container">
+                <div>
+                    <moo-input [mode]="mode" [text]="url.text" [label]="'Project text ' + (i + 1)" (valueChanged)="url.text = $event"></moo-input>
+                </div>
+                </div>
+                <div class="input-container">
+                <div>
+                    <moo-input [mode]="mode" [text]="url.href" [label]="'Project url ' + (i + 1)" (valueChanged)="url.href = $event"></moo-input>
+                </div>
+                </div>
             </div>
-            <div class="input-container">
-              <div>
-                  <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url ' + (i + 1)" (valueChanged)="url.href = $event"></moo-input>
-              </div>
             </div>
-          </div>
+        </ng-container>
         </div>
-      </ng-container>
+        <div [style.margin-bottom]="'7pt'">
+        <span [class]="'manage-mode-selector ' + mode" (click)="managementMode = 'footer'">Footer</span>
+        </div>
+        <div [style.width]="'100%'" *ngIf="managementMode !== 'projects'" [dragula]='"another-bag"' [(dragulaModel)]='footerUrls'>
+        <ng-container *ngFor="let url of footerUrls; let i = index">
+            <!-- "" -->
+            <div class="url-container">
+            <div class="index-container">
+                <div [class]="'dragula-handle index-number ' + mode">
+                {{ (i + 1) }}
+                </div>
+            </div>
+            <div class="input-containers">
+                <div class="input-container">
+                <div>
+                    <moo-input [mode]="mode" [text]="url.text" [label]="'Footer text ' + (i + 1)" (valueChanged)="url.text = $event"></moo-input>
+                </div>
+                </div>
+                <div class="input-container">
+                <div>
+                    <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url ' + (i + 1)" (valueChanged)="url.href = $event"></moo-input>
+                </div>
+                </div>
+            </div>
+            </div>
+        </ng-container>
+        </div>
     </div>
-  </div>
 </div>
 
 <ng-container *ngIf="!loading">
-<div class="fixed-full">
-<div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
-<!--   <div #topPoem class="poem divided top" [class]="'poem divided top ' + mode + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')" [style.margin-top]="(getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) - getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height)) + 'px'" [style.height]="getTopPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
-    <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
-  </div>
-  <div #bottomPoem class="poem divided bottom" [class]="'poem divided bottom ' + mode" [style.height]="getBottomPoemHeight(poemTester.getBoundingClientRect().height, spanTester.getBoundingClientRect().height, twoSpanTester.getBoundingClientRect().height) + 'px'">
-    <span class="bottom-poem-span">
-      <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
-    </span>
-  </div> -->
-  <div>
-    <img [class]="'poem-image ' + mode" src="./assets/poem_desktop.png">
-  </div>
-</div>
+    <div class="fixed-full">
+    <div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
+    <div>
+        <img [class]="'poem-image ' + mode" src="./assets/poem_desktop.png">
+    </div>
+    </div>
 
-<div (click)="toggleMode()" [class]="'center-image' + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')">
-  <!-- <img class="dark-image" [class]="'dark-image' + ' ' + mode" [src]="'./assets/dark_logo.jpeg'" width=26 height=26> -->
-  <!-- <img class="dark-image" [class]="'dark-image' + ' ' + mode" [src]="darkIconEncoded"> -->
-  <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
-  <!-- <img class="light-image" [class]="'light-image' + ' ' + mode" [src]="'./assets/light_logo.jpeg'" width=26 height=26> -->
-  <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
+    <div (click)="toggleMode()" [class]="'center-image' + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')">
+        <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
+        <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
+    </div>
 
-  <!-- <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.width]="0" [style.height]="0"> -->
-  <!-- <img src='./assets/dark_logo.jpeg' [src]="darkIconEncoded" [style.position]="'absolute'" [style.width]="'1px'" [style.height]="'1px'"> -->
-</div>
+    <div #container id="container" [class]="mode">
+    <div class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
+        <div class="wrapper-with-margins">
+        <div class="center-horizontal justify-vert title-vert title-vert-1">
+            <div *ngFor="let char of header1.split('')">{{ char }}</div>
+            <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
+        </div>
 
-<div #container id="container" [class]="mode">
-  <div class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
-    <div class="wrapper-with-margins">
-      <div class="center-horizontal justify-vert title-vert title-vert-1">
-        <div *ngFor="let char of header1.split('')">{{ char }}</div>
-        <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-      </div>
+        <div class="center-horizontal justify-vert title-vert title-vert-2">
+            <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
+            <div *ngFor="let char of header2.split('')">{{ char }}</div>
+        </div>
 
-      <div class="center-horizontal justify-vert title-vert title-vert-2">
-        <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-        <div *ngFor="let char of header2.split('')">{{ char }}</div>
-      </div>
-
-      <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-        <a *ngFor="let url of urls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-          <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
-            <!-- "" -->
-            <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
-              {{ char }}
-            </ng-container>
-            <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-              {{ ' ' }}
-            </ng-container>
-          </span>
-        </a>
-      </div>
-
-      <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-        <div>
-          <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+        <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+            <a *ngFor="let url of urls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
             <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
-              <!-- "" -->
-              <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
-                {{ char }}
-              </ng-container>
-              <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                {{ ' ' }}
-              </ng-container>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
-    <div class="center-vert title-container">
-
-      <div class="center-vert title title-1">
-        <div>
-          <span *ngFor="let char of header1.split('')">{{ char }}</span>
-          <span class="image-placeholder"></span>
-        </div>
-      </div>
-
-      <div class="center-vert title title-2">
-        <div>
-          <span class="image-placeholder"></span>
-          <span *ngFor="let char of header2.split('')">{{ char }}</span>
-         </div>
-      </div>
-
-      <div #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
-        <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
-          <ng-container *ngFor="let url of urlRow; let j = index">
-            <!-- "" -->
-            <a #a [href]="url.href" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-              <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
-            </a>
-          </ng-container>
-        </div>
-
-        <div [style.visibility]="'hidden'" [style.position]="'absolute'">
-          <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
-        </div>
-      </div>
-    </div>
-
-    <div [class]="'footer-container' + (showOthers ? ' active' : '')">
-      <div class="footer">
-        <div *ngFor="let url of footerUrls" class="footer-element-container">
-          <div class="footer-element">
-            <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-              <ng-container *ngFor="let char of url.text.split(''); let i = index">
                 <!-- "" -->
-                <ng-container *ngIf="char !== '\\'">
-                  <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                    {{ ' ' }}
-                  </span>
-                  <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
-                    {{ char }}
-                  </span>
+                <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
+                {{ char }}
                 </ng-container>
-              </ng-container>
+                <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                {{ ' ' }}
+                </ng-container>
+            </span>
             </a>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div *ngIf="poem" class="poem tester">
-  <!-- <span #poemTester>{{ poem }}</span> -->
-  <span #poemTester>
-    <span *ngFor="let char of poem.split('')" [class]="spacedChars.indexOf(char) !== -1 ? 'spaced-char' : ''">{{ char }}</span>
-  </span>
-</div>
-<div *ngIf="poem" class="poem tester">
-  <span #spanTester>moo</span>
-</div>
-<div *ngIf="poem" class="poem tester">
-  <span #twoSpanTester [style.white-space]="'pre-wrap'">moo
-  cow</span>
-</div>
-</div>
+        <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+            <div>
+            <a *ngFor="let url of footerUrls" #a [href]="url.href" [style.margin-bottom]="'7pt'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
+                <!-- "" -->
+                <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
+                    {{ char }}
+                </ng-container>
+                <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                    {{ ' ' }}
+                </ng-container>
+                </span>
+            </a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
+        <div class="center-vert title-container">
+
+        <div class="center-vert title title-1">
+            <div>
+            <span *ngFor="let char of header1.split('')">{{ char }}</span>
+            <span class="image-placeholder"></span>
+            </div>
+        </div>
+
+        <div class="center-vert title title-2">
+            <div>
+            <span class="image-placeholder"></span>
+            <span *ngFor="let char of header2.split('')">{{ char }}</span>
+            </div>
+        </div>
+
+        <div #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
+            <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
+            <ng-container *ngFor="let url of urlRow; let j = index">
+                <!-- "" -->
+                <a #a [href]="url.href" target="_blank" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                </a>
+            </ng-container>
+            </div>
+
+            <div [style.visibility]="'hidden'" [style.position]="'absolute'">
+            <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
+            </div>
+        </div>
+        </div>
+
+        <div [class]="'footer-container' + (showOthers ? ' active' : '')">
+        <div class="footer">
+            <div *ngFor="let url of footerUrls" class="footer-element-container">
+            <div class="footer-element">
+                <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                <ng-container *ngFor="let char of url.text.split(''); let i = index">
+                    <!-- "" -->
+                    <ng-container *ngIf="char !== '\\'">
+                    <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                        {{ ' ' }}
+                    </span>
+                    <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
+                        {{ char }}
+                    </span>
+                    </ng-container>
+                </ng-container>
+                </a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
 </ng-container>
+
 <div #backgroundImageHolder class="background-image-holder">
 </div>

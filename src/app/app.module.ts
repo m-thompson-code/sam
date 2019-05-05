@@ -1,10 +1,23 @@
-import { DragulaModule, DragulaService } from 'ng2-dragula';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-// import firebase from 'firebase';
-import * as firebase from "firebase";
+import { DragulaModule, DragulaService } from 'ng2-dragula';
+import * as firebase from "firebase/app";
+
+import 'firebase/auth';
+import 'firebase/database';
+// import 'firebase/firestore';
+// import 'firebase/storage';
+// import 'firebase/messaging';
+// import 'firebase/functions';
+
+// Initialize Firebase Server
+import { firebaseConfig } from './firebaseConfig';
+
+firebase.initializeApp(firebaseConfig);
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 import { SpacedModule } from './spaced/spaced.module';
 import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.module';
@@ -12,19 +25,12 @@ import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.m
 import { InputModule } from './input/input.module';
 import { PreloaderModule } from './preloader/preloader.module';
 
-import { AppComponent } from './app.component';
-
-// Initialize Firebase Server
-import { firebaseConfig } from './firebaseConfig';
-
-firebase.initializeApp(firebaseConfig);
-
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    DragulaModule,
+    DragulaModule.forRoot(),
     BrowserModule,
 
     SpacedModule,

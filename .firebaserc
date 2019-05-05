@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "samanthamink-66ff9"
+    "prod": "samanthamink-66ff9",
+    "dev": "samanthamink-dev"
   }
 }

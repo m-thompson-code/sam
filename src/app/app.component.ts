@@ -2,15 +2,19 @@ import { Component, HostListener, ViewChild, ElementRef, NgZone } from '@angular
 
 import { DragulaService } from 'ng2-dragula';
 
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+
+declare var M;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 	@ViewChild("backgroundImageHolder") backgroundImageHolder: ElementRef;
+	@ViewChild("linksContainer") linksContainer: ElementRef;
+
 	mode: string;
 	modeTimeout: any;
 
@@ -21,7 +25,6 @@ export class AppComponent {
 
 	urls: any;
 
-	@ViewChild("linksContainer") linksContainer: ElementRef;
 	urlFontSize: number;
 
 	urlRows: any[];
@@ -33,11 +36,7 @@ export class AppComponent {
 
 	footerUrls: any[];
 
-	poem: string;
-	poemCols: number;
 	showPoem: boolean;
-
-	spacedChars: any[];
 
 	lightIconEncoded: string;
 	darkIconEncoded: string;
@@ -49,8 +48,6 @@ export class AppComponent {
 
 	header1: string;
 	header2: string;
-
-	test: string;
 
 	email: string;
 	password: string;
@@ -67,37 +64,18 @@ export class AppComponent {
 	 //        	return handle.className === 'handle';
 	 //      	}
 	 //    });
-	 function hasClass(el: any, name: string) {
-		    return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
-		  }
 
-		  function addClass(el: any, name: string) {
-		    if (!hasClass(el, name)) {
-		      el.className = el.className ? [el.className, name].join(' ') : name;
-		    }
-		  }
+		// TODO: FIX DRAGULA
+		// dragulaService.drag.subscribe(value => {
+		// 	this.dragging = true;
+	  //   });
 
-		  function removeClass(el: any, name: string) {
-		    if (hasClass(el, name)) {
-		      el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
-		    }
-		  }
-
-	 	// setTimeout(() => {
-	 	// alert("pause");
-
-	 	// }, 10000);
-
-		dragulaService.drag.subscribe(value => {
-			this.dragging = true;
-	    });
-
-	    (document as any).addEventListener("touchmove", (e) => {
-	    	if (this.dragging) {
-	    		e.preventDefault();
- 				e.stopPropagation();	
-	    	}
-    	}, {passive:false});
+	  //   (document as any).addEventListener("touchmove", (e) => {
+	  //   	if (this.dragging) {
+	  //   		e.preventDefault();
+ 		// 			e.stopPropagation();
+	  //   	}
+    // 	}, {passive:false});
 
 	 	// document.addEventListener('touchmove', function(e) {
 	 	// 	console.log(e);
@@ -115,69 +93,73 @@ export class AppComponent {
 		//     }
 		// });
 
-		dragulaService.drop.subscribe(value => {
-	      	// console.log(`drag: ${value[0]}`);
-	      	// this.onDrag(value.slice(1));
-	      	console.log(value[0]);
-	      	console.log(value[1]);
-	      	console.log(value[2]);
-	      	console.log(value[3]);
-	      	if (hasClass(value[2], 'trash')) {
-	      		if (!confirm("Are you sure you want to delete this url?")) {
-	      			this.dragulaService.find('another-bag').drake.cancel(true);
-	      		}
-	      	}
-	      	this.dragging = false;
-	      	setTimeout(() => {
-	       		this.recalcEvertyhing();
-	    	}, 1);
-	    });
+		// TODO: FIX DRAGULA
+		// dragulaService.drop.subscribe(value => {
+	  //     	// console.log(`drag: ${value[0]}`);
+	  //     	// this.onDrag(value.slice(1));
+	  //     	console.log(value[0]);
+	  //     	console.log(value[1]);
+	  //     	console.log(value[2]);
+	  //     	console.log(value[3]);
+	  //     	if (hasClass(value[2], 'trash')) {
+	  //     		if (!confirm("Are you sure you want to delete this url?")) {
+	  //     			this.dragulaService.find('another-bag').drake.cancel(true);
+	  //     		}
+	  //     	}
+	  //     	this.dragging = false;
+	  //     	setTimeout(() => {
+	  //      		this.recalcEvertyhing();
+	  //   	}, 1);
+	  //   });
 
-		dragulaService.dragend.subscribe(value => {
-	      	// console.log(`drag: ${value[0]}`);
-	      	// this.onDrag(value.slice(1));
-	      	this.dragging = false;
-	      	removeClass(document.body, 'deleting');
+		// TODO: FIX DRAGULA
+		// dragulaService.dragend.subscribe(value => {
+	  //     	// console.log(`drag: ${value[0]}`);
+	  //     	// this.onDrag(value.slice(1));
+	  //     	this.dragging = false;
+	  //     	removeClass(document.body, 'deleting');
 
-	      	setTimeout(() => {
-	       		this.recalcEvertyhing();
-	    	}, 1);
-	    });
+	  //     	setTimeout(() => {
+	  //      		this.recalcEvertyhing();
+	  //   	}, 1);
+	  //   });
 
 	    
+		// TODO: FIX DRAGULA
+		// dragulaService.over.subscribe(value => {
+		// 	console.log(value);
+		// 	console.log(value[1]);
+		// 	console.log(value[2]);
+	  //     	if (hasClass(value[2], 'trash')) {
+	  //     		// this.willDelete = true;
+	  //     		// value[0] && value[0].addClass('deleting');
+	  //     		addClass(document.body, 'deleting');
+	  //     		// alert("added trashed");
+    //   		} else {
+	  //     		// this.willDelete = true;
+	  //     		// removeClass(value[0], 'deleting');
+	  //     		removeClass(document.body, 'deleting');
+    //   		}
+	  //   });
 
-		dragulaService.over.subscribe(value => {
-			console.log(value);
-			console.log(value[1]);
-			console.log(value[2]);
-	      	if (hasClass(value[2], 'trash')) {
-	      		// this.willDelete = true;
-	      		// value[0] && value[0].addClass('deleting');
-	      		addClass(document.body, 'deleting');
-	      		// alert("added trashed");
-      		} else {
-	      		// this.willDelete = true;
-	      		// removeClass(value[0], 'deleting');
-	      		removeClass(document.body, 'deleting');
-      		}
-	    });
-
-	    dragulaService.setOptions('another-bag', {
-	      	moves: function (el, container, handle) {
-	      		console.log("el", el);
-	      		console.log("container", container);
-	      		console.log("handle", handle);
-	        	return handle.className.indexOf('dragula-handle') !== -1;
-	      	}
-	    });
+		// TODO: FIX DRAGULA
+		// // dragulaService.setOptions('another-bag', {
+		// dragulaService.createGroup("another-bag", {
+		//   	moves: function (el, container, handle) {
+		//   		console.log("el", el);
+		//   		console.log("container", container);
+		//   		console.log("handle", handle);
+		//     	return handle.className.indexOf('dragula-handle') !== -1;
+		//   	}
+		// });
   	}
 
 	ngOnInit() {
+        M.toast({html: 'I am a toast!'})
+
 		this.trashUrls = [];
 
 		this.authHandler();
-		
-		this.test = "moo";
 		
 		this.dataLoading = true;
 		this.backgroundImageLoading = true;
@@ -196,7 +178,8 @@ export class AppComponent {
 	ngAfterViewInit() {
 		setTimeout(() => {
 			console.log(window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image']);
-			var src = window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image'];
+            var src = window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image'];
+            
 			if (!src) {
 				this.backgroundImageLoading = false;
 				this.loading = this.backgroundImageLoading || this.dataLoading;
@@ -233,7 +216,8 @@ export class AppComponent {
 			if (header1Snapshot.exists()) {
 				this.header1 = header1Snapshot.val();
 			} else {
-				console.error("no header1 found");
+                console.error("no header1 found");
+                
 			}
 		}));
 
@@ -273,43 +257,19 @@ export class AppComponent {
 
 		Promise.all(promises).then(() => {
 			this.showPoem = false;
-			this.poemCols = 0;
-			this.spacedChars = ['·'];
-			// this.poem = `It would be nice if you were here with me, to see the material of time, a whisper spilled across the floor by moonlight, a sheet of light pressed gently on the warming stone. And how the cello came on the radio, just as it fell through the skylights in broad strokes, sneaking in and out again, without the courtesy of valediction. · I was hoping I could save for you the way the world outside was welcomed in, electrical wires cast delicately in the swath of morning, spread long across the wall, or the pepper tree stretching comfortably across the room by light of late afternoon, as if it’s always been there, as if it always will be. · I could tell you how I saw it in the scraping together of strangers, the blade brandishing black the wet flesh of wood, which was later met by the dry breeze of summer. Cracking, splitting, expanding like the universe. · I could even tell you how I saw it, just this morning, pouring through the door like rapture. But better if you see for yourself, the way the dust was caught visible in the stillness, the way today became tomorrow, the way that nothing changed and everything was different.`;
 
 			this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 			this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
 			this.mode = '';
 			this.modeTimeout = setTimeout(() => {
-				this.mode = 'light';
-				this.showOthers = false;
+                this.mode = 'light';
+                this.showOthers = false;
 			}, 1000);
 
 			this.maxUrls = 6;
 
 			this.urlRows = [[]];
-
-			// {width: 0, text: 'THESTEINWAY', href: 'https://hotpads.com/1-bed-800-sqft-2395-los-angeles-ca-90026-1m2mh4q/pad'},
-			// this.urls = [
-			// 	{width: 0, text: 'PRIME', href: 'https://www.instagram.com/explore/tags/pr02_prime/'},
-			// 	{width: 0, text: 'SPARROW', href: 'https://www.dwell.com/article/a-designer-completely-transforms-a-little-1950s-house-with-dollar125k-a5e9d1d6'},
-			// 	{width: 0, text: 'SISTER CITY', href: 'https://www.architecturaldigest.com/story/ace-hotel-sister-city-bowery-manhattan-lower-east-side'},
-			// 	{width: 0, text: 'EX NIHILO', href: 'https://www.instagram.com/explore/tags/pr00_exnihilo/'},
-			// 	{width: 0, text: 'US EMBASSY', href: 'https://alliedworks.com/projects/us-embassy-mozambique'},
-			// 	{width: 0, text: "VETERANS\\sMEMORIAL", href: 'https://alliedworks.com/projects/ohio-veterans-memorial-and-museum'},
-			// 	{width: 0, text: 'ARVO\\sPÄRT\\sCENTER', href: 'https://alliedworks.com/projects/arvo-part-centre'},
-			// 	{width: 0, text: 'UC SANTA CRUZ', href: 'https://alliedworks.com/projects/institute-of-arts-and-sciences-ucsc'},
-			// 	{width: 0, text: 'CLEMSON\\sUNIVERSITY', href: 'https://alliedworks.com/projects/spaulding-paolozzi-center'},
-			// 	{width: 0, text: 'PRESERVE 24', href: 'https://www.urbandaddy.com/articles/23858/new-york/preserve-24-preserve-the-right-a-massive-den-made-of-pianos-and-boats'},
-			// ];
-
-			// this.footerUrls = [
-			// 	{width: 0, text: 'contact@\\nsamanthamink.com', href: 'mailto:contact@samanthamink.com'},
-			// 	{width: 0, text: '@_samanthamink_', href: 'https://www.instagram.com/_samanthamink_/'},
-			// 	{width: 0, text: '+13109682148', href: 'tel:+13109682148'},
-			// 	{width: 0, text: 'culvercity,ca', href: 'https://goo.gl/maps/EDdHuFLuv882'},
-			// ];
 
 			// this.loading = false;
 			this.dataLoading = false;
@@ -438,59 +398,6 @@ export class AppComponent {
     	return px * 72 / 96;
     }
 
-    getTopPoemHeight(totalHeight: number, spanHeight: number, twoSpanHeight: number) {
-    	if (!spanHeight || !twoSpanHeight) {
-    		return totalHeight / 2;
-    	}
-
-    	console.log("getTopPoemHeight");
-    	console.log("totalHeight",totalHeight);
-    	console.log("spanHeight",spanHeight);
-    	console.log("twoSpanHeight",twoSpanHeight);
-
-    	var nextSpanHeight = twoSpanHeight - spanHeight;
-
-    	var cols = 1;
-
-    	var generatedHeight = spanHeight;
-    	console.log(generatedHeight);
-    	while(generatedHeight < totalHeight - spanHeight + 1) {
-    		cols += 1;
-    		generatedHeight += nextSpanHeight;
-    		console.log(generatedHeight);
-    	}
-
-    	console.log(cols);
-    	this.poemCols = cols;
-    	if (cols % 2 == 0) {
-    		return totalHeight / 2;
-    	}
-
-    	return (totalHeight - nextSpanHeight) / 2;
-    }
-
-    getBottomPoemHeight(totalHeight: number, spanHeight: number, twoSpanHeight: number) {
-    	if (!spanHeight || !twoSpanHeight) {
-    		return totalHeight / 2;
-    	}
-
-    	var nextSpanHeight = twoSpanHeight - spanHeight;
-
-    	var cols = 1;
-    	
-    	var generatedHeight = spanHeight;
-    	while(generatedHeight < totalHeight - spanHeight + 1) {
-    		cols += 1;
-    		generatedHeight += nextSpanHeight;
-    	}
-
-    	if (cols % 2 == 0) {
-    		return totalHeight / 2;
-    	}
-
-    	return (totalHeight + nextSpanHeight) / 2;
-    }
-
     getActive(el: any) {
     	el.classList.add("active");
     }
@@ -510,6 +417,7 @@ export class AppComponent {
         this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 		this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     }
+
 
     firebasePasswordLogin() {
 	    if (this.loading) {
@@ -553,10 +461,12 @@ export class AppComponent {
 	    }).then(user => {
 	      if (user) {
 	      	this.loggedIn = true;
-	        console.log("user signed in", user);
+            console.log("user signed in", user);
 	      } else {
 	      	this.loggedIn = false;
-	      }
+          }
+
+          this.password = "";          
 	    });
 	}
 
@@ -602,6 +512,25 @@ export class AppComponent {
        		this.recalcEvertyhing();
     	}, 1);
     }
+
+    // Class stuff
+    hasClass(el: any, name: string) {
+        return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
+    }
+
+    addClass(el: any, name: string) {
+        if (!this.hasClass(el, name)) {
+            el.className = el.className ? [el.className, name].join(' ') : name;
+        }
+    }
+
+    removeClass(el: any, name: string) {
+        if (this.hasClass(el, name)) {
+            el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
+        }
+    }
+    // End Class stuff
+
 
  //    @HostListener('touchmove', ['$event'])
 	// private onTouchMoveEvent(event:Event): void {
