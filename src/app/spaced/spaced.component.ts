@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'moo-spaced',
-  styleUrls: [ './spaced.style.css' ],
+  styleUrls: [ './spaced.style.scss' ],
   templateUrl: './spaced.template.html',
   providers: [ ]
 })

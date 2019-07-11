@@ -2,6 +2,111 @@
 	touch-action: none;
 }*/
 
+.management-options-container {
+	width: 300px;
+	// height: 20px;
+	font-size: 16px;
+	margin-left: calc(17px + 18pt);
+	margin-bottom: 32px;
+	color: rgba(0,0,0,0.87);
+	transition: 0.3s;
+}
+
+.management-options-container.dark {
+	color: white;
+}
+
+.management-options {
+	display: flex;
+}
+
+.management-option {
+	width: 100px;
+    cursor: pointer;
+}
+
+.management-option.active {
+	color: #26a69a;
+	font-weight: 600;
+}
+
+.management-option-active-border {
+	width: 100px;
+	height: 0px;
+	// background: rgba(0,0,0,0.87);
+	transition: 0.3s;
+	border-bottom: 1px solid #26a69a;
+    box-shadow: 0 1px 0 0 #26a69a;
+}
+
+.management-option-active-border.dark {
+	background: white;
+}
+
+.management-option-active-border.active-footer {
+	margin-left: 100px;
+}
+
+.management-option-active-border.active-tips {
+	margin-left: 200px;
+}
+
+.tips-container {
+	margin-left: calc(17px + 18pt);
+}
+
+.tips-container.dark {
+	color: white;
+}
+
+.btn-large {
+	line-height: 0;// Fixes the svg not being center
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	fill: white;
+}
+
+moo-icon.dark {
+	color: white;
+	fill: white;
+}
+
+.editables {
+	margin-right: calc(56px + 9pt);
+}
+
+.editable-row {
+	display: flex;
+	width: 100%;
+
+	.index {
+		display: flex;
+		flex-direction: row-reverse;
+		font-size: 16px;
+		width: 17px;
+		margin-right: 9pt;
+	}
+
+	.inputs {
+		flex-grow: 2;
+	}
+
+	.editable-buttons {
+		display: flex;
+		flex-direction: row;
+		
+		.editable-button {
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+}
+
 .dark-btn {
     background: black;
 }
@@ -13,8 +118,20 @@
     transform: perspective(1px) translateX(-50%);
 
     max-width: 500px;
-    min-width: calc(320px - 14pt);
+	min-width: calc(320px - 14pt);
+	
+	// margin-top: 7pt;
+	// padding: 7pt;
+	padding: 0 32px 12pt;
+	background: rgba(255,255,255,.95);
+
+	transition: .25s;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
+.sign-in.dark {
+	background: transparent;
+}
+
 .visible-on-mode {
 	color: black;
 }
@@ -53,33 +170,39 @@
 	color: white;
 }
 
-.management-wrapper {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  overflow-y: auto;
+// .management-wrapper {
+// //   position: absolute;
+//   height: 100vh;
+//   width: 100vw;
+//   overflow-y: auto;
 
-  z-index: 1;
+//   z-index: 1;
 
-  background-color: rgba(255, 255, 255, 0.75);
-}
+//   background-color: rgba(255, 255, 255, 0.75);
+// }
 
-.management-wrapper.dark {
-  background-color: rgba(0, 0, 0, 0.8);
-}
+// .management-wrapper.dark {
+//   background-color: rgba(0, 0, 0, 0.8);
+//   /*background-image: url('./assets/dark_background_53.jpeg');*/
+//   background-image: url('./assets/dark_background.jpeg');
+//   -webkit-background-size: cover;
+//   -moz-background-size: cover;
+//   -o-background-size: cover;
+//   background-size: cover;
+// }
 
-.url-container {
-	/*width: calc(100vw - 80px);*/
-	width: 100%;
-    display: flex;
-    /*flex-wrap: wrap;*/
-    justify-content: space-between;
-}
+// .url-container {
+// 	/*width: calc(100vw - 80px);*/
+// 	width: 100%;
+//     display: flex;
+//     /*flex-wrap: wrap;*/
+//     justify-content: space-between;
+// }
 
-.index-container {
-	margin-right: 70px;
-	width: 48px;
-}
+// .index-container {
+// 	margin-right: 70px;
+// 	width: 48px;
+// }
 
 .index-number {
 	margin-top: 16px;
@@ -116,11 +239,13 @@
 }
 
 .management-container {
-	padding: 70px;
-	display: flex;
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
+	margin-top: 70px;
+
+	// padding: 70px;
+	// display: flex;
+    // width: 100%;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -128,13 +253,13 @@
 		width: calc(50% - 7pt);
 	}
 
-	.index-container {
-		margin-right: 7pt;
-	}
+	// .index-container {
+	// 	margin-right: 7pt;
+	// }
 
-	.management-container {
-		padding: 70px 7pt;
-	}
+	// .management-container {
+	// 	padding: 70px 7pt;
+	// }
 }
 
 @media only screen and (max-width: 600px) {

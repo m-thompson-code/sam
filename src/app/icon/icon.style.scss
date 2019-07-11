@@ -1,0 +1,22 @@
+:host {
+  color: inherit;// color is set in styles.scss
+  fill: inherit;// fill is set in styles.scss
+
+  // Defaults for svg icons
+  width: 24px;
+  height: 24px;
+  stroke-width: 0;
+  stroke: currentColor;
+  // fill: currentColor;// fill is set in styles.scss
+  transition: color .2s, fill .2s !important;
+}
+
+.svg-icon {
+  display: inline-block;
+
+  stroke-width: inherit;
+  stroke: inherit;
+  fill: inherit;
+  width: inherit;
+  height: inherit;
+}

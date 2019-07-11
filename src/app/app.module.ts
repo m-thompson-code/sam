@@ -25,6 +25,8 @@ import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.m
 import { InputModule } from './input/input.module';
 import { PreloaderModule } from './preloader/preloader.module';
 
+import { IconModule } from './icon/icon.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -37,7 +39,8 @@ import { PreloaderModule } from './preloader/preloader.module';
     TextPlacementTestModule,
 
     InputModule,
-    PreloaderModule
+    PreloaderModule,
+    IconModule
   ],
   providers: [DragulaService],
   bootstrap: [AppComponent]

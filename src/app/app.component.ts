@@ -12,6 +12,9 @@ declare var M;
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+	Urls = "URLS";
+	Footers = "FOOTERS";
+	
 	@ViewChild("backgroundImageHolder") backgroundImageHolder: ElementRef;
 	@ViewChild("linksContainer") linksContainer: ElementRef;
 
@@ -23,7 +26,7 @@ export class AppComponent {
 	topUrls: any;
 	bottomUrls: any;
 
-	urls: any;
+	urls: any[];
 
 	urlFontSize: number;
 
@@ -57,6 +60,14 @@ export class AppComponent {
 
 	trashUrls: any;
 	dragging: boolean;
+
+	showManagement: boolean;
+
+	toggleModeTimeout: any;
+
+	activeManagementOption: string = 'projects';
+
+	authPending: boolean;
 
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
 		// dragulaService.setOptions('another-bag', {
@@ -155,8 +166,6 @@ export class AppComponent {
   	}
 
 	ngOnInit() {
-        M.toast({html: 'I am a toast!'})
-
 		this.trashUrls = [];
 
 		this.authHandler();
@@ -177,7 +186,7 @@ export class AppComponent {
 
 	ngAfterViewInit() {
 		setTimeout(() => {
-			console.log(window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image']);
+			// console.log(window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image']);
             var src = window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image'];
             
 			if (!src) {
@@ -217,7 +226,6 @@ export class AppComponent {
 				this.header1 = header1Snapshot.val();
 			} else {
                 console.error("no header1 found");
-                
 			}
 		}));
 
@@ -282,6 +290,10 @@ export class AppComponent {
 		       		this.recalcEvertyhing();
 		    	}, 1);
 			}, 1);
+
+			this.toggleModeTimeout = setTimeout(() => {
+				this.toggleMode();
+			}, 10000);
 		});
 	}
 
@@ -337,7 +349,7 @@ export class AppComponent {
 		var margin = 0;
 
 		while (i < this.urls.length) {
-			console.log(width);
+			// console.log(width);
 
 			if (y === 0) {
 				margin = this.urlFontSize * 2;
@@ -347,7 +359,7 @@ export class AppComponent {
 
 			var url = this.urls[i];
 
-			console.log(url.width);
+			// console.log(url.width);
 
 			if ((y > 0 || count < this.maxUrls) && url.width < width) {
 				url.margin = margin;
@@ -384,7 +396,8 @@ export class AppComponent {
 			}
 
 			if (i > 99) {
-				console.log("oops", i);
+				console.error("oops", i);
+				M.toast({html: "Unexpected error: loop issue"});
 				break;
 			}
 		}
@@ -420,63 +433,66 @@ export class AppComponent {
 
 
     firebasePasswordLogin() {
-	    if (this.loading) {
-			console.log("Please wait..", "grey");
+	    if (this.authPending) {
+			M.toast({html: 'Please wait', displayLength: 1250});
 			return;
-	    }
+		}
 
 	    if (!this.email) {
-			console.log("Please type your email", "red");
+			M.toast({html: 'Please type your email', displayLength: 1250});
 			return;
 	    }
 
 	    if (!this.password) {
-			console.log("Please type your password", "red");
+			M.toast({html: 'Please type your password', displayLength: 1250});
 			return;
-	    }
+		}
+		
+		this.authPending = true;
 
 	    return firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(error => {
-	      if (error) {
-	        var errorMessage: string;
+			console.error(error);
 
-	        if (error.code) {
-	          if (error.code === 'auth/invalid-email') {
-	            errorMessage = "It appears your email is invalid";
-	          } else if (error.code === 'auth/user-disabled') {
-	            errorMessage = "It appears this user has been disabled";
-	          } else if (error.code === 'auth/user-not-found') {
-	            errorMessage = "It appears this email has not been registered";
-	          } else if (error.code === 'auth/wrong-password') {
-	            errorMessage = "The password is incorrect";
-	          }
-	        }
+			var errorMessage: string = "";
 
-	        errorMessage = errorMessage || error.message || error;
+			if (error) {
+				if (error.code) {
+					if (error.code === 'auth/invalid-email') {
+						errorMessage = "It appears your email is invalid";
+					} else if (error.code === 'auth/user-disabled') {
+						errorMessage = "It appears your account has been disabled";
+					} else if (error.code === 'auth/user-not-found') {
+						errorMessage = "It appears your email has not been registered";
+					} else if (error.code === 'auth/wrong-password') {
+						errorMessage = "Incorrect password";
+					}
+				}
+			}
 
-	        console.log(errorMessage, "red");
-	      } else {
-	        this.showLogin = false;
-	        console.log("no errors");
-	      }
+			errorMessage = errorMessage || 'Unknown error';
+
+			M.toast({html: errorMessage, displayLength: 1250});
 	    }).then(user => {
-	      if (user) {
-	      	this.loggedIn = true;
-            console.log("user signed in", user);
-	      } else {
-	      	this.loggedIn = false;
-          }
+			this.authPending = false;
 
-          this.password = "";          
+			if (user) {
+				this.loggedIn = true;
+				// console.log("user signed in", user);
+				M.toast({html: 'Signed in', displayLength: 1250});
+			} else {
+				this.loggedIn = false;
+			}
+
+			this.password = "";          
 	    });
 	}
 
 	authHandler() {
 		firebase.auth().onAuthStateChanged(user => {
           this.ngZone.run(() => {
-          	console.log("authHandler triggered");
-          	console.log(user);
+          	// console.log("authHandler triggered");
+          	// console.log(user);
           	if (user) {
-
           		this.loggedIn = true;
           	} else {
           		this.loggedIn = false;
@@ -486,14 +502,64 @@ export class AppComponent {
 	}
 
 	logUserOut() {
+		if (this.authPending) {
+			M.toast({html: 'Please wait', displayLength: 1250});
+			return;
+		}
+
+		this.authPending = true;
+
 		return firebase.auth().signOut().then(() => {
-			console.log('signed out');
+			M.toast({html: 'Signed out', displayLength: 1250});
+
+			this.authPending = false;
+
+			// console.log('signed out');
 			this.loggedIn = false;
 			this.showLogin = false;
-			// this.hideManagement = true;
 		}, error => {
-		  console.error(error);
+		  	console.error(error);
+			M.toast({html: 'Unknown error', displayLength: 1250});
+			this.authPending = false;
 		});
+	}
+
+	setActiveManagementOption(option) {
+		this.activeManagementOption = option;
+	}
+
+	insertProject(index: number) {
+		this.urls.splice(index + 1, 0, [{width: 0, text: "", href: ""}]);
+	}
+
+	removeProject(index: number) {
+		this.urls.splice(index, 1);
+	}
+
+	toggleShowManagement() {
+		clearTimeout(this.toggleModeTimeout);
+		this.showManagement = !this.showManagement;
+
+		setTimeout(() => {
+			this.getLinksContainerWidth();
+			this.alignUrls();
+			setTimeout(() => {
+				   this.recalcEvertyhing();
+			}, 1);
+		}, 1);
+	}
+
+	save() {
+		if (this.saving) {
+			M.toast({html: 'Please wait', displayLength: 1250});
+			return;
+		}
+
+		this.saving = true;
+		setTimeout(() => {
+			this.saving = false;
+			M.toast({html: 'Save complete (not really)', displayLength: 1250});
+		}, 1000);
 	}
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive

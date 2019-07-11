@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'moo-preloader',
-  styleUrls: [ './preloader.style.css' ],
+  styleUrls: [ './preloader.style.scss' ],
   templateUrl: './preloader.template.html',
   providers: [ ]
 })

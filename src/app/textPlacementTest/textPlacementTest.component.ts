@@ -4,7 +4,7 @@ import { SpacedComponent } from '../spaced/spaced.component';
 
 @Component({
   selector: 'moo-text-placement-test',
-  styleUrls: [ './textPlacementTest.style.css' ],
+  styleUrls: [ './textPlacementTest.style.scss' ],
   templateUrl: './textPlacementTest.template.html',
   providers: [ ]
 })
@@ -34,8 +34,8 @@ export class TextPlacementTestComponent {
 	}
 
 	ngAfterViewInit() {
-		console.log(this.container);
-		console.log(this.strViewChildren);
+		// console.log(this.container);
+		// console.log(this.strViewChildren);
 		
 		// setTimeout(() => {
 			this.strComponents = [];
@@ -70,6 +70,7 @@ export class TextPlacementTestComponent {
     onResize() {
         // // call our matchHeight function here
         // this.matchHeight(this.el.nativeElement, this.myMatchHeight);
-        console.log(this.getStringRows());
+		// console.log(this.getStringRows());
+		this.getStringRows();
     }
 }

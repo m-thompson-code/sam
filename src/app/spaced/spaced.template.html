@@ -1,36 +1,18 @@
-<!-- <span [style.white-space]="'nowrap'"> -->
 <div class="spaced-chars-wrapper">
-
-	<ng-container *ngFor="let char of chars.split(''); let i = index">
-		<!-- "" -->
-		<ng-container *ngIf="char !== '\\'">
-			<span [class]="i !== chars.length - 1 && (!i || chars[i - 1] !== '\\' || char === 's') ? 'extra-spacing' : ''">
-				<!-- <ng-container *ngIf="i !== 0 && chars.split('')[i - 1] === '\\'">
-					{{ char === 's' ? ' ' : '' }}
+	<ng-container *ngIf="chars">
+		<ng-container *ngFor="let char of chars.split(''); let i = index">
+				<!-- "" -->
+				<ng-container *ngIf="char !== '\\'">
+					<span [class]="i !== chars.length - 1 && (!i || chars[i - 1] !== '\\' || char === 's') ? 'extra-spacing' : ''">
+						<span *ngIf="i > 0 && chars[i - 1] === '\\' && char === 's'">
+							{{ ' ' }}
+						</span>
+						<span *ngIf="!i || chars[i - 1] !== '\\'">
+							{{ char }}
+						</span>
+					</span>
 				</ng-container>
-				{{ i === 0 || chars.split('')[i - 1] !== '\\' ? char : '' }} -->
-				<span *ngIf="i > 0 && chars[i - 1] === '\\' && char === 's'">
-					{{ ' ' }}
-				</span>
-				<span *ngIf="!i || chars[i - 1] !== '\\'">
-					{{ char }}
-				</span>
-			</span>
-		</ng-container>
+			</ng-container>
 	</ng-container>
-
-<!-- </span> -->
 </div>
 <!-- This comment is required to remove the white space between inline-block divs -->
-
-<!-- <ng-container *ngFor="let char of chars; let i = index">
-
-	<ng-container *ngIf="char !== '\\'">
-	  <span *ngIf="i > 0 && chars[i - 1] === '\\' && char === 's'">
-	    {{ '!' }}
-	  </span>
-	  <span *ngIf="!i || chars[i - 1] !== '\\'">
-	    {{ char }}
-	  </span>
-	</ng-container>
-</ng-container> -->
