@@ -1,6 +1,6 @@
-/*.dragging {
-	touch-action: none;
-}*/
+// .dragging {
+// 	touch-action: none;
+// }
 
 .management-options-container {
 	width: 300px;
@@ -67,6 +67,10 @@
 	fill: white;
 }
 
+.btn-flat:hover, .btn-flat.dark {
+	color: white;
+}
+
 moo-icon.dark {
 	color: white;
 	fill: white;
@@ -86,6 +90,9 @@ moo-icon.dark {
 		font-size: 16px;
 		width: 17px;
 		margin-right: 9pt;
+	}
+	.index.dark {
+		color: white;
 	}
 
 	.inputs {
@@ -109,6 +116,14 @@ moo-icon.dark {
 
 .dark-btn {
     background: black;
+}
+.dark-btn.dark {
+	background: white;
+	color: black;
+}
+.dark-btn.dark:hover {
+	background: black;
+	color: white;
 }
 
 .sign-in {
@@ -169,40 +184,6 @@ moo-icon.dark {
 .manage-mode-selector.dark {
 	color: white;
 }
-
-// .management-wrapper {
-// //   position: absolute;
-//   height: 100vh;
-//   width: 100vw;
-//   overflow-y: auto;
-
-//   z-index: 1;
-
-//   background-color: rgba(255, 255, 255, 0.75);
-// }
-
-// .management-wrapper.dark {
-//   background-color: rgba(0, 0, 0, 0.8);
-//   /*background-image: url('./assets/dark_background_53.jpeg');*/
-//   background-image: url('./assets/dark_background.jpeg');
-//   -webkit-background-size: cover;
-//   -moz-background-size: cover;
-//   -o-background-size: cover;
-//   background-size: cover;
-// }
-
-// .url-container {
-// 	/*width: calc(100vw - 80px);*/
-// 	width: 100%;
-//     display: flex;
-//     /*flex-wrap: wrap;*/
-//     justify-content: space-between;
-// }
-
-// .index-container {
-// 	margin-right: 70px;
-// 	width: 48px;
-// }
 
 .index-number {
 	margin-top: 16px;
@@ -452,18 +433,13 @@ moo-icon.dark {
 }
 
 .center-image.vertical {
-	width: 20px;/*calc(.85 * 26px);*/
-    height: 20px;/*calc(.85 * 26px);*/
+	width: 20px;
+    height: 20px;
 }
-/*
-.vertical-image-placeholder {
-	width: 13px;
-	height: 13px;
-}*/
 
 .vertical-image-placeholder {
-	width: 10px;/*calc(.85 * 13px);*/
-	height: 10px;/*calc(.85 * 13px);*/
+	width: 10px;
+	height: 10px;
 }
 
 .light-image, .light-image:hover {
@@ -557,6 +533,7 @@ moo-icon.dark {
 
 .title-container {
 	height: 9pt;
+	color: white;
 }
 
 .title {

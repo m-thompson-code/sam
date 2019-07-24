@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'moo-input',
@@ -16,12 +16,67 @@ export class InputComponent {
 
  	focused: boolean;
 
- 	id: string;
+	id: string;
+	 
+	@Input() textIsInvalidFuncs: ((text: string) => string)[];
+
+	invalidText: string;
  	
 	constructor() {
 	}
 
 	ngOnInit() {
 		this.id = "" + Date.now();
+
+		// this.textIsInvalidFunc = (text: string) => {
+		// 	console.log(text);
+
+		// 	if (text && text.indexOf('p') !== -1) {
+		// 		console.log(text.indexOf('p'));
+		// 		return "contains p";
+		// 	}
+		// }
+	}
+
+	blurFunc() {
+		this.focused = false;
+
+		this.handleValidation(this.text);
+	}
+
+	focusFunc() {
+		this.focused = true;
+	}
+
+	handleValidation(text: string) {
+		text = text || this.text;
+
+		// if (!text) {
+		// 	this.invalidText = null;
+		// 	return;
+		// }
+
+		if (this.textIsInvalidFuncs && this.textIsInvalidFuncs.length) {
+			for (let textIsInvalidFunc of this.textIsInvalidFuncs) {
+				const invalidText = textIsInvalidFunc(text);
+				this.invalidText = invalidText || null;
+
+				if (invalidText) {
+					break;
+				}
+			}
+		} else {
+			this.invalidText = null;
+		}
+	}
+
+	handleInputChange(event) {
+		const text = event.target.value;
+
+		this.valueChanged.emit(text);
+
+		if (this.invalidText) {
+			this.handleValidation(text);
+		}
 	}
 }

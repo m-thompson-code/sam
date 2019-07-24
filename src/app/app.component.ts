@@ -1,8 +1,16 @@
 import { Component, HostListener, ViewChild, ElementRef, NgZone } from '@angular/core';
 
+import { Subscription }	from 'rxjs';
+
 import { DragulaService } from 'ng2-dragula';
 
+// var dragula as any;
+
+
 import * as firebase from "firebase/app";
+import { from } from 'rxjs';
+
+import * as dragula from 'dragula';
 
 declare var M;
 
@@ -58,7 +66,6 @@ export class AppComponent {
 	showLogin: boolean;
 	loggedIn: boolean;
 
-	trashUrls: any;
 	dragging: boolean;
 
 	showManagement: boolean;
@@ -69,104 +76,78 @@ export class AppComponent {
 
 	authPending: boolean;
 
+	isInvalidUrl: (text: string) => string;
+	isEmptyProject: (text: string) => string;
+
+	// subs = new Subscription();
+
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
-		// dragulaService.setOptions('another-bag', {
-	 //      	moves: function (el, container, handle) {
-	 //        	return handle.className === 'handle';
-	 //      	}
-	 //    });
-
-		// TODO: FIX DRAGULA
-		// dragulaService.drag.subscribe(value => {
-		// 	this.dragging = true;
-	  //   });
-
-	  //   (document as any).addEventListener("touchmove", (e) => {
-	  //   	if (this.dragging) {
-	  //   		e.preventDefault();
- 		// 			e.stopPropagation();
-	  //   	}
-    // 	}, {passive:false});
-
-	 	// document.addEventListener('touchmove', function(e) {
-	 	// 	console.log(e);
-	 	// 	e.preventDefault();
-	 	// 	e.stopPropagation();
-	 	// });
-	 // 	document.body.addEventListener('touchmove',function(e) {
-		//     e = e || window.event;
-		//     var target = e.target || e.srcElement;
-		//     //in case $altNav is a class:
-		//     if (target.className.indexOf('dragula-handle') !== -1) {
-		//     	console.log("prevent touchmove");
-		//     	e.preventDefault();
-		//         e.stopPropagation();
-		//     }
-		// });
-
-		// TODO: FIX DRAGULA
-		// dragulaService.drop.subscribe(value => {
-	  //     	// console.log(`drag: ${value[0]}`);
-	  //     	// this.onDrag(value.slice(1));
-	  //     	console.log(value[0]);
-	  //     	console.log(value[1]);
-	  //     	console.log(value[2]);
-	  //     	console.log(value[3]);
-	  //     	if (hasClass(value[2], 'trash')) {
-	  //     		if (!confirm("Are you sure you want to delete this url?")) {
-	  //     			this.dragulaService.find('another-bag').drake.cancel(true);
-	  //     		}
-	  //     	}
-	  //     	this.dragging = false;
-	  //     	setTimeout(() => {
-	  //      		this.recalcEvertyhing();
-	  //   	}, 1);
-	  //   });
-
-		// TODO: FIX DRAGULA
-		// dragulaService.dragend.subscribe(value => {
-	  //     	// console.log(`drag: ${value[0]}`);
-	  //     	// this.onDrag(value.slice(1));
-	  //     	this.dragging = false;
-	  //     	removeClass(document.body, 'deleting');
-
-	  //     	setTimeout(() => {
-	  //      		this.recalcEvertyhing();
-	  //   	}, 1);
-	  //   });
-
-	    
-		// TODO: FIX DRAGULA
-		// dragulaService.over.subscribe(value => {
-		// 	console.log(value);
-		// 	console.log(value[1]);
-		// 	console.log(value[2]);
-	  //     	if (hasClass(value[2], 'trash')) {
-	  //     		// this.willDelete = true;
-	  //     		// value[0] && value[0].addClass('deleting');
-	  //     		addClass(document.body, 'deleting');
-	  //     		// alert("added trashed");
-    //   		} else {
-	  //     		// this.willDelete = true;
-	  //     		// removeClass(value[0], 'deleting');
-	  //     		removeClass(document.body, 'deleting');
-    //   		}
-	  //   });
-
-		// TODO: FIX DRAGULA
-		// // dragulaService.setOptions('another-bag', {
-		// dragulaService.createGroup("another-bag", {
-		//   	moves: function (el, container, handle) {
-		//   		console.log("el", el);
-		//   		console.log("container", container);
-		//   		console.log("handle", handle);
-		//     	return handle.className.indexOf('dragula-handle') !== -1;
-		//   	}
-		// });
   	}
 
 	ngOnInit() {
-		this.trashUrls = [];
+		// const drake = dragula([document.querySelector('#drakeTest')], {
+		// 	// moves: function (el, source, handle, sibling) {
+		// 	// 	console.log("moo");
+		// 	// 	// return true; // elements are always draggable by default
+		// 	// 	return false; // elements are always draggable by default
+		// 	// },
+		// 	moves: function (el, source, handle, sibling) {
+		// 		console.log("moves");
+		// 		return false; // elements are always draggable by default
+		// 	},
+		// 	invalid: function(el, handle) {
+		// 		console.log("invalid");
+		// 		return true;
+		// 	},
+		// 	ignoreInputTextSelection: false
+		// });
+		// console.log(drake);
+		// setTimeout(() => {
+		// console.log(drake.dragging);
+
+		// }, 5000);
+
+		this.isEmptyProject = (text: string) => {
+			if (!text) {
+				return "Project name is blank";
+			}
+		};
+
+		this.isInvalidUrl = (text: string) => {
+			let firstCheckPassed = false;
+
+			const invalidMessage = "Invalid url";
+
+			if (!text) {
+				return;
+			}
+
+			if (!firstCheckPassed && text.indexOf('https:') === 0) {
+				firstCheckPassed = true;
+			}
+			
+			if (!firstCheckPassed && text.indexOf('http:') === 0) {
+				firstCheckPassed = true;
+			}
+			
+			if (!firstCheckPassed && text.indexOf('mailto:') === 0) {
+				firstCheckPassed = true;
+			}
+			
+			if (!firstCheckPassed && text.indexOf('tel:') === 0) {
+				firstCheckPassed = true;
+			}
+
+			if (!firstCheckPassed) {
+				return invalidMessage;
+			}
+
+			try {
+				new URL(text);
+			} catch (error) {
+				return invalidMessage;
+			}
+		};
 
 		this.authHandler();
 		
@@ -218,48 +199,51 @@ export class AppComponent {
 		
 		var promises = [];
 
-		this.header1 = '';
-		this.header2 = '';
+		this.header1 = 'SAMANTHAMINK';
+		this.header2 = 'BODYOFWORK';
 
-		promises.push(firebase.database().ref('header1').once('value').then(header1Snapshot => {
-			if (header1Snapshot.exists()) {
-				this.header1 = header1Snapshot.val();
-			} else {
-                console.error("no header1 found");
+		// promises.push(firebase.database().ref('prod/header1').once('value').then(header1Snapshot => {
+		// 	if (header1Snapshot.exists()) {
+		// 		this.header1 = header1Snapshot.val();
+		// 	} else {
+        //         console.error("no header1 found");
+		// 	}
+		// }));
+
+		// promises.push(firebase.database().ref('prod/header2').once('value').then(header2Snapshot => {
+		// 	if (header2Snapshot.exists()) {
+		// 		this.header2 = header2Snapshot.val();
+		// 	} else {
+		// 		console.error("no header2 found");
+		// 	}
+		// }));
+
+		promises.push(firebase.database().ref('prod').once('value').then(appSnapshot => {
+			if (!appSnapshot.exists()) {
+				console.error("Unexpected error. AppSnapshot missing");
+				// M.toast({html: "Unexpected error", displayLength: 1250});
+				return;
 			}
-		}));
 
-		promises.push(firebase.database().ref('header2').once('value').then(header2Snapshot => {
-			if (header2Snapshot.exists()) {
-				this.header2 = header2Snapshot.val();
-			} else {
-				console.error("no header2 found");
-			}
-		}));
+			const app =  appSnapshot.val();
+			console.log(app);
 
-		promises.push(firebase.database().ref('projects').once('value').then(projectsSnapshot => {
-			if (projectsSnapshot.exists() && projectsSnapshot.val().length) {
-				var urls = projectsSnapshot.val();
-				this.urls = [];
+			var urls = app.projects;
+			var footerUrls = app.footers;
 
+			this.urls = [];
+			this.footerUrls = [];
+
+			if (urls && urls.length) {
 				for (var i = 0; i < urls.length; i++) {
 					this.urls.push({width: 0, text: urls[i].text, href: urls[i].href});
 				}
-			} else {
-				console.error("no projects found or length isn't defined");
 			}
-		}));
 
-		promises.push(firebase.database().ref('footers').once('value').then(footersSnapshot => {
-			if (footersSnapshot.exists() && footersSnapshot.val().length) {
-				var footerUrls = footersSnapshot.val();
-				this.footerUrls = [];
-
+			if (footerUrls && footerUrls.length) {
 				for (var i = 0; i < footerUrls.length; i++) {
 					this.footerUrls.push({width: 0, text: footerUrls[i].text, href: footerUrls[i].href});
 				}
-			} else {
-				console.error("no footers found or length isn't defined");
 			}
 		}));
 
@@ -298,13 +282,17 @@ export class AppComponent {
 	}
 
 	toggleMode() {
+		clearTimeout(this.modeTimeout);
+		clearTimeout(this.toggleModeTimeout);
+
 		if (this.mode === 'light') {
 			this.mode = '';
 			this.modeTimeout = setTimeout(() => {
 				this.mode = 'dark';
 				setTimeout(() => {
 		       		this.recalcEvertyhing();
-		    	}, 1);
+				}, 1);
+				
 				this.modeTimeout = setTimeout(() => {
 					if (this.mode === 'dark') {
 						this.showOthers = true;
@@ -477,21 +465,18 @@ export class AppComponent {
 
 			if (user) {
 				this.loggedIn = true;
-				// console.log("user signed in", user);
 				M.toast({html: 'Signed in', displayLength: 1250});
 			} else {
 				this.loggedIn = false;
 			}
 
-			this.password = "";          
+			this.password = "";
 	    });
 	}
 
 	authHandler() {
 		firebase.auth().onAuthStateChanged(user => {
           this.ngZone.run(() => {
-          	// console.log("authHandler triggered");
-          	// console.log(user);
           	if (user) {
           		this.loggedIn = true;
           	} else {
@@ -508,6 +493,10 @@ export class AppComponent {
 		}
 
 		this.authPending = true;
+
+		if (this.showManagement) {
+			this.toggleShowManagement();		
+		}
 
 		return firebase.auth().signOut().then(() => {
 			M.toast({html: 'Signed out', displayLength: 1250});
@@ -530,10 +519,26 @@ export class AppComponent {
 
 	insertProject(index: number) {
 		this.urls.splice(index + 1, 0, [{width: 0, text: "", href: ""}]);
+		M.toast({html: `New project added, #${index + 2}`, displayLength: 1250});
+
 	}
 
 	removeProject(index: number) {
-		this.urls.splice(index, 1);
+		const url = this.urls[index];
+
+		const urlIsEmpty = !url.text || !url.href;
+
+		if (urlIsEmpty || confirm(`Are you sure you want to remove the project "${url.text}"?`)) {
+			console.log(this.urls[index]);
+			this.urls.splice(index, 1);
+
+			if (url.text) {
+				M.toast({html: `Project ${url.text} was removed`, displayLength: 1250});
+			} else if (url.href) {
+				M.toast({html: `Project #${index + 1} was removed`, displayLength: 1250});
+			}
+
+		}
 	}
 
 	toggleShowManagement() {
@@ -555,11 +560,49 @@ export class AppComponent {
 			return;
 		}
 
-		this.saving = true;
-		setTimeout(() => {
-			this.saving = false;
-			M.toast({html: 'Save complete (not really)', displayLength: 1250});
-		}, 1000);
+		if (confirm(`Are you sure you want to save? You can hide/show to preview your changes before saving.`)) {
+			this.saving = true;
+
+			const projects = [];
+			const footers = [];
+
+			const app = {
+				projects: projects,
+				footers: footers
+			};
+
+			if (this.urls && this.urls.length) {
+				for (var i = 0; i < this.urls.length; i++) {
+					projects.push({text: this.urls[i].text, href: this.urls[i].href});
+				}
+			}
+
+			if (this.footerUrls && this.footerUrls.length) {
+				for (var i = 0; i < this.footerUrls.length; i++) {
+					footers.push({text: this.footerUrls[i].text, href: this.footerUrls[i].href});
+				}
+			}
+
+			return firebase.database().ref('prod').set(app).then(() => {
+				return firebase.database().ref(`timestamps/${Date.now()}`).set(app);
+			}).then(() => {
+				this.saving = false;
+				M.toast({html: 'Saved!', displayLength: 1250});
+			}).catch(error => {
+				console.error(error);
+
+				let errorMessage = 'Unknown error';
+
+				if (error && error.message) {
+					errorMessage = error.message;
+				}
+	
+				errorMessage = errorMessage || 'Unknown error';
+				M.toast({html: errorMessage, displayLength: 1250});
+
+				this.saving = false;
+			});
+		}
 	}
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive
@@ -602,4 +645,9 @@ export class AppComponent {
 	// private onTouchMoveEvent(event:Event): void {
 	// 	event.preventDefault();
 	// }
+
+	ngOnDestroy() {
+		// destroy all the subscriptions at once
+		// this.subs.unsubscribe();
+	}
 }

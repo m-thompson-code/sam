@@ -16,15 +16,20 @@
 </div>
 
 <div class="top-nav">
-    <div *ngIf="loggedIn" [class]="'management-top-nav management-hide ' + mode" (click)="toggleShowManagement()">
-        <div *ngIf="showManagement" class="top-nav-text">Hide</div>
-        <div *ngIf="!showManagement" class="top-nav-text">Show</div>
+    <div *ngIf="loggedIn" [class]="'management-top-nav management-hide waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + mode">
+        <div (click)="toggleShowManagement()">
+            <div *ngIf="showManagement" [class]="'top-nav-text'">Hide</div>
+            <div *ngIf="!showManagement" [class]="'top-nav-text'">Show</div>
+        </div>
     </div>
-    <div *ngIf="!loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="showLogin = !showLogin">
-        <div *ngIf="showLogin" class="top-nav-text">Cancel</div>
-    </div>
-    <div *ngIf="loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="logUserOut()">
-        <div class="top-nav-text">Logout</div>
+    
+    <div [class]="'management-top-nav management-log waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + mode">
+        <div *ngIf="!loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="showLogin = !showLogin">
+            <div *ngIf="showLogin" [class]="'top-nav-text'">Cancel</div>
+        </div>
+        <div *ngIf="loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="logUserOut()">
+            <div [class]="'top-nav-text'">Logout</div>
+        </div>
     </div>
 </div>
 
@@ -57,23 +62,23 @@
         </div>
         
         <ng-container *ngIf="activeManagementOption==='projects'">
-            <div dragula="URLS" [(dragulaModel)]="urls" class="editables">
+            <div id="drakeTest" dragula="URLS" [(dragulaModel)]="urls" class="editables">
                 <div *ngFor="let url of urls; let i = index">
                     <div class="row">
                         <div class="col s12">
                             <div class="editable-row">
-                                <div class="index">
+                                <div [class]="'index ' + mode">
                                     {{ i + 1 }}.
                                 </div>
                                 <div class="inputs">
-                                    <moo-input [mode]="mode" [text]="url.text" [label]="'Project name'" (valueChanged)="url.text = $event"></moo-input>
-                                    <moo-input [mode]="mode" [text]="url.href" [label]="'Project url'" (valueChanged)="url.href = $event"></moo-input>
+                                    <moo-input [mode]="mode" [text]="url.text" [label]="'Project name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="url.text = $event"></moo-input>
+                                    <moo-input [mode]="mode" [text]="url.href" [label]="'Project url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
                                 </div>
                                 <div class="editable-buttons">
-                                    <div [class]="'waves-effect editable-button ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
+                                    <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
                                         <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
                                     </div>
-                                    <div *ngIf="urls.length > 1" [class]="'waves-effect editable-button ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                    <div *ngIf="urls.length > 1" [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
                                         <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
                                     </div>
                                 </div>
@@ -90,12 +95,12 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="editable-row">
-                                <div class="index">
+                                <div [class]="'index ' + mode">
                                     {{ i + 1 }}.
                                 </div>
                                 <div class="inputs">
-                                    <moo-input [mode]="mode" [text]="url.text" [label]="'Footer name'" (valueChanged)="url.text = $event"></moo-input>
-                                    <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url'" (valueChanged)="url.href = $event"></moo-input>
+                                    <moo-input [mode]="mode" [text]="url.text" [label]="'Footer name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="url.text = $event"></moo-input>
+                                    <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
                                 </div>
                                 <!-- <div class="editable-buttons">
                                     <div [class]="'waves-effect editable-button ' + (mode==='dark' ? 'waves-light' : '')">
@@ -128,7 +133,7 @@
     </div>
     </div>
 
-    <div (click)="toggleMode()" [class]="'center-image' + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')">
+    <div (click)="toggleMode()" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')">
         <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
         <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
     </div>
