@@ -52,7 +52,48 @@
 }
 
 .tips-container {
-	margin-left: calc(17px + 18pt);
+	margin: 0 calc(17px + 18pt);
+	font-size: 9pt;
+
+	.example-container {
+		min-height: 100px;
+		padding: 4.5pt;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: black;
+		margin-bottom: 18pt;
+		border-radius: 4px;
+    	padding: 9pt;
+	}
+	.example-container.dark {
+		background: transparent;
+	}
+
+	.mobile-example-container {
+		max-width: 265.95px;
+    	font-size: 7pt;
+	}
+
+	.desktop-example-container {
+		overflow: hidden;
+	}
+
+	.tips-margin-bottom {
+		margin-bottom: 9pt;
+	}
+
+	.tips-margin-bottom.extra {
+		margin-bottom: 18pt;
+	}
+
+	.code-text {
+		padding: 4.5pt;
+		border-radius: 4pt;
+		margin: 0 4.5pt;
+		color: white;
+		background: #4db6ac;
+	}
 }
 
 .tips-container.dark {

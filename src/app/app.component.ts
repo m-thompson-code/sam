@@ -81,10 +81,13 @@ export class AppComponent {
 
 	// subs = new Subscription();
 
+	exampleText: string = "How now brown cow?\\sSAMANTHAMINK\\nBODYOFWORK";
+
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
   	}
 
 	ngOnInit() {
+		(window as any).firebase = firebase;
 		// const drake = dragula([document.querySelector('#drakeTest')], {
 		// 	// moves: function (el, source, handle, sibling) {
 		// 	// 	console.log("moo");
@@ -419,7 +422,6 @@ export class AppComponent {
 		this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     }
 
-
     firebasePasswordLogin() {
 	    if (this.authPending) {
 			M.toast({html: 'Please wait', displayLength: 1250});
@@ -438,7 +440,18 @@ export class AppComponent {
 		
 		this.authPending = true;
 
-	    return firebase.auth().signInWithEmailAndPassword(this.email, this.password).catch(error => {
+	    return firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(userCredential => {
+			this.authPending = false;
+
+			if (userCredential) {
+				this.password = "";
+				this.loggedIn = true;
+				M.toast({html: 'Signed in', displayLength: 1250});
+			} else {
+				this.loggedIn = false;
+				throw "Unexpected missing userCredential";
+			}
+		}).catch(error => {
 			console.error(error);
 
 			var errorMessage: string = "";
@@ -460,18 +473,47 @@ export class AppComponent {
 			errorMessage = errorMessage || 'Unknown error';
 
 			M.toast({html: errorMessage, displayLength: 1250});
-	    }).then(user => {
+	    }).then(() => {
 			this.authPending = false;
+		})
+	}
 
-			if (user) {
-				this.loggedIn = true;
-				M.toast({html: 'Signed in', displayLength: 1250});
-			} else {
-				this.loggedIn = false;
+	firebaseRequestPasswordReset() {
+		if (this.authPending) {
+			M.toast({html: 'Please wait', displayLength: 1250});
+			return;
+		}
+
+		this.authPending = true;
+
+		var emailAddress = this.email;//"mark.thompson@smpl.company";
+		// var emailAddress = "sam@samanthamink.com";
+
+		let url = window.location.protocol + "//" + window.location.hostname;
+
+		if (url === 'http://localhost') {
+			url += ":" + window.location.port;
+		}
+
+		console.log(url);
+
+		return firebase.auth().sendPasswordResetEmail(emailAddress, {url: url}).then(() => {
+			M.toast({html: 'Password reset sent. Please check your email', displayLength: 1250});
+		}).catch(error => {
+			console.error(error);
+
+			let errorMessage = "";
+
+			if (error) {
+				errorMessage = error.message;
 			}
 
-			this.password = "";
-	    });
+			errorMessage = errorMessage || 'Unknown error';
+
+			M.toast({html: errorMessage, displayLength: 1250});
+		}).then(() => {
+			this.authPending = false;			
+		});
 	}
 
 	authHandler() {
