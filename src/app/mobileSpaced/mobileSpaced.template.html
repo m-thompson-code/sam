@@ -1,0 +1,29 @@
+<div class="mobile-text">
+	<ng-container *ngFor="let char of chars.split(''); let i = index">
+		<ng-container *ngIf="char !== '\\'">
+			<span *ngIf="!i || chars[i - 1] !=='\\'">{{ char }}</span>
+
+			<ng-container *ngIf="i && chars[i - 1] ==='\\'">
+				<span *ngIf="char === 's' || char === 'n'" class="new-line"></span>
+				<span *ngIf="char !== 's' && char !== 'n'">{{ char }}</span>
+			</ng-container>
+		</ng-container>
+	</ng-container>
+</div>
+
+<!-- 
+
+
+
+<div class="mobile-text">
+	<span *ngFor="let char of chars.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
+		<ng-container *ngIf="char !== '\\' && (!i || chars[i - 1] !=='\\')">
+				{{ char }}
+			</ng-container>
+			<ng-container *ngIf="i > 0 && chars[i - 1] === '\\' && char === 's'">
+				{{ ' ' }}
+			</ng-container>
+		</span>
+	</div>
+	
+ -->

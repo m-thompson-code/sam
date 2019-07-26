@@ -20,6 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SpacedModule } from './spaced/spaced.module';
+import { MobileSpacedModule } from './mobileSpaced/mobileSpaced.module';
 import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.module';
 
 import { InputModule } from './input/input.module';
@@ -36,6 +37,7 @@ import { IconModule } from './icon/icon.module';
     BrowserModule,
 
     SpacedModule,
+    MobileSpacedModule,
     TextPlacementTestModule,
 
     InputModule,

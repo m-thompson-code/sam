@@ -99,7 +99,7 @@
                                     {{ i + 1 }}.
                                 </div>
                                 <div class="inputs">
-                                    <moo-input [mode]="mode" [text]="url.text" [label]="'Footer name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="url.text = $event"></moo-input>
+                                    <moo-input [mode]="mode" [text]="url.text" [label]="'Footer item'" [textIsInvalidFuncs]="[isEmptyFooter]" (valueChanged)="url.text = $event"></moo-input>
                                     <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
                                 </div>
                                 <!-- <div class="editable-buttons">
@@ -119,12 +119,12 @@
 
         <ng-container *ngIf="activeManagementOption==='tips'">
             <div [class]="'tips-container ' + mode">
-                <p class="tips-margin-bottom extra">Project names</p>
+                <p class="tips-margin-bottom extra" [style.font-size]="'16px'">Setting project names and footer info</p>
                     
                 <p class="tips-margin-bottom extra">What you type is what you'll see with three exceptions: <span class="code-text">\</span> <span class="code-text">\n</span> <span class="code-text">\s</span></p>
                 <p class="tips-margin-bottom"><span class="code-text">\</span>Nothing</p>
-                <p class="tips-margin-bottom"><span class="code-text">\n</span>Mobile: newline. Tablet / desktop: nothing</p>
-                <p class="tips-margin-bottom extra"><span class="code-text">\s</span>Mobile: newline. Tablet / desktop: space</p>
+                <p class="tips-margin-bottom"><span class="code-text">\n</span>Mobile → newline.&emsp;Tablet / desktop → nothing</p>
+                <p class="tips-margin-bottom extra"><span class="code-text">\s</span>Mobile → newline.&emsp;Tablet / desktop → space</p>
 
                 <p class="tips-margin-bottom">Protip: You can change the size of your browser to be the size of mobile / tablet / desktop to see how your site will appear before saving your changes.</p>
                 <p class="tips-margin-bottom extra" [style.margin-bottom]="'24pt'">Below is an interactable example. Change the text below to experiment.</p>
@@ -136,14 +136,7 @@
                     <div [class]="'example-container ' + mode">
                         <div class="mobile-example-container">
                             <a #mobileExample [href]="'#'" [class]="'themed-text mobile-text'" (click)="mobileExample.blur(); getActive(mobileExample)" (mouseleave)="getNotActive(mobileExample)">
-                                <ng-container *ngIf="exampleText">
-                                    <span *ngFor="let char of exampleText.split(''); let i = index" [class]="(char === '\\' && (i < exampleText.length - 1) && (exampleText[i + 1] === 'n' || exampleText[i + 1] === 's')) ? 'new-line' : ''">
-                                        <!-- "" -->
-                                        <ng-container *ngIf="char !== '\\' && (!i || exampleText[i - 1] !=='\\' || (char !== 's' && char !== 'n'))">
-                                        {{ char }}
-                                        </ng-container>
-                                    </span>
-                                </ng-container>
+                                <moo-mobile-spaced [chars]="exampleText"></moo-mobile-spaced>
                             </a>
                         </div>
                     </div>
@@ -193,33 +186,15 @@
         </div>
 
         <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-            <a *ngFor="let url of urls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="url.href ? '_blank' : ''" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                <ng-container *ngIf="url.text">
-                    <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
-                        <!-- "" -->
-                        <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
-                        {{ char }}
-                        </ng-container>
-                        <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                        {{ ' ' }}
-                        </ng-container>
-                    </span>
-                </ng-container>
+            <a *ngFor="let url of urls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
             </a>
         </div>
 
         <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
             <div>
             <a *ngFor="let url of footerUrls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                <span *ngFor="let char of url.text.split(''); let i = index" [class]="char === '\\' ? 'new-line' : ''">
-                <!-- "" -->
-                <ng-container *ngIf="char !== '\\' && (!i || url.text.split('')[i - 1] !=='\\')">
-                    {{ char }}
-                </ng-container>
-                <ng-container *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                    {{ ' ' }}
-                </ng-container>
-                </span>
+                <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
             </a>
             </div>
         </div>
@@ -247,7 +222,7 @@
             <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
             <ng-container *ngFor="let url of urlRow; let j = index">
                 <!-- "" -->
-                <a #a [href]="url.href || '#'" [target]="url.href ? '_blank' : ''" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                <a #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
                 <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
                 </a>
             </ng-container>

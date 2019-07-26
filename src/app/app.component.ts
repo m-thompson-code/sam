@@ -78,6 +78,7 @@ export class AppComponent {
 
 	isInvalidUrl: (text: string) => string;
 	isEmptyProject: (text: string) => string;
+	isEmptyFooter: (text: string) => string;
 
 	// subs = new Subscription();
 
@@ -113,6 +114,12 @@ export class AppComponent {
 		this.isEmptyProject = (text: string) => {
 			if (!text) {
 				return "Project name is blank";
+			}
+		};
+
+		this.isEmptyFooter = (text: string) => {
+			if (!text) {
+				return "Footer item is blank";
 			}
 		};
 
@@ -602,49 +609,100 @@ export class AppComponent {
 			return;
 		}
 
-		if (confirm(`Are you sure you want to save? You can hide/show to preview your changes before saving.`)) {
-			this.saving = true;
-
-			const projects = [];
-			const footers = [];
-
-			const app = {
-				projects: projects,
-				footers: footers
-			};
-
-			if (this.urls && this.urls.length) {
-				for (var i = 0; i < this.urls.length; i++) {
-					projects.push({text: this.urls[i].text, href: this.urls[i].href});
-				}
-			}
-
-			if (this.footerUrls && this.footerUrls.length) {
-				for (var i = 0; i < this.footerUrls.length; i++) {
-					footers.push({text: this.footerUrls[i].text, href: this.footerUrls[i].href});
-				}
-			}
-
-			return firebase.database().ref('prod').set(app).then(() => {
-				return firebase.database().ref(`timestamps/${Date.now()}`).set(app);
-			}).then(() => {
-				this.saving = false;
-				M.toast({html: 'Saved!', displayLength: 1250});
-			}).catch(error => {
-				console.error(error);
-
-				let errorMessage = 'Unknown error';
-
-				if (error && error.message) {
-					errorMessage = error.message;
-				}
-	
-				errorMessage = errorMessage || 'Unknown error';
-				M.toast({html: errorMessage, displayLength: 1250});
-
-				this.saving = false;
-			});
+		if (!confirm(`Are you sure you want to save? You can hide/show to preview your changes before saving.`)) {
+			return;
 		}
+
+		let warningMessage = "";
+		let warningCount = 0;
+
+		for (let i = 0; i < this.urls.length; i++) {
+			const url = this.urls[i];
+
+			if (this.isEmptyProject(url.text)) {
+				warningMessage = warningMessage || `Project #${i + 1} appears to have no name.`;
+				warningCount += 1;
+			}
+
+			if (this.isInvalidUrl(url.href)) {
+				warningMessage = warningMessage || `Project #${i + 1}, "${url.text}" appears to have an invalid url.`;
+				warningCount += 1;
+			}
+		}
+
+		for (let i = 0; i < this.footerUrls.length; i++) {
+			const url = this.footerUrls[i];
+
+			if (this.isEmptyProject(url.text)) {
+				warningMessage = warningMessage || `Footer item #${i + 1} appears to have no name.`;
+				warningCount += 1;
+			}
+
+			if (this.isInvalidUrl(url.href)) {
+				warningMessage = warningMessage || `Footer item #${i + 1}, "${url.text}" appears to have an invalid url.`;
+				warningCount += 1;
+			}
+		}
+
+		console.log(warningCount);
+
+		if (warningCount > 1) {
+			const otherWarningsCount = warningCount - 1;
+
+			if (otherWarningsCount === 1) {
+				warningMessage += ` And there is ${otherWarningsCount} other issue.`;
+			} else {
+				warningMessage += ` And there are ${otherWarningsCount} other issues.`;
+			}
+		}
+
+		if (warningCount) {
+			if (!confirm(warningMessage + ` Are you sure you want to continue?`)) {
+				return;
+			}
+		}
+
+		this.saving = true;
+
+		const projects = [];
+		const footers = [];
+
+		const app = {
+			projects: projects,
+			footers: footers
+		};
+
+		if (this.urls && this.urls.length) {
+			for (var i = 0; i < this.urls.length; i++) {
+				projects.push({text: this.urls[i].text, href: this.urls[i].href});
+			}
+		}
+
+		if (this.footerUrls && this.footerUrls.length) {
+			for (var i = 0; i < this.footerUrls.length; i++) {
+				footers.push({text: this.footerUrls[i].text, href: this.footerUrls[i].href});
+			}
+		}
+
+		return firebase.database().ref('prod').set(app).then(() => {
+			return firebase.database().ref(`timestamps/${Date.now()}`).set(app);
+		}).then(() => {
+			this.saving = false;
+			M.toast({html: 'Saved!', displayLength: 1250});
+		}).catch(error => {
+			console.error(error);
+
+			let errorMessage = 'Unknown error';
+
+			if (error && error.message) {
+				errorMessage = error.message;
+			}
+
+			errorMessage = errorMessage || 'Unknown error';
+			M.toast({html: errorMessage, displayLength: 1250});
+
+			this.saving = false;
+		});
 	}
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive
