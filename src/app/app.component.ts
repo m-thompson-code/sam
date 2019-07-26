@@ -16,7 +16,8 @@ declare var M;
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
+    // templateUrl: './app.component.html',
+    templateUrl: './app-test.component.html',
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
@@ -83,6 +84,10 @@ export class AppComponent {
 	// subs = new Subscription();
 
 	exampleText: string = "How now brown cow?\\sSAMANTHAMINK\\nBODYOFWORK";
+
+	// For testing
+	href: string = "https://www.ucdavis.edu/sites/default/files/styles/panopoly_image_full/public/home-site/blogs/one-health/blog-posts/2018/cow-field-one-health-uc-davis.jpg?itok=lrz5mpyq";
+	// End For testing
 
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
   	}
@@ -177,6 +182,10 @@ export class AppComponent {
 
 	ngAfterViewInit() {
 		setTimeout(() => {
+			if (!this.backgroundImageHolder || !this.backgroundImageHolder.nativeElement) {
+				return;
+			}
+
 			// console.log(window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image']);
             var src = window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image'];
             
@@ -184,6 +193,7 @@ export class AppComponent {
 				this.backgroundImageLoading = false;
 				this.loading = this.backgroundImageLoading || this.dataLoading;
 			}
+
 			var url = src.match(/\((.*?)\)/)[1].replace(/('|")/g,'');
 
 			if (!url) {
@@ -257,38 +267,38 @@ export class AppComponent {
 			}
 		}));
 
-		Promise.all(promises).then(() => {
-			this.showPoem = false;
+		// Promise.all(promises).then(() => {
+		// 	this.showPoem = false;
 
-			this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-			this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+		// 	this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+		// 	this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-			this.mode = '';
-			this.modeTimeout = setTimeout(() => {
-                this.mode = 'light';
-                this.showOthers = false;
-			}, 1000);
+		// 	this.mode = '';
+		// 	this.modeTimeout = setTimeout(() => {
+        //         this.mode = 'light';
+        //         this.showOthers = false;
+		// 	}, 1000);
 
-			this.maxUrls = 6;
+		// 	this.maxUrls = 6;
 
-			this.urlRows = [[]];
+		// 	this.urlRows = [[]];
 
-			// this.loading = false;
-			this.dataLoading = false;
-			this.loading = this.backgroundImageLoading || this.dataLoading;
+		// 	// this.loading = false;
+		// 	this.dataLoading = false;
+		// 	this.loading = this.backgroundImageLoading || this.dataLoading;
 
-			setTimeout(() => {
-				this.getLinksContainerWidth();
-	        	this.alignUrls();
-	        	setTimeout(() => {
-		       		this.recalcEvertyhing();
-		    	}, 1);
-			}, 1);
+		// 	setTimeout(() => {
+		// 		this.getLinksContainerWidth();
+	    //     	this.alignUrls();
+	    //     	setTimeout(() => {
+		//        		this.recalcEvertyhing();
+		//     	}, 1);
+		// 	}, 1);
 
-			this.toggleModeTimeout = setTimeout(() => {
-				this.toggleMode();
-			}, 10000);
-		});
+		// 	this.toggleModeTimeout = setTimeout(() => {
+		// 		this.toggleMode();
+		// 	}, 10000);
+		// });
 	}
 
 	toggleMode() {
