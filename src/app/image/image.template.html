@@ -2,7 +2,16 @@
 <p>Loading: {{ loading }}</p> -->
 
 <div class="image-container">
-    <div class="image">
-        <img [src]="href">
-    </div>
+    <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 1000" [relative]="true"></moo-preloader>
+
+    <ng-container *ngIf="errored">
+        <span>X</span>
+    </ng-container>
+
+    <ng-container *ngIf="!errored">
+        <div *ngIf="!loading" class="image">
+            <img [src]="href">
+        </div>
+    </ng-container>
+    
 </div>

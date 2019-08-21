@@ -16,8 +16,8 @@ declare var M;
 
 @Component({
     selector: 'app-root',
-    // templateUrl: './app.component.html',
-    templateUrl: './app-test.component.html',
+    templateUrl: './app.component.html',
+    // templateUrl: './app-test.component.html',
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
@@ -214,7 +214,6 @@ export class AppComponent {
 			}, 3 * 1000);
 
 			img.src = url;
-			// if (img.complete) {img.onload();}
 		}, 1);
 		
 		var promises = [];
@@ -267,38 +266,38 @@ export class AppComponent {
 			}
 		}));
 
-		// Promise.all(promises).then(() => {
-		// 	this.showPoem = false;
+		Promise.all(promises).then(() => {
+			this.showPoem = false;
 
-		// 	this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-		// 	this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+			this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+			this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-		// 	this.mode = '';
-		// 	this.modeTimeout = setTimeout(() => {
-        //         this.mode = 'light';
-        //         this.showOthers = false;
-		// 	}, 1000);
+			this.mode = '';
+			this.modeTimeout = setTimeout(() => {
+                this.mode = 'light';
+                this.showOthers = false;
+			}, 1000);
 
-		// 	this.maxUrls = 6;
+			this.maxUrls = 6;
 
-		// 	this.urlRows = [[]];
+			this.urlRows = [[]];
 
-		// 	// this.loading = false;
-		// 	this.dataLoading = false;
-		// 	this.loading = this.backgroundImageLoading || this.dataLoading;
+			// this.loading = false;
+			this.dataLoading = false;
+			this.loading = this.backgroundImageLoading || this.dataLoading;
 
-		// 	setTimeout(() => {
-		// 		this.getLinksContainerWidth();
-	    //     	this.alignUrls();
-	    //     	setTimeout(() => {
-		//        		this.recalcEvertyhing();
-		//     	}, 1);
-		// 	}, 1);
+			setTimeout(() => {
+				this.getLinksContainerWidth();
+	        	this.alignUrls();
+	        	setTimeout(() => {
+		       		this.recalcEvertyhing();
+		    	}, 1);
+			}, 1);
 
-		// 	this.toggleModeTimeout = setTimeout(() => {
-		// 		this.toggleMode();
-		// 	}, 10000);
-		// });
+			this.toggleModeTimeout = setTimeout(() => {
+				// this.toggleMode();
+			}, 10000);
+		});
 	}
 
 	toggleMode() {
@@ -598,6 +597,14 @@ export class AppComponent {
 			}
 
 		}
+	}
+
+	toggleAdvancedProject(index: number) {
+		this.urls[index].advanced = !this.urls[index].advanced;
+	}
+
+	setAdvanceEdit(index: number) {
+		this.setActiveManagementOption('advancedEdit');
 	}
 
 	toggleShowManagement() {

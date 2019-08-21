@@ -10,6 +10,8 @@ export class PreloaderComponent {
 	@Input() mode: any;
 	@Input() delay: any;
 
+	@Input() relative: boolean;
+
 	active: boolean;
 	constructor() {
 	}

@@ -46,15 +46,25 @@
     <div [class]="'management-container ' + (dragging ? 'dragging' : '')" [style.color]="'black'">
         <div [class]="'management-options-container ' + mode">
             <div class="management-options wave-effect">
-                <div [class]="'management-option ' + (activeManagementOption === 'projects' ? 'active' : '')" (click)="setActiveManagementOption('projects')">
-                    <span>Projects</span>
-                </div>
-                <div [class]="'management-option ' + (activeManagementOption === 'footer' ? 'active' : '')" (click)="setActiveManagementOption('footer')">
-                    <span>Footer</span>
-                </div>
-                <div [class]="'management-option ' + (activeManagementOption === 'tips' ? 'active' : '')" (click)="setActiveManagementOption('tips')">
-                    <span>Tips</span>
-                </div>
+                <ng-container *ngIf="activeManagementOption !== 'advancedEdit'">
+                    <div [class]="'management-option ' + (activeManagementOption === 'projects' ? 'active' : '')" (click)="setActiveManagementOption('projects')">
+                        <span>Projects</span>
+                    </div>
+                    <div [class]="'management-option ' + (activeManagementOption === 'footer' ? 'active' : '')" (click)="setActiveManagementOption('footer')">
+                        <span>Footer</span>
+                    </div>
+                    <div [class]="'management-option ' + (activeManagementOption === 'tips' ? 'active' : '')" (click)="setActiveManagementOption('tips')">
+                        <span>Tips</span>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="activeManagementOption === 'advancedEdit'">
+                    <div [class]="'management-option ' + (activeManagementOption === 'advancedEdit' ? 'active' : '')">
+                        <span>Advanced</span>
+                    </div>
+                    <div [class]="'management-option'" (click)="setActiveManagementOption('projects')">
+                        <span>Back</span>
+                    </div>
+            </ng-container>
             </div>
             <div [class]="'management-option-active-border ' + mode + ' ' + 'active-' + activeManagementOption">
                 <!-- active bar -->
@@ -72,15 +82,28 @@
                                 </div>
                                 <div class="inputs">
                                     <moo-input [mode]="mode" [text]="url.text" [label]="'Project name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="url.text = $event"></moo-input>
-                                    <moo-input [mode]="mode" [text]="url.href" [label]="'Project url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
+                                    <ng-container *ngIf="!url.advanced">
+                                        <moo-input [mode]="mode" [text]="url.href" [label]="'Project url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
+                                    </ng-container>
+                                    <ng-container *ngIf="url.advanced">
+                                        <a (click)="setAdvanceEdit(i)">Click here to edit this project</a>
+                                    </ng-container>
                                 </div>
                                 <div class="editable-buttons">
-                                    <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
-                                        <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                    <div class="test top">
+                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                        </div>
+                                        <div *ngIf="urls.length > 1" [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                        </div>
                                     </div>
-                                    <div *ngIf="urls.length > 1" [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
-                                        <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                    <div class="test">
+                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="toggleAdvancedProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
