@@ -360,7 +360,7 @@ export class AppComponent {
 			// console.log(width);
 
 			if (y === 0) {
-				margin = this.urlFontSize * 2;
+				margin = 70;//this.urlFontSize * 9;
 			} else {
 				margin = (this.urlsMaxWidth - topWidth) / (this.urlRows[0].length - 1);
 			}
