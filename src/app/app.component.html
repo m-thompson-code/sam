@@ -2,6 +2,33 @@
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
+<div class="slideshow-test">
+    <a (click)="toggleSlideshow()">TEST</a>
+</div>
+
+<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '')">
+    <div class="image">
+
+    </div>
+    <div class="right-side">
+        <div class="desc">
+            Lorem ipsum dolor amet coloring book helvetica blue bottle, taxidermy aesthetic four loko gluten-free messenger bag direct trade photo booth. Four loko taxidermy disrupt raw denim mixtape pabst, selvage fashion axe meditation cardigan. Keytar hammock 90's, adaptogen deep v green juice mixtape plaid cronut live-edge farm-to-table. Copper mug gentrify tote bag, enamel pin taxidermy pug air plant ennui mumblecore flannel keytar kickstarter. Lyft marfa photo booth tofu.
+
+            Four dollar toast VHS jianbing biodiesel irony lyft tousled hashtag bespoke. Try-hard skateboard tilde drinking vinegar cloud bread copper mug twee mlkshk yr quinoa pinterest man bun. Activated charcoal heirloom health goth portland artisan jianbing subway tile DIY. Banh mi sustainable mumblecore echo park offal disrupt vape williamsburg butcher poutine next level direct trade kitsch craft beer semiotics. Tacos single-origin coffee leggings PBR&B selfies swag banjo dreamcatcher twee hashtag artisan umami.
+            
+            Put a bird on it health goth palo santo twee plaid helvetica. Forage offal sriracha blue bottle hammock edison bulb post-ironic raclette fanny pack succulents copper mug skateboard. Keffiyeh lo-fi gastropub art party pour-over messenger bag wayfarers waistcoat live-edge cred pok pok fingerstache. Plaid try-hard kickstarter cray food truck chillwave affogato hoodie prism artisan tumblr skateboard fam yuccie. Chia bushwick meditation, vaporware shabby chic live-edge you probably haven't heard of them. Chicharrones cardigan disrupt succulents. Tousled gastropub yr shaman, waistcoat chicharrones meh iPhone.
+            
+            Put a bird on it hot chicken normcore everyday carry. Knausgaard yr snackwave coloring book chillwave craft beer. Migas post-ironic biodiesel tote bag. Af venmo hell of sriracha taiyaki selfies. Thundercats vexillologist etsy DIY food truck ennui hell of fashion axe XOXO slow-carb normcore post-ironic swag helvetica.
+            
+            Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.
+        </div>
+        <div class="tags">
+            PRESS: -link- -link-
+        </div>
+    </div>
+        
+</div>
+
 <div *ngIf="!loggedIn && showLogin" [class]="'sign-in ' + mode">
     <div>
         <moo-input [mode]="mode" [text]="email" [label]="'Email'" (valueChanged)="email = $event"></moo-input>
@@ -184,102 +211,102 @@
 
 <ng-container *ngIf="!loading && !showManagement">
     <div class="fixed-full">
-    <div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
-    <div>
-        <img [class]="'poem-image ' + mode" src="./assets/poem_desktop.png">
-    </div>
-    </div>
-
-    <div (click)="toggleMode()" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '')">
-        <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
-        <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
-    </div>
-
-    <div #container id="container" [class]="mode">
-    <div class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
-        <div class="wrapper-with-margins">
-        <div class="center-horizontal justify-vert title-vert title-vert-1">
-            <div *ngFor="let char of header1.split('')">{{ char }}</div>
-            <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-        </div>
-
-        <div class="center-horizontal justify-vert title-vert title-vert-2">
-            <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-            <div *ngFor="let char of header2.split('')">{{ char }}</div>
-        </div>
-
-        <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-            <a *ngFor="let url of urls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-            </a>
-        </div>
-
-        <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+        <div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
             <div>
-            <a *ngFor="let url of footerUrls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-            </a>
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
-        <div class="center-vert title-container">
-
-        <div class="center-vert title title-1">
-            <div>
-            <span *ngFor="let char of header1.split('')">{{ char }}</span>
-            <span class="image-placeholder"></span>
+                <img [class]="'poem-image ' + mode" src="./assets/poem_desktop.png">
             </div>
         </div>
 
-        <div class="center-vert title title-2">
-            <div>
-            <span class="image-placeholder"></span>
-            <span *ngFor="let char of header2.split('')">{{ char }}</span>
-            </div>
+        <div (click)="centerImageFunc($event)" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
+            <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
+            <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
         </div>
 
-        <div #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
-            <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
-            <ng-container *ngFor="let url of urlRow; let j = index">
-                <!-- "" -->
-                <a #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+        <div #container id="container" [class]="mode">
+        <div class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
+            <div class="wrapper-with-margins">
+            <div class="center-horizontal justify-vert title-vert title-vert-1">
+                <div *ngFor="let char of header1.split('')">{{ char }}</div>
+                <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
+            </div>
+
+            <div class="center-horizontal justify-vert title-vert title-vert-2">
+                <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
+                <div *ngFor="let char of header2.split('')">{{ char }}</div>
+            </div>
+
+            <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+                <a *ngFor="let url of urls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
                 </a>
-            </ng-container>
             </div>
 
-            <div [style.visibility]="'hidden'" [style.position]="'absolute'">
-            <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
+            <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+                <div>
+                <a *ngFor="let url of footerUrls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                </a>
+                </div>
+            </div>
             </div>
         </div>
-        </div>
 
-        <div [class]="'footer-container' + (showOthers ? ' active' : '')">
-        <div class="footer">
-            <div *ngFor="let url of footerUrls" class="footer-element-container">
-            <div class="footer-element">
-                <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href || '#'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                <ng-container *ngFor="let char of url.text.split(''); let i = index">
+        <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
+            <div (click)="titleFunc($event)" [class]="'center-vert title-container' + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
+
+            <div class="center-vert title title-1">
+                <div>
+                <span *ngFor="let char of header1.split('')">{{ char }}</span>
+                <span class="image-placeholder"></span>
+                </div>
+            </div>
+
+            <div class="center-vert title title-2">
+                <div>
+                <span class="image-placeholder"></span>
+                <span *ngFor="let char of header2.split('')">{{ char }}</span>
+                </div>
+            </div>
+
+            <div *ngIf="!showSlideshow" #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
+                <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
+                <ng-container *ngFor="let url of urlRow; let j = index">
                     <!-- "" -->
-                    <ng-container *ngIf="char !== '\\'">
-                    <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                        {{ ' ' }}
-                    </span>
-                    <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
-                        {{ char }}
-                    </span>
-                    </ng-container>
+                    <a #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                    <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                    </a>
                 </ng-container>
-                </a>
+                </div>
+
+                <div [style.visibility]="'hidden'" [style.position]="'absolute'">
+                <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
+                </div>
+            </div>
+            </div>
+
+            <div [class]="'footer-container' + (showOthers ? ' active' : '')">
+            <div class="footer">
+                <div *ngFor="let url of footerUrls" class="footer-element-container">
+                <div class="footer-element">
+                    <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href || '#'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                    <ng-container *ngFor="let char of url.text.split(''); let i = index">
+                        <!-- "" -->
+                        <ng-container *ngIf="char !== '\\'">
+                        <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                            {{ ' ' }}
+                        </span>
+                        <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
+                            {{ char }}
+                        </span>
+                        </ng-container>
+                    </ng-container>
+                    </a>
+                </div>
+                </div>
             </div>
             </div>
         </div>
         </div>
-    </div>
-    </div>
 
     </div>
 </ng-container>

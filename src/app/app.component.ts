@@ -81,13 +81,16 @@ export class AppComponent {
 	isEmptyProject: (text: string) => string;
 	isEmptyFooter: (text: string) => string;
 
-	// subs = new Subscription();
-
 	exampleText: string = "How now brown cow?\\sSAMANTHAMINK\\nBODYOFWORK";
 
 	// For testing
 	href: string = "https://www.ucdavis.edu/sites/default/files/styles/panopoly_image_full/public/home-site/blogs/one-health/blog-posts/2018/cow-field-one-health-uc-davis.jpg?itok=lrz5mpyq";
 	// End For testing
+
+	slideshow: boolean;
+	showSlideshow: boolean;
+	slideshowAnimate: boolean;
+	slideshowAnimateTimeout: any;
 
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
   	}
@@ -178,6 +181,51 @@ export class AppComponent {
 
 		this.lightIconEncoded = `data:image/jpeg;base64,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`;
 		this.darkIconEncoded = `data:image/jpeg;base64,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`;
+	}
+
+	toggleSlideshow() {
+		if (this.mode === 'light') {
+			this.toggleMode();
+		}
+
+		this.slideshow = !this.slideshow;
+		if (this.slideshow) {
+			this.slideshowAnimate = true;
+			clearTimeout(this.slideshowAnimateTimeout);
+			this.slideshowAnimateTimeout = setTimeout(() => {
+				this.slideshowAnimate = false;
+				this.showSlideshow = true;
+			}, 200);
+		} else {
+			this.showSlideshow = false;
+			setTimeout(() => {
+					this.recalcEvertyhing();
+			}, 1);
+			this.slideshowAnimate = true;
+			clearTimeout(this.slideshowAnimateTimeout);
+			this.slideshowAnimateTimeout = setTimeout(() => {
+				this.slideshowAnimate = false;
+			}, 600);
+		}
+	}
+
+	titleFunc(event: MouseEvent) {
+		if (this.slideshow) {
+			this.toggleSlideshow();
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	}
+
+	centerImageFunc(event: MouseEvent) {
+		if (this.slideshow) {
+			this.toggleSlideshow();
+		} else {
+			this.toggleMode();
+		}
+		
+		event.preventDefault();
+		event.stopPropagation();
 	}
 
 	ngAfterViewInit() {
@@ -305,6 +353,10 @@ export class AppComponent {
 		clearTimeout(this.toggleModeTimeout);
 
 		if (this.mode === 'light') {
+			if (this.slideshow) {
+				this.toggleSlideshow();
+			}
+
 			this.mode = '';
 			this.modeTimeout = setTimeout(() => {
 				this.mode = 'dark';

@@ -2,6 +2,7 @@
 // 	touch-action: none;
 // }
 
+
 .test {
     display: flex;
     background: grey;
@@ -191,7 +192,7 @@ moo-icon.dark {
 }
 
 .sign-in {
-	z-index: 3;
+	z-index: 10;
     position: fixed;
     margin-left: 50%;
     transform: perspective(1px) translateX(-50%);
@@ -227,7 +228,7 @@ moo-icon.dark {
 .top-nav {
 	color: grey;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     right: 0;
 }
@@ -339,7 +340,7 @@ moo-icon.dark {
 }
 
 .poem-container {
-	z-index: 1;
+	z-index: 2;
 	width: 100%;
 	height: 100%;
 
@@ -486,7 +487,7 @@ moo-icon.dark {
 .center-image {
 	position: absolute;
 	/*opacity: .5;*/
-	z-index: 1;
+	z-index: 4;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -532,7 +533,7 @@ moo-icon.dark {
 }
 
 .dark-image.dark {
-	z-index: 1;
+	z-index: 4;
 	opacity: 1;
 	/*width: 26px;*/
 	/*height: 26px;*/
@@ -555,9 +556,9 @@ moo-icon.dark {
 	display: none;
 }
 
-.first-only {
-	/*color: red !important;*/
-}
+// .first-only {
+// 	/*color: red !important;*/
+// }
 
 .height-p::first-line {
 	/*word-spacing: normal;*/
@@ -622,11 +623,6 @@ moo-icon.dark {
 .title-2 div {
 	margin-right: 70px;
 }
-
-.title-container-mobile {
-	
-}
-
 
 .title-mobile {
 	font-size: 9pt;
@@ -741,6 +737,90 @@ moo-icon.dark {
 
 	.footer-element {
 		margin: 0 7pt;
+	}
+}
+
+.slideshow-container.active {
+	position: fixed;
+    background: green;
+    width: calc(100vw - 140px);
+	height: calc(100vh - 210px - 7pt - 52px);
+	z-index: 5;
+
+    margin-top: calc(70px + 52px);
+    margin-left: 70px;
+    margin-right: 70px;
+	margin-bottom: calc(140px + 7pt);
+
+	display: flex;
+
+	.image {
+		background: grey;
+		height: 100%;
+		flex-grow: 1;
+	}
+	.right-side {
+		width: 360px;
+		margin-left: 14.5pt;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+
+		.desc {
+			background: red;
+			overflow-y: auto;
+    		flex-grow: 1;
+		}
+		.tags {
+			background: blue;
+		}
+	}
+}
+
+.slideshow-test {
+	position: fixed;
+    color: white;
+	z-index: 10;
+	
+	height: 70px;
+    width: 100vw;
+    background: red;
+}
+
+.slideshow-animate.center-image {
+	transition: top 0.6s;
+}
+
+.slideshow-animate.center-vert.title-container {
+	.title {
+		background: green;
+		transition: top 0.6s;
+	}
+}
+
+.slideshow.center-image {
+	top: calc(70px + 13px);// margin + half height of image
+}
+.slideshow-animate.slideshow.center-image {
+	transition: top 0.2s ease-out;
+}
+
+.slideshow.center-vert.title-container {
+	cursor: pointer;
+	
+	.title {
+		top: calc(-50vh + 70px + 14.5pt);// half screen (-50vh), margin (70px), line-height (1.5) * fontsize (9pt)
+		background: green;
+	}
+	.links-container {
+		opacity: 0;
+		transition: opacity 0.2s;
+	}
+}
+
+.slideshow-animate.slideshow.center-vert.title-container {
+	.title {
+		transition: top 0.2s ease-out;
 	}
 }
 
