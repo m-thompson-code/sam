@@ -1,9 +1,9 @@
 {
-  "name": "sam7",
-  "version": "0.0.0",
+  "name": "sam",
+  "version": "0.7.5",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

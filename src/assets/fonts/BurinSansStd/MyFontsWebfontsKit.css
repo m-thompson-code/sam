@@ -2,11 +2,11 @@
 
 @font-face {
 	font-family: 'BurinSansStd';
-	src: url('./webfonts/365413_0_0.eot');
-	src: url('./webfonts/365413_0_0.eot?#iefix') format('embedded-opentype'),
-		url('./webfonts/365413_0_0.woff2') format('woff2'),
-		url('./webfonts/365413_0_0.woff') format('woff'),
-		url('./webfonts/365413_0_0.ttf') format('truetype');
+	src: url('./365413_0_0.eot');
+	src: url('./365413_0_0.eot?#iefix') format('embedded-opentype'),
+		url('./365413_0_0.woff2') format('woff2'),
+		url('./365413_0_0.woff') format('woff'),
+		url('./365413_0_0.ttf') format('truetype');
 }
 
 /**

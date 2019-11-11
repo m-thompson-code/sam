@@ -1,17 +1,17 @@
 <!-- <p>href: {{ href || '(none)' }}</p>
 <p>Loading: {{ loading }}</p> -->
 
-<div class="image-container">
-    <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 1000" [relative]="true"></moo-preloader>
-
+<div [class]="'image-container' + (image && image.width > image.height ? ' alt' : '')">
+    <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 300" [relative]="true"></moo-preloader>
     <ng-container *ngIf="errored">
-        <span>X</span>
+        <span [style.color]="'white'">X</span>
     </ng-container>
 
     <ng-container *ngIf="!errored">
         <div *ngIf="!loading" class="image">
-            <img [src]="href">
+            <img #image [src]="href" [style.width]="getMaxHeight().width || defaultWidth || 'auto'" [style.height]="getMaxHeight().height || defaultHeight || 'auto'">
         </div>
     </ng-container>
-    
+    <!-- width: {{ image.width }} {{ container.offsetWidth }}
+    height: {{ image.height }} {{ container.offsetHeight }} -->
 </div>

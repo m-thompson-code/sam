@@ -1,9 +1,33 @@
 .image-container {
-    width: 100%;
+    width: auto;
     height: 100%;
     display:flex;
     align-items: center;
     justify-content: center;
+    background: pink;
 
-    background: grey;
+    .image {
+        width: auto;
+        height: 100%;
+
+        // img {
+        //     width: auto;
+        //     height: 100%;
+        // }
+    }
+}
+
+.image-container.alt {
+    width: 100%;
+    height: auto;
+
+    .image {
+        width: 100%;
+        height: auto;
+
+        // img {
+        //     width: 100%;
+        //     height: auto;
+        // }
+    }
 }

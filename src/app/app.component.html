@@ -2,25 +2,36 @@
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
-<div class="slideshow-test">
-    <a (click)="toggleSlideshow()">TEST</a>
+<div class="fonts">
+    <div>
+        <a (click)="test = !test">Toggle test</a>
+    </div>
+    <a *ngFor="let font of fonts" (click)="setBodyClass(font)" [class]="selectedFont === font ? 'selected' : ''">{{ font }}</a>
 </div>
 
-<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '')">
-    <div class="image">
+<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
+    <div #imageContainer class="image">
+        <moo-image [mode]="mode" [href]="imageUrls[imageIndex]" [container]="imageContainer"></moo-image>
 
+        <div class="image-navigation waves-effect waves-light" (click)="backImage()">
+            <div class="icon-holder">
+                <div class="icon-inner">
+                    <moo-icon [icon]="'navigate_back'"></moo-icon>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-navigation waves-effect waves-light next" (click)="nextImage()">
+            <div class="icon-holder">
+                <div class="icon-inner">
+                    <moo-icon [icon]="'navigate_back'"></moo-icon>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="right-side">
         <div class="desc">
-            Lorem ipsum dolor amet coloring book helvetica blue bottle, taxidermy aesthetic four loko gluten-free messenger bag direct trade photo booth. Four loko taxidermy disrupt raw denim mixtape pabst, selvage fashion axe meditation cardigan. Keytar hammock 90's, adaptogen deep v green juice mixtape plaid cronut live-edge farm-to-table. Copper mug gentrify tote bag, enamel pin taxidermy pug air plant ennui mumblecore flannel keytar kickstarter. Lyft marfa photo booth tofu.
-
-            Four dollar toast VHS jianbing biodiesel irony lyft tousled hashtag bespoke. Try-hard skateboard tilde drinking vinegar cloud bread copper mug twee mlkshk yr quinoa pinterest man bun. Activated charcoal heirloom health goth portland artisan jianbing subway tile DIY. Banh mi sustainable mumblecore echo park offal disrupt vape williamsburg butcher poutine next level direct trade kitsch craft beer semiotics. Tacos single-origin coffee leggings PBR&B selfies swag banjo dreamcatcher twee hashtag artisan umami.
-            
-            Put a bird on it health goth palo santo twee plaid helvetica. Forage offal sriracha blue bottle hammock edison bulb post-ironic raclette fanny pack succulents copper mug skateboard. Keffiyeh lo-fi gastropub art party pour-over messenger bag wayfarers waistcoat live-edge cred pok pok fingerstache. Plaid try-hard kickstarter cray food truck chillwave affogato hoodie prism artisan tumblr skateboard fam yuccie. Chia bushwick meditation, vaporware shabby chic live-edge you probably haven't heard of them. Chicharrones cardigan disrupt succulents. Tousled gastropub yr shaman, waistcoat chicharrones meh iPhone.
-            
-            Put a bird on it hot chicken normcore everyday carry. Knausgaard yr snackwave coloring book chillwave craft beer. Migas post-ironic biodiesel tote bag. Af venmo hell of sriracha taiyaki selfies. Thundercats vexillologist etsy DIY food truck ennui hell of fashion axe XOXO slow-carb normcore post-ironic swag helvetica.
-            
-            Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.
+            P R O J E C T&nbsp;&nbsp;&nbsp;&nbsp;D E S C R I P T I O N&nbsp;&nbsp;&nbsp;&nbsp;{{ desc }}
         </div>
         <div class="tags">
             PRESS: -link- -link-
@@ -117,7 +128,7 @@
                                     </ng-container>
                                 </div>
                                 <div class="editable-buttons">
-                                    <div class="test top">
+                                    <div class="top-buttons">
                                         <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
                                             <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
                                         </div>
@@ -223,22 +234,27 @@
         </div>
 
         <div #container id="container" [class]="mode">
-        <div class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
+        <div *ngIf="!showSlideshow" class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
             <div class="wrapper-with-margins">
-            <div class="center-horizontal justify-vert title-vert title-vert-1">
+            <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans' + (test ? ' test' : '')">
                 <div *ngFor="let char of header1.split('')">{{ char }}</div>
                 <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
             </div>
 
-            <div class="center-horizontal justify-vert title-vert title-vert-2">
+            <div [class]="'center-horizontal justify-vert title-vert title-vert-2 burin-sans' + (test ? ' test' : '')">
                 <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
                 <div *ngFor="let char of header2.split('')">{{ char }}</div>
             </div>
 
             <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-                <a *ngFor="let url of urls" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                </a>
+                <ng-container *ngFor="let url of urls; let j = index">
+                    <a *ngIf="j === 0" (click)="toggleSlideshow($event)" #a [href]="'#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                    </a>
+                    <a *ngIf="j !== 0" #a [href]="url.href || '#'" [style.margin-bottom]="'7pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                    </a>
+                </ng-container>
             </div>
 
             <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
@@ -254,14 +270,14 @@
         <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
             <div (click)="titleFunc($event)" [class]="'center-vert title-container' + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
 
-            <div class="center-vert title title-1">
+            <div [class]="'center-vert title title-1 burin-sans' + (test ? ' test' : '')">
                 <div>
                 <span *ngFor="let char of header1.split('')">{{ char }}</span>
                 <span class="image-placeholder"></span>
                 </div>
             </div>
 
-            <div class="center-vert title title-2">
+            <div [class]="'center-vert title title-2 burin-sans' + (test ? ' test' : '')">
                 <div>
                 <span class="image-placeholder"></span>
                 <span *ngFor="let char of header2.split('')">{{ char }}</span>
@@ -272,8 +288,11 @@
                 <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'">
                 <ng-container *ngFor="let url of urlRow; let j = index">
                     <!-- "" -->
-                    <a #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                    <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                    <a *ngIf="j === 0" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                        <moo-spaced [chars]="'moocow'" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                    </a>
+                    <a *ngIf="j !== 0" #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
                     </a>
                 </ng-container>
                 </div>

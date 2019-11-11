@@ -92,10 +92,53 @@ export class AppComponent {
 	slideshowAnimate: boolean;
 	slideshowAnimateTimeout: any;
 
+	fonts: string[] = [
+		'burin-sans',
+		'FrutigerNeue',
+		'FrutigerNeueLTW01-CnMedium',
+		'FrutigerNeueW02',
+		'Helvetica-Neue-LT-Pro',
+		'FrutigerNeueW02-Bd',
+		'FrutigerNeueW02-Book'
+	];
+
+	selectedFont: string;
+
+	test: boolean;
+
+	desc: string;
+
+	imageIndex: number;
+	imageUrls: string[];
+
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
-  	}
+	}
+	  
+	setBodyClass(classStr: string) {
+		document.body.className = classStr;
+		this.selectedFont = classStr;
+	}
 
 	ngOnInit() {
+		// this.test = true;
+
+		this.imageUrls = [];
+		this.imageUrls.push('https://i.ibb.co/5hD9d3W/IMG-5066.jpg');
+		this.imageUrls.push(this.href);
+
+		this.imageIndex = 0;
+
+		this.desc = `Lorem ipsum dolor amet coloring book helvetica blue bottle, taxidermy aesthetic four loko gluten-free messenger bag direct trade photo booth. Four loko taxidermy disrupt raw denim mixtape pabst, selvage fashion axe meditation cardigan. Keytar hammock 90's, adaptogen deep v green juice mixtape plaid cronut live-edge farm-to-table. Copper mug gentrify tote bag, enamel pin taxidermy pug air plant ennui mumblecore flannel keytar kickstarter. Lyft marfa photo booth tofu.
+
+		Four dollar toast VHS jianbing biodiesel irony lyft tousled hashtag bespoke. Try-hard skateboard tilde drinking vinegar cloud bread copper mug twee mlkshk yr quinoa pinterest man bun. Activated charcoal heirloom health goth portland artisan jianbing subway tile DIY. Banh mi sustainable mumblecore echo park offal disrupt vape williamsburg butcher poutine next level direct trade kitsch craft beer semiotics. Tacos single-origin coffee leggings PBR&B selfies swag banjo dreamcatcher twee hashtag artisan umami.
+		
+		Put a bird on it health goth palo santo twee plaid helvetica. Forage offal sriracha blue bottle hammock edison bulb post-ironic raclette fanny pack succulents copper mug skateboard. Keffiyeh lo-fi gastropub art party pour-over messenger bag wayfarers waistcoat live-edge cred pok pok fingerstache. Plaid try-hard kickstarter cray food truck chillwave affogato hoodie prism artisan tumblr skateboard fam yuccie. Chia bushwick meditation, vaporware shabby chic live-edge you probably haven't heard of them. Chicharrones cardigan disrupt succulents. Tousled gastropub yr shaman, waistcoat chicharrones meh iPhone.
+		
+		Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.`;
+		
+		this.setBodyClass('burin-sans');
+
+		(window as any).app = this;
 		(window as any).firebase = firebase;
 		// const drake = dragula([document.querySelector('#drakeTest')], {
 		// 	// moves: function (el, source, handle, sibling) {
@@ -183,7 +226,22 @@ export class AppComponent {
 		this.darkIconEncoded = `data:image/jpeg;base64,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`;
 	}
 
-	toggleSlideshow() {
+	nextImage() {
+		this.imageIndex += 1;
+		if (this.imageIndex > this.imageUrls.length - 1) {
+			this.imageIndex = 0;
+		}
+	}
+
+	backImage() {
+		this.imageIndex -= 1;
+		if (this.imageIndex < 0) {
+			this.imageIndex = this.imageUrls.length - 1;
+		}
+	}
+
+	toggleSlideshow(event?: Event) {
+		console.log('toggleSlideshow');
 		if (this.mode === 'light') {
 			this.toggleMode();
 		}
@@ -206,6 +264,11 @@ export class AppComponent {
 			this.slideshowAnimateTimeout = setTimeout(() => {
 				this.slideshowAnimate = false;
 			}, 600);
+		}
+
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
 		}
 	}
 

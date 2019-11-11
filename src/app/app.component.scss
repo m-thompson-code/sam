@@ -2,16 +2,12 @@
 // 	touch-action: none;
 // }
 
-
-.test {
-    display: flex;
-    background: grey;
+.top-buttons {
+	margin-bottom: calc(1rem + 18px);
+	display: flex;
     margin: 1rem 0;
     height: auto;
     flex-direction: row;
-}
-.test.top {
-	margin-bottom: calc(1rem + 18px);
 }
 
 .test-page {
@@ -729,20 +725,16 @@ moo-icon.dark {
 	}
 }
 
-
-@media only screen and (max-width: 1120px) {
-	.footer {
-		margin: 0 -7pt;
-	}
-
-	.footer-element {
-		margin: 0 7pt;
-	}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 
 .slideshow-container.active {
+	animation: fadeIn .5s;
+	opacity: 1;
+
 	position: fixed;
-    background: green;
     width: calc(100vw - 140px);
 	height: calc(100vh - 210px - 7pt - 52px);
 	z-index: 5;
@@ -755,9 +747,46 @@ moo-icon.dark {
 	display: flex;
 
 	.image {
-		background: grey;
 		height: 100%;
+		width: 0;// Width will be handled by flex-grow
 		flex-grow: 1;
+		background: rgba(0, 0, 0, 0.3);
+		position: relative;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		overflow: hidden;
+
+		.image-navigation {
+			fill: white;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			padding: 12px;
+			opacity: .5;
+			cursor: pointer;
+			border-radius: 50%;
+			left: 0;
+			.icon-holder {
+				.icon-inner {
+					width: 12px;
+				}
+				width: 24px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+		.image-navigation.next {
+			left: auto;
+			right: 0;
+			transform: translateY(-50%) scale(-1,1);
+		}
+		.image-navigation:hover {
+			opacity: 1;
+		}
 	}
 	.right-side {
 		width: 360px;
@@ -767,24 +796,53 @@ moo-icon.dark {
 		flex-direction: column;
 
 		.desc {
-			background: red;
+			white-space: pre-wrap;
+
+			// font-size: 7pt;
+    		color: white;
+
 			overflow-y: auto;
-    		flex-grow: 1;
+			flex-grow: 1;
+
+			// source: https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
+			// overflow-y: scroll; /* has to be scroll, not auto */
+  			// -webkit-overflow-scrolling: touch;
+			
+			// ionic's styles for lists
+			-webkit-font-smoothing: antialiased;
+			text-rendering: optimizeLegibility;
+			// overflow: hidden;
+			touch-action: manipulation;
+			-webkit-user-drag: none;
+			-ms-content-zooming: none;
+			// word-wrap: break-word;
+			// overscroll-behavior-y: none;
+			text-size-adjust: none;
+			margin: 0;
+			padding: 0;
+			// END ionic's styles for lists
+		}
+		// .tags {
+		// }
+	}
+}
+
+.slideshow-container.test {
+	background: green;
+	.image {
+		background: grey;
+		.image-navigation {
+			background:blue;
+		}
+	}
+	.right-side {
+		.desc {
+			background: red;
 		}
 		.tags {
 			background: blue;
 		}
 	}
-}
-
-.slideshow-test {
-	position: fixed;
-    color: white;
-	z-index: 10;
-	
-	height: 70px;
-    width: 100vw;
-    background: red;
 }
 
 .slideshow-animate.center-image {
@@ -793,9 +851,12 @@ moo-icon.dark {
 
 .slideshow-animate.center-vert.title-container {
 	.title {
-		background: green;
 		transition: top 0.6s;
 	}
+}
+
+.title.test {
+	background: green;
 }
 
 .slideshow.center-image {
@@ -810,7 +871,6 @@ moo-icon.dark {
 	
 	.title {
 		top: calc(-50vh + 70px + 14.5pt);// half screen (-50vh), margin (70px), line-height (1.5) * fontsize (9pt)
-		background: green;
 	}
 	.links-container {
 		opacity: 0;
@@ -823,6 +883,43 @@ moo-icon.dark {
 		transition: top 0.2s ease-out;
 	}
 }
+
+@media only screen and (max-width: 600px) {
+	.slideshow-container, .slideshow-container.active {
+		margin: 0;
+		padding: 0;
+
+		width: 100vw;
+		height: 100vh;
+		
+		display: flex;
+		flex-direction: column;
+
+		.image {
+			border: 1px solid red;
+			width: 100%;
+			max-height: 300px;
+			display: flex;
+			justify-content: center;
+		}
+		.right-side {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			margin-top: 24px;
+    		margin-bottom: 48px;
+			.desc {
+				width: 100%;
+				border: 1px solid green;
+			}
+			.tags {
+				width: 100%;
+				border: 1px solid blue;
+			}
+		}
+	}
+}
+
 
 .trash .gu-transit {
 	/*display: none;*/

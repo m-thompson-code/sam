@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'FrutigerNeueLTW01-CnMedium';
+    src: url('FrutigerNeueLTW01-CnMedium.eot');
+    src: url('FrutigerNeueLTW01-CnMedium.eot?#iefix') format('embedded-opentype'),
+        url('FrutigerNeueLTW01-CnMedium.woff2') format('woff2'),
+        url('FrutigerNeueLTW01-CnMedium.woff') format('woff'),
+        url('FrutigerNeueLTW01-CnMedium.svg#FrutigerNeueLTW01-CnMedium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FrutigerNeueW02';
+    src: url('FrutigerNeueW02-Thin.eot');
+    src: url('FrutigerNeueW02-Thin.eot?#iefix') format('embedded-opentype'),
+        url('FrutigerNeueW02-Thin.woff2') format('woff2'),
+        url('FrutigerNeueW02-Thin.woff') format('woff'),
+        url('FrutigerNeueW02-Thin.svg#FrutigerNeueW02-Thin') format('svg');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue LT Pro';
+    src: url('HelveticaNeueLTPro-Md.eot');
+    src: url('HelveticaNeueLTPro-Md.eot?#iefix') format('embedded-opentype'),
+        url('HelveticaNeueLTPro-Md.woff2') format('woff2'),
+        url('HelveticaNeueLTPro-Md.woff') format('woff'),
+        url('HelveticaNeueLTPro-Md.svg#HelveticaNeueLTPro-Md') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FrutigerNeueW02-Bd';
+    src: url('FrutigerNeueW02-Bd.eot');
+    src: url('FrutigerNeueW02-Bd.eot?#iefix') format('embedded-opentype'),
+        url('FrutigerNeueW02-Bd.woff2') format('woff2'),
+        url('FrutigerNeueW02-Bd.woff') format('woff'),
+        url('FrutigerNeueW02-Bd.svg#FrutigerNeueW02-Bd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FrutigerNeueW02-Book';
+    src: url('FrutigerNeueW02-Book.eot');
+    src: url('FrutigerNeueW02-Book.eot?#iefix') format('embedded-opentype'),
+        url('FrutigerNeueW02-Book.woff2') format('woff2'),
+        url('FrutigerNeueW02-Book.woff') format('woff'),
+        url('FrutigerNeueW02-Book.svg#FrutigerNeueW02-Book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
