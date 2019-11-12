@@ -115,11 +115,6 @@ export class AppComponent {
 
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
 	}
-	  
-	setBodyClass(classStr: string) {
-		document.body.className = classStr;
-		this.selectedFont = classStr;
-	}
 
 	ngOnInit() {
 		this.hMargin = 100;
@@ -127,8 +122,7 @@ export class AppComponent {
 		// this.test = true;
 
 		this.imageUrls = [];
-		this.imageUrls.push('https://i.ibb.co/5hD9d3W/IMG-5066.jpg');
-		this.imageUrls.push(this.href);
+		
 		this.imageUrls.push('https://ucb2d043f9b9f5e423e98de73e7b.previews.dropboxusercontent.com/p/thumb/AAmKBqHZnXtq6uGT9lEeSFOCJ3sB_kvNPknpcj9p9DDimhayx-Rhh0gJq9knqMXZY8lSdIb36HRE65jiWuDIfLpugRUY7X1FFKGNC5-oc0KuWRKRzwOKN0pDz2gzqPcx69W2Hc0M5N63p2qNGZTMiwcc6OUuJp6v6WCsHcCMSfhz9Y0ZwGwo_aAtLKfG11UVC3uwSsVfkn9G43rp1VYfQGcPskE3nllXFX9QN4yXdkclgLT91kNlXtZ_pMqya0_oHfHFG52xxt2qvvH0l9sumsNjl5jPKqVgd5XE6yeT2MXS35IES7PTGvEkPRgDab8Y1y8PKo1kvq7L2spmwcsP032eqAGUVc-ykdtc4jXVYat3FhCSvOn5I_H023Y8LlBhwl-sDYJyZPFSBbB1hda75-bdxh4gIKba5ypxd8CPqDOT2ZRBdUQZrGBCqFkOUprCvWo/p.jpeg?fv_content=true&size_mode=5');
 		this.imageUrls.push('https://uc574c2518a317cf22a98415a7c8.previews.dropboxusercontent.com/p/thumb/AAkjHtiQL8ib-DYYMHzaJcE2g4RpomV83eFLF6WM2uCzVV_gZ2gAjNXzfFFQhrkTqpEpNcWFGT8yGSSDdXLtGRvIr35b2HqEvwgejO5yiu0PucsrnL2MwIy8LviygqAt2nN8BqIPurZSeV_4DunkZ_84Bb6EgeNavg1G75odSZ1DY78Wm8qiYjWLGMgVC7GEobAHzW3LZb6JYB2gyKTDd7qti_zjuDFJn-Hb6w4XgXaslwnCxYRgVPV5ZUPdxVd2aH17M0rfOd9XsyG_8OV2qbdl0sjqmnulW2uZmiPLdcuBRtDzYN1k4qR7uQB7WfmG5qvuerHCt1kvefF2E9YQeYilVxR4GJsdinxaSuH0zYNQFdKI2JJjRojHHod9DgjVt881NwYN03cU17FKjxoqlO-1VCVST5fwvh4dnnBwnPk8S01rrgoLcfjjv8ZOii3eLGU/p.jpeg?fv_content=true&size_mode=5');
 		this.imageUrls.push('https://ucf89ce981fb8a54a0890b1ad1b2.previews.dropboxusercontent.com/p/thumb/AAlAD-VkeUcb6MKHG7D9cMTGFyDVs0YYbX1j2uudx3NSo0akU6gTOkZTcttkmqFYQn9DceKoClp_m8iy4DK2Hc8jL62aVrUZMhvbBgcl-yBNEISGI5EzvTt-x6mMjvDlUXjLnTPsjL6K191TfLgHZPMaYWQGfhOPTGEIyY82VpN9XzIf6CnMnEhefn561WR6BB2BzgIWBDn88GCE5WzUsjTX8Rv5eVQXTI4KdZwvW-h7aPO4L5e26PbCWfzKeuHpCALNpfbXrize-VeIR1GHs2GMmO8MEv8PLLNh_L2IKfx3gm5y-IVzoPCVk68icHkOPfuUeZZF-HRsq-4Xsnr_rY3OBDkt6uqZLEa2ZHkkbdjeSBgJD0DROp0al8MP5cTqr6lpOhzwYTjpAiO5ufVGd0Er4CRZP77tKbdpHdhtQf-0Wk25N1AOhMagC2v2WDxLcIg/p.jpeg?fv_content=true&size_mode=5');
@@ -138,6 +132,8 @@ export class AppComponent {
 		this.imageUrls.push('https://uc574c2518a317cf22a98415a7c8.previews.dropboxusercontent.com/p/thumb/AAkjHtiQL8ib-DYYMHzaJcE2g4RpomV83eFLF6WM2uCzVV_gZ2gAjNXzfFFQhrkTqpEpNcWFGT8yGSSDdXLtGRvIr35b2HqEvwgejO5yiu0PucsrnL2MwIy8LviygqAt2nN8BqIPurZSeV_4DunkZ_84Bb6EgeNavg1G75odSZ1DY78Wm8qiYjWLGMgVC7GEobAHzW3LZb6JYB2gyKTDd7qti_zjuDFJn-Hb6w4XgXaslwnCxYRgVPV5ZUPdxVd2aH17M0rfOd9XsyG_8OV2qbdl0sjqmnulW2uZmiPLdcuBRtDzYN1k4qR7uQB7WfmG5qvuerHCt1kvefF2E9YQeYilVxR4GJsdinxaSuH0zYNQFdKI2JJjRojHHod9DgjVt881NwYN03cU17FKjxoqlO-1VCVST5fwvh4dnnBwnPk8S01rrgoLcfjjv8ZOii3eLGU/p.jpeg?fv_content=true&size_mode=5');
 		this.imageUrls.push('https://i.ytimg.com/vi/4eoM26ZmHd0/maxresdefault.jpg');
 		this.imageUrls.push('https://i.ytimg.com/vi/eq7Adzo4QAE/maxresdefault.jpg');
+		this.imageUrls.push('https://i.ibb.co/5hD9d3W/IMG-5066.jpg');
+		this.imageUrls.push(this.href);
 
 		this.imageIndex = 0;
 
@@ -149,8 +145,6 @@ export class AppComponent {
 		
 		Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.`;
 		
-		this.setBodyClass('burin-sans');
-
 		(window as any).app = this;
 		(window as any).firebase = firebase;
 		// const drake = dragula([document.querySelector('#drakeTest')], {
