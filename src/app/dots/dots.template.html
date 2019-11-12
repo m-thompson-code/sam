@@ -1,0 +1,5 @@
+<div class="dots">
+	<div *ngFor="let item of items; let i = index" [class]="'dot' + (i === activeIndex ? ' active' :'') + (' ' + sizes[i])">
+
+	</div>
+</div>

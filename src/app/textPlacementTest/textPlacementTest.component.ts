@@ -34,35 +34,25 @@ export class TextPlacementTestComponent {
 	}
 
 	ngAfterViewInit() {
-		// console.log(this.container);
-		// console.log(this.strViewChildren);
-		
-		// setTimeout(() => {
-			this.strComponents = [];
+		this.strComponents = [];
 
-			this.strViewChildren.forEach(str => {
-				this.strComponents.push(str);
-			});
+		this.strViewChildren.forEach(str => {
+			this.strComponents.push(str);
+		});
 
-			this.getStringRows();
-			this.viewLoaded = true;
-		// }, 1);
+		this.getStringRows();
+		this.viewLoaded = true;
 	}
 
 	getStringRows() {
-		// this.viewLoaded = false;
-		// setTimeout(() => {
-			if (this.strViewChildren && this.strComponents) {
-				var y = 0, rowHeight = 0;
-				for (var i = 0; i < this.strComponents.length; i++) {
-					this.urls[i].width = this.strComponents[i].nativeElement.getBoundingClientRect().width;
-				}
+		if (this.strViewChildren && this.strComponents) {
+			var y = 0, rowHeight = 0;
+			for (var i = 0; i < this.strComponents.length; i++) {
+				this.urls[i].width = this.strComponents[i].nativeElement.getBoundingClientRect().width;
 			}
+		}
 
-			// setTimeout(() => {
-				this.viewLoaded = true;
-			// }, 1);
-		// }, 1);
+		this.viewLoaded = true;
 	}
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive

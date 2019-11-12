@@ -23,12 +23,11 @@ import { SpacedModule } from './spaced/spaced.module';
 import { MobileSpacedModule } from './mobileSpaced/mobileSpaced.module';
 import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.module';
 
-
 import { IconModule } from './icon/icon.module';
 import { ImageModule } from './image/image.module';
 import { InputModule } from './input/input.module';
 import { PreloaderModule } from './preloader/preloader.module';
-
+import { DotsModule } from './dots/dots.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +45,7 @@ import { PreloaderModule } from './preloader/preloader.module';
     InputModule,
     ImageModule,
     PreloaderModule,
+    DotsModule,
   ],
   providers: [DragulaService],
   bootstrap: [AppComponent]

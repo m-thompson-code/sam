@@ -9,11 +9,11 @@
     <a *ngFor="let font of fonts" (click)="setBodyClass(font)" [class]="selectedFont === font ? 'selected' : ''">{{ font }}</a>
 </div>
 
-<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
+<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '') + (showBackground ? ' with-background' : '')">
     <div #imageContainer class="image">
-        <moo-image [mode]="mode" [href]="imageUrls[imageIndex]" [container]="imageContainer"></moo-image>
+        <moo-image [mode]="mode" [href]="imageUrls[imageIndex]" [container]="imageContainer" (click)="showBackground = !showBackground"></moo-image>
 
-        <div class="image-navigation waves-effect waves-light" (click)="backImage()">
+        <div class="image-navigation" (click)="backImage()">
             <div class="icon-holder">
                 <div class="icon-inner">
                     <moo-icon [icon]="'navigate_back'"></moo-icon>
@@ -21,12 +21,15 @@
             </div>
         </div>
 
-        <div class="image-navigation waves-effect waves-light next" (click)="nextImage()">
+        <div class="image-navigation next" (click)="nextImage()">
             <div class="icon-holder">
                 <div class="icon-inner">
                     <moo-icon [icon]="'navigate_back'"></moo-icon>
                 </div>
             </div>
+        </div>
+        <div *ngIf="imageUrls && imageUrls.length > 1" class="dots-container">
+            <moo-dots [items]="imageUrls" [activeIndex]="imageIndex"></moo-dots>
         </div>
     </div>
     <div class="right-side">
@@ -229,8 +232,8 @@
         </div>
 
         <div (click)="centerImageFunc($event)" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
-            <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg' [src]="darkIconEncoded">
-            <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg' [src]="lightIconEncoded">
+            <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg'>
+            <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg'>
         </div>
 
         <div #container id="container" [class]="mode">
