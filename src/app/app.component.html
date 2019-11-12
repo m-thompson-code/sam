@@ -2,13 +2,6 @@
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
-<div class="fonts">
-    <div>
-        <a (click)="test = !test">Toggle test</a>
-    </div>
-    <a *ngFor="let font of fonts" (click)="setBodyClass(font)" [class]="selectedFont === font ? 'selected' : ''">{{ font }}</a>
-</div>
-
 <div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '') + (showBackground ? ' with-background' : '')">
     <div #imageContainer class="image">
         <moo-image [mode]="mode" [href]="imageUrls[imageIndex]" [container]="imageContainer" (click)="showBackground = !showBackground"></moo-image>

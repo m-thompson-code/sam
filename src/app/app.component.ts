@@ -89,16 +89,6 @@ export class AppComponent {
 	slideshowAnimate: boolean;
 	slideshowAnimateTimeout: any;
 
-	fonts: string[] = [
-		'burin-sans',
-		'FrutigerNeue',
-		'FrutigerNeueLTW01-CnMedium',
-		'FrutigerNeueW02',
-		'Helvetica-Neue-LT-Pro',
-		'FrutigerNeueW02-Bd',
-		'FrutigerNeueW02-Book'
-	];
-
 	selectedFont: string;
 
 	test: boolean;
@@ -123,13 +113,13 @@ export class AppComponent {
 
 		this.imageUrls = [];
 		
-		this.imageUrls.push('https://ucb2d043f9b9f5e423e98de73e7b.previews.dropboxusercontent.com/p/thumb/AAmKBqHZnXtq6uGT9lEeSFOCJ3sB_kvNPknpcj9p9DDimhayx-Rhh0gJq9knqMXZY8lSdIb36HRE65jiWuDIfLpugRUY7X1FFKGNC5-oc0KuWRKRzwOKN0pDz2gzqPcx69W2Hc0M5N63p2qNGZTMiwcc6OUuJp6v6WCsHcCMSfhz9Y0ZwGwo_aAtLKfG11UVC3uwSsVfkn9G43rp1VYfQGcPskE3nllXFX9QN4yXdkclgLT91kNlXtZ_pMqya0_oHfHFG52xxt2qvvH0l9sumsNjl5jPKqVgd5XE6yeT2MXS35IES7PTGvEkPRgDab8Y1y8PKo1kvq7L2spmwcsP032eqAGUVc-ykdtc4jXVYat3FhCSvOn5I_H023Y8LlBhwl-sDYJyZPFSBbB1hda75-bdxh4gIKba5ypxd8CPqDOT2ZRBdUQZrGBCqFkOUprCvWo/p.jpeg?fv_content=true&size_mode=5');
-		this.imageUrls.push('https://uc574c2518a317cf22a98415a7c8.previews.dropboxusercontent.com/p/thumb/AAkjHtiQL8ib-DYYMHzaJcE2g4RpomV83eFLF6WM2uCzVV_gZ2gAjNXzfFFQhrkTqpEpNcWFGT8yGSSDdXLtGRvIr35b2HqEvwgejO5yiu0PucsrnL2MwIy8LviygqAt2nN8BqIPurZSeV_4DunkZ_84Bb6EgeNavg1G75odSZ1DY78Wm8qiYjWLGMgVC7GEobAHzW3LZb6JYB2gyKTDd7qti_zjuDFJn-Hb6w4XgXaslwnCxYRgVPV5ZUPdxVd2aH17M0rfOd9XsyG_8OV2qbdl0sjqmnulW2uZmiPLdcuBRtDzYN1k4qR7uQB7WfmG5qvuerHCt1kvefF2E9YQeYilVxR4GJsdinxaSuH0zYNQFdKI2JJjRojHHod9DgjVt881NwYN03cU17FKjxoqlO-1VCVST5fwvh4dnnBwnPk8S01rrgoLcfjjv8ZOii3eLGU/p.jpeg?fv_content=true&size_mode=5');
-		this.imageUrls.push('https://ucf89ce981fb8a54a0890b1ad1b2.previews.dropboxusercontent.com/p/thumb/AAlAD-VkeUcb6MKHG7D9cMTGFyDVs0YYbX1j2uudx3NSo0akU6gTOkZTcttkmqFYQn9DceKoClp_m8iy4DK2Hc8jL62aVrUZMhvbBgcl-yBNEISGI5EzvTt-x6mMjvDlUXjLnTPsjL6K191TfLgHZPMaYWQGfhOPTGEIyY82VpN9XzIf6CnMnEhefn561WR6BB2BzgIWBDn88GCE5WzUsjTX8Rv5eVQXTI4KdZwvW-h7aPO4L5e26PbCWfzKeuHpCALNpfbXrize-VeIR1GHs2GMmO8MEv8PLLNh_L2IKfx3gm5y-IVzoPCVk68icHkOPfuUeZZF-HRsq-4Xsnr_rY3OBDkt6uqZLEa2ZHkkbdjeSBgJD0DROp0al8MP5cTqr6lpOhzwYTjpAiO5ufVGd0Er4CRZP77tKbdpHdhtQf-0Wk25N1AOhMagC2v2WDxLcIg/p.jpeg?fv_content=true&size_mode=5');
-		this.imageUrls.push('https://ucfc88820b1b9683e1bd22db37b0.previews.dropboxusercontent.com/p/thumb/AAmnAmwuYVimZIFUqqeKW8h_KNQkJOcvrEMnymiYJwVpDQzv8fPmSHvAie83LlVqvHX52c8Jk3hSy5HW_ozOeF76brzJZfQ5xujB-wko2je35CzIZIfIeaoCtbcZg3kvixGW-C7P-7dade7X0n1sF1GbQd0LzIoePR25u32sf6PVcWf1gjUse685_f5p2_v0xkWHoRj04B-vktq9PGa8vVcpbDSf1Gg72ufJ18deM3QgxfaUYsR7XLcimGKhadTi3OxDWQAukXXH5npa1_HEDWqeBkdZJjyzy6Ehfv9udsRLY9YDeaZ_HCqG0Z35bcqvP0WzVJ9vY7qvvJqfong4QLlb9B3DslOegjXSQc5Il1LKeQk-1vdYq2ULptwd_QQWVeNdjYY8ZDTcecAbEMcB9yEfze5CUivRpGWDESEmUMSuGZ_3VYyfzrXwI2zAoRmcZEA/p.jpeg?fv_content=true&size_mode=5');
+		this.imageUrls.push('https://i.imgur.com/NloZest.jpg');
+		this.imageUrls.push('https://i.imgur.com/8KgWsBu.jpg');
+		this.imageUrls.push('https://i.imgur.com/RlHH0i2.jpg');
+		this.imageUrls.push('https://i.imgur.com/4B3KsX2.jpg');
 		
-		this.imageUrls.push('https://ucb2d043f9b9f5e423e98de73e7b.previews.dropboxusercontent.com/p/thumb/AAmKBqHZnXtq6uGT9lEeSFOCJ3sB_kvNPknpcj9p9DDimhayx-Rhh0gJq9knqMXZY8lSdIb36HRE65jiWuDIfLpugRUY7X1FFKGNC5-oc0KuWRKRzwOKN0pDz2gzqPcx69W2Hc0M5N63p2qNGZTMiwcc6OUuJp6v6WCsHcCMSfhz9Y0ZwGwo_aAtLKfG11UVC3uwSsVfkn9G43rp1VYfQGcPskE3nllXFX9QN4yXdkclgLT91kNlXtZ_pMqya0_oHfHFG52xxt2qvvH0l9sumsNjl5jPKqVgd5XE6yeT2MXS35IES7PTGvEkPRgDab8Y1y8PKo1kvq7L2spmwcsP032eqAGUVc-ykdtc4jXVYat3FhCSvOn5I_H023Y8LlBhwl-sDYJyZPFSBbB1hda75-bdxh4gIKba5ypxd8CPqDOT2ZRBdUQZrGBCqFkOUprCvWo/p.jpeg?fv_content=true&size_mode=5');
-		this.imageUrls.push('https://uc574c2518a317cf22a98415a7c8.previews.dropboxusercontent.com/p/thumb/AAkjHtiQL8ib-DYYMHzaJcE2g4RpomV83eFLF6WM2uCzVV_gZ2gAjNXzfFFQhrkTqpEpNcWFGT8yGSSDdXLtGRvIr35b2HqEvwgejO5yiu0PucsrnL2MwIy8LviygqAt2nN8BqIPurZSeV_4DunkZ_84Bb6EgeNavg1G75odSZ1DY78Wm8qiYjWLGMgVC7GEobAHzW3LZb6JYB2gyKTDd7qti_zjuDFJn-Hb6w4XgXaslwnCxYRgVPV5ZUPdxVd2aH17M0rfOd9XsyG_8OV2qbdl0sjqmnulW2uZmiPLdcuBRtDzYN1k4qR7uQB7WfmG5qvuerHCt1kvefF2E9YQeYilVxR4GJsdinxaSuH0zYNQFdKI2JJjRojHHod9DgjVt881NwYN03cU17FKjxoqlO-1VCVST5fwvh4dnnBwnPk8S01rrgoLcfjjv8ZOii3eLGU/p.jpeg?fv_content=true&size_mode=5');
+		this.imageUrls.push('https://i.imgur.com/NloZest.jpg');
+		this.imageUrls.push('https://i.imgur.com/8KgWsBu.jpg');
 		this.imageUrls.push('https://i.ytimg.com/vi/4eoM26ZmHd0/maxresdefault.jpg');
 		this.imageUrls.push('https://i.ytimg.com/vi/eq7Adzo4QAE/maxresdefault.jpg');
 		this.imageUrls.push('https://i.ibb.co/5hD9d3W/IMG-5066.jpg');
