@@ -107,6 +107,8 @@ export class AppComponent {
 	}
 
 	ngOnInit() {
+		this.showBackground = true;
+		
 		this.hMargin = 100;
 		this.wMargin = 100;
 		// this.test = true;
@@ -250,7 +252,7 @@ export class AppComponent {
 			this.slideshowAnimateTimeout = setTimeout(() => {
 				this.slideshowAnimate = false;
 				this.showSlideshow = true;
-			}, 200);
+			}, 500);
 		} else {
 			this.showSlideshow = false;
 			setTimeout(() => {
@@ -260,7 +262,7 @@ export class AppComponent {
 			clearTimeout(this.slideshowAnimateTimeout);
 			this.slideshowAnimateTimeout = setTimeout(() => {
 				this.slideshowAnimate = false;
-			}, 600);
+			}, 1000);
 		}
 
 		if (event) {
