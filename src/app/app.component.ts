@@ -94,6 +94,8 @@ export class AppComponent {
 	test: boolean;
 
 	desc: string;
+	test_desc: string;
+	sparrow_desc: string;
 
 	imageIndex: number;
 	imageUrls: string[];
@@ -129,7 +131,7 @@ export class AppComponent {
 
 		this.imageIndex = 0;
 
-		this.desc = `Lorem ipsum dolor amet coloring book helvetica blue bottle, taxidermy aesthetic four loko gluten-free messenger bag direct trade photo booth. Four loko taxidermy disrupt raw denim mixtape pabst, selvage fashion axe meditation cardigan. Keytar hammock 90's, adaptogen deep v green juice mixtape plaid cronut live-edge farm-to-table. Copper mug gentrify tote bag, enamel pin taxidermy pug air plant ennui mumblecore flannel keytar kickstarter. Lyft marfa photo booth tofu.
+		this.test_desc = `Lorem ipsum dolor amet coloring book helvetica blue bottle, taxidermy aesthetic four loko gluten-free messenger bag direct trade photo booth. Four loko taxidermy disrupt raw denim mixtape pabst, selvage fashion axe meditation cardigan. Keytar hammock 90's, adaptogen deep v green juice mixtape plaid cronut live-edge farm-to-table. Copper mug gentrify tote bag, enamel pin taxidermy pug air plant ennui mumblecore flannel keytar kickstarter. Lyft marfa photo booth tofu.
 
 		Four dollar toast VHS jianbing biodiesel irony lyft tousled hashtag bespoke. Try-hard skateboard tilde drinking vinegar cloud bread copper mug twee mlkshk yr quinoa pinterest man bun. Activated charcoal heirloom health goth portland artisan jianbing subway tile DIY. Banh mi sustainable mumblecore echo park offal disrupt vape williamsburg butcher poutine next level direct trade kitsch craft beer semiotics. Tacos single-origin coffee leggings PBR&B selfies swag banjo dreamcatcher twee hashtag artisan umami.
 		
@@ -139,6 +141,16 @@ export class AppComponent {
 		
 		Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.`;
 		
+		this.sparrow_desc = `S P A R R O W / The unusual and modest lot size and configuration, as well as financial budgets, set the initial limitations for the scope of the project.  Due to planning restrictions, the footprint and square footage of the house had to remain the same.  Located on a unique street, the house came with all the great potential of ‘a box,’ mundane and ready for transformation. 
+
+		While the footprint remained the same, all doors were reconfigured, including moving the main entry door off the street, facilitating a more indirect approach through a new garden.  Additionally, all windows were recomposed to control and focus the admittance of light, by standardizing and shrinking all windows, while slicing open the roof down the middle for new skylights.  These simple moves create a clear contrast between the more articulated moments of light and the broad, sweeping light pouring in from above.
+   
+		All interior walls were removed to open the space, allowing for new exposed wood beams and columns, and for new ‘thickened partitions’ of functional wood cabinetry.  The assemblage of the cabinetry was made such that it could be constructed on site with standard lumber and a chop saw. 
+   
+		The exterior was clad with dark, wood boards whose black and brown textural depth transmute throughout the day and in different light conditions.  The exterior lattice, with newly planted bougainvillea, seeks to recapture some of the initial spirit of the house, which was completely covered in vines upon purchase. 
+   
+		The result is a sometimes stern, but multi-faceted exterior, with an almost unexpectedly warm, bright, and comfortable interior.  The house is small and simple, without room for stylistic and haughty gestures, but with just enough room for living.`;
+
 		(window as any).app = this;
 		(window as any).firebase = firebase;
 		// const drake = dragula([document.querySelector('#drakeTest')], {
@@ -238,13 +250,39 @@ export class AppComponent {
 		}
 	}
 
-	toggleSlideshow(event?: Event) {
+	toggleSlideshow(event?: Event, index?: number) {
+		if (event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+
+		if (index === 1) {
+			this.desc = this.sparrow_desc;
+		} else {
+			this.desc = this.test_desc;
+		}
+
 		console.log('toggleSlideshow');
 		if (this.mode === 'light') {
 			this.toggleMode();
 		}
 
 		this.slideshow = !this.slideshow;
+
+		const isMobile = window.matchMedia( "(max-width: 600px)" );
+
+		if (isMobile) {
+			if (this.slideshow) {
+				this.imageIndex = 0;
+				this.slideshowAnimate = false;
+				this.showSlideshow = true;
+			} else {
+				this.showSlideshow = false;
+				this.slideshowAnimate = false;
+			}
+			return;
+		}
+
 		if (this.slideshow) {
 			this.imageIndex = 0;
 			this.slideshowAnimate = true;
@@ -263,11 +301,6 @@ export class AppComponent {
 			this.slideshowAnimateTimeout = setTimeout(() => {
 				this.slideshowAnimate = false;
 			}, 1000);
-		}
-
-		if (event) {
-			event.preventDefault();
-			event.stopPropagation();
 		}
 	}
 

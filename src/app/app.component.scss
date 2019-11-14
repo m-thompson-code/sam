@@ -834,8 +834,24 @@ moo-icon.dark {
 			padding: 0;
 			// END ionic's styles for lists
 		}
-		// .tags {
-		// }
+		.tags {
+			color: white;
+			.tag {
+				margin-top: 7pt;
+
+				a {
+					color: white;
+					text-decoration: underline;
+					transition: color 0.5s;
+					cursor: pointer;
+				}
+
+				a:not(:focus):not(:active):hover {
+					transition: color 2s;
+					color: black;
+				}
+			}
+		}
 	}
 }
 
@@ -907,31 +923,79 @@ moo-icon.dark {
 		display: flex;
 		flex-direction: column;
 
+		overflow-y: auto;
+
+		// source: https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
+		// overflow-y: scroll; /* has to be scroll, not auto */
+		// -webkit-overflow-scrolling: touch;
+		
+		// ionic's styles for lists
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+		// overflow: hidden;
+		touch-action: manipulation;
+		-webkit-user-drag: none;
+		-ms-content-zooming: none;
+		// word-wrap: break-word;
+		// overscroll-behavior-y: none;
+		text-size-adjust: none;
+		margin: 0;
+		padding: 0;
+		// END ionic's styles for lists
+
 		.image {
-			border: 1px solid red;
 			width: 100%;
-			max-height: 300px;
-			display: flex;
+			height: 100%;
+			max-height: none;
 			justify-content: center;
+			overflow: visible;
 		}
 		.right-side {
+
 			width: 100%;
 			margin: 0;
 			padding: 0;
 			margin-top: 24px;
-    		margin-bottom: 48px;
+			margin-bottom: 24px;
+			display: block;
+			overflow: visible;
+
 			.desc {
 				width: 100%;
-				border: 1px solid green;
+				overflow: visible;
+				// border: 1px solid green;
+				margin: 0 7pt;
+				width: calc(100% - 14pt);
 			}
+
 			.tags {
 				width: 100%;
-				border: 1px solid blue;
+				// border: 1px solid blue;
+				margin: 0 7pt;
+				width: calc(100% - 14pt);
 			}
 		}
 	}
-}
 
+	.center-image {
+		top: 50%;
+	}
+	.slideshow.center-image {
+		transition: opacity 1s ease-out;
+		opacity: 0;
+		top: 50%;
+	}
+	.slideshow-animate.slideshow.center-image {
+		transition: opacity 1s ease-out;
+		opacity: 0;
+		top: 50%;
+	}
+	.slideshow-animate.center-image {
+		transition: opacity 0.5s ease-out;
+		opacity: 1;
+		top: 50%;
+	}
+}
 
 .trash .gu-transit {
 	/*display: none;*/
