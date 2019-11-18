@@ -26,8 +26,8 @@
         </div>
     </div>
     <div [class]="'right-side helvetica' + (activeProject.imageUrls && activeProject.imageUrls.length ? ' with-images' : '')">
-        <div class="desc">{{ activeProject.desc }}</div>
-        
+        <div class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}</div>
+
         <div *ngIf="activeProject.tags && activeProject.tags.length" class="tags">
             <div *ngFor="let tag of activeProject.tags" class="tag">
                 <span class="burin-sans">{{ tag.text }}&nbsp;:&nbsp;</span>
@@ -41,10 +41,6 @@
                     </ng-container>
                 </ng-container>
             </div>
-<!-- 
-            <div class="tag"><span>STATUS : </span> <span>COMPLETED, 2016</span></div>
-            <div class="tag"><span>PRESS : </span> <a #a2 href="https://www.dwell.com/article/a-designer-completely-transforms-a-little-1950s-house-with-dollar125k-a5e9d1d6" (click)="a2.blur(); getActive(a2)" (mouseleave)="getNotActive(a2)">DWELL</a>, <a #a3 href="https://www.archdaily.com/885687/sparrow-house-samantha-mink" (click)="a3.blur(); getActive(a3)" (mouseleave)="getNotActive(a3)">ARCH DAILY</a></div>
-            <div class="tag"><span>SPECIAL THANKS TO : </span><span>ROGELIO MARTINEZ and his son ROGELIO who, with all their wit and grit, helped to bring this project to life.</span></div> -->
         </div>
     </div>
 </div>
@@ -83,10 +79,7 @@
 <div *ngIf="loggedIn && showManagement" [class]="'management-wrapper ' + mode">
     <div [class]="'fixed-action-btn ' + mode" (click)="save()">
         <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode">
-            <!-- <i class="material-icons">add</i> -->
-            <!-- <div class="waves-effect editable-button"> -->
-                <moo-icon [icon]="'upload'"></moo-icon>
-            <!-- </div> -->
+            <moo-icon [icon]="'upload'"></moo-icon>
         </a>
     </div>
 
@@ -172,14 +165,6 @@
                                     <moo-input [mode]="mode" [text]="url.text" [label]="'Footer item'" [textIsInvalidFuncs]="[isEmptyFooter]" (valueChanged)="url.text = $event"></moo-input>
                                     <moo-input [mode]="mode" [text]="url.href" [label]="'Footer url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
                                 </div>
-                                <!-- <div class="editable-buttons">
-                                    <div [class]="'waves-effect editable-button ' + (mode==='dark' ? 'waves-light' : '')">
-                                        <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
-                                    </div>
-                                    <div [class]="'waves-effect editable-button ' + (mode==='dark' ? 'waves-light' : '')">
-                                        <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -257,15 +242,6 @@
 
             <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
                 <ng-container *ngFor="let url of urls; let j = index">
-                    <!-- <a *ngIf="j === 0" (click)="toggleSlideshow($event, 0)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                    </a>
-                    <a *ngIf="j === 1" (click)="toggleSlideshow($event, 1)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                    </a>
-                    <a *ngIf="j !== 0 && j !== 1" #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                    </a> -->
                     <a *ngIf="url.useSlideshow" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(a)">
                         <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
                     </a>
@@ -306,15 +282,6 @@
                 <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'" [style.margin-bottom]="'14pt'">
                 <ng-container *ngFor="let url of urlRow; let j = index">
                     <!-- "" -->
-                    <!-- <a *ngIf="j === 0" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, 0)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
-                    </a>
-                    <a *ngIf="j === 1" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, 1)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
-                    </a>
-                    <a *ngIf="j !== 0 && j !== 1" #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
-                    </a> -->
                     <a *ngIf="url.useSlideshow" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
                         <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
                     </a>
