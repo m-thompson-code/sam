@@ -10,18 +10,6 @@
     flex-direction: row;
 }
 
-.test-page {
-	font-size: 16px;
-	overflow: auto;
-	height: 100vh;
-	width: 100vw;
-	.test-page-container {
-		// height: 100%;
-		// width: 100%;
-		margin-bottom: 64px;
-	}
-}
-
 .management-options-container {
 	width: 300px;
 	// height: 20px;
@@ -118,23 +106,6 @@
 
 .tips-container.dark {
 	color: white;
-}
-
-.btn-large {
-	line-height: 0;// Fixes the svg not being center
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	fill: white;
-}
-
-.btn-flat:hover, .btn-flat.dark {
-	color: white;
-}
-
-moo-icon.dark {
-	color: white;
-	fill: white;
 }
 
 .editables {
@@ -328,11 +299,6 @@ moo-icon.dark {
 	opacity: 1;
 }
 
-.poem {
-	opacity: 0;
-	transition: opacity .5s;
-}
-
 .poem.light {
 	opacity: 1;
 }
@@ -355,6 +321,9 @@ moo-icon.dark {
 }
 
 .poem {
+	opacity: 0;
+	transition: opacity .5s;
+
 	color: black;
 	width: 33.3333333%;
     text-align: justify;
@@ -429,9 +398,9 @@ moo-icon.dark {
 	color: white;
 }
 
-.title-vert-1 {
-	/*margin-top: 14pt;*/
-}
+// .title-vert-1 {
+// 	/*margin-top: 14pt;*/
+// }
 
 .title-vert-2 {
 	bottom: 0;
@@ -997,15 +966,4 @@ moo-icon.dark {
 		opacity: 1;
 		top: 50%;
 	}
-}
-
-.trash .gu-transit {
-	/*display: none;*/
-	position: absolute;
-	top: 0;
-	right: 0;
-	z-index: 1000;
-	opacity: .9;
-	width: 48px;
-	height: 48px;
 }

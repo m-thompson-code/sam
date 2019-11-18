@@ -2,6 +2,23 @@
   width: 4px;
 }
 
+.btn-large {
+	line-height: 0;// Fixes the svg not being center
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	fill: white;
+}
+
+.btn-flat:hover, .btn-flat.dark {
+	color: white;
+}
+
+moo-icon.dark {
+	color: white;
+	fill: white;
+}
+
 /* Track */
 // ::-webkit-scrollbar-track {
 //   // border-radius: 2px;
@@ -272,10 +289,10 @@ p.center {
       transform: rotate(90deg);
   }
 
-/*	.vertical-image-placeholder {
-      width: 10px;
-      height: 10px;
-  }*/
+  // .vertical-image-placeholder {
+  //   width: 10px;
+  //   height: 10px;
+  // }
 
   .management-wrapper {
     height: 100vw !important;
@@ -328,3 +345,15 @@ p.center {
   filter: alpha(opacity=20);
 }
 /* END Dragula CSS */
+
+
+.trash .gu-transit {
+	/*display: none;*/
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+	opacity: .9;
+	width: 48px;
+	height: 48px;
+}

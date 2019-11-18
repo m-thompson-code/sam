@@ -18,36 +18,49 @@ firebase.initializeApp(firebaseConfig);
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppService } from './app.service';
 
-import { SpacedModule } from './spaced/spaced.module';
-import { MobileSpacedModule } from './mobileSpaced/mobileSpaced.module';
-import { TextPlacementTestModule } from './textPlacementTest/textPlacementTest.module';
 
-import { IconModule } from './icon/icon.module';
-import { ImageModule } from './image/image.module';
-import { InputModule } from './input/input.module';
-import { PreloaderModule } from './preloader/preloader.module';
-import { DotsModule } from './dots/dots.module';
+import { SpacedModule } from './components/spaced/spaced.module';
+import { MobileSpacedModule } from './components/mobileSpaced/mobileSpaced.module';
+import { TextPlacementTestModule } from './components/textPlacementTest/textPlacementTest.module';
+
+import { IconModule } from './components/icon/icon.module';
+import { ImageModule } from './components/image/image.module';
+import { InputModule } from './components/input/input.module';
+import { PreloaderModule } from './components/preloader/preloader.module';
+import { DotsModule } from './components/dots/dots.module';
+
+import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    DragulaModule.forRoot(),
-    BrowserModule,
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        AppRoutingModule,
 
-    SpacedModule,
-    MobileSpacedModule,
-    TextPlacementTestModule,
+        DragulaModule.forRoot(),
+        BrowserModule,
 
-    IconModule,
-    InputModule,
-    ImageModule,
-    PreloaderModule,
-    DotsModule,
-  ],
-  providers: [DragulaService],
-  bootstrap: [AppComponent]
+        SpacedModule,
+        MobileSpacedModule,
+        TextPlacementTestModule,
+
+        IconModule,
+        InputModule,
+        ImageModule,
+        PreloaderModule,
+        DotsModule,
+    ],
+    providers: [
+        DragulaService,
+        CanDeactivateGuard,
+
+        AppService
+    ],
+    bootstrap: [
+        AppComponent
+    ]
 })
 export class AppModule { }

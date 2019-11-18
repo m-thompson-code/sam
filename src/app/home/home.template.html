@@ -1,3 +1,4 @@
+
 <ng-container *ngIf="loading || saving || authPending">
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
@@ -231,13 +232,13 @@
         <div *ngIf="!showSlideshow" class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
             <div class="wrapper-with-margins">
             <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans' + (test ? ' test' : '')">
-                <div *ngFor="let char of header1.split('')">{{ char }}</div>
+                <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
                 <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
             </div>
 
             <div [class]="'center-horizontal justify-vert title-vert title-vert-2 burin-sans' + (test ? ' test' : '')">
                 <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-                <div *ngFor="let char of header2.split('')">{{ char }}</div>
+                <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
             </div>
 
             <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
@@ -266,7 +267,7 @@
 
             <div [class]="'center-vert title title-1 burin-sans' + (test ? ' test' : '')">
                 <div>
-                <span *ngFor="let char of header1.split('')">{{ char }}</span>
+                <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
                 <span class="image-placeholder"></span>
                 </div>
             </div>
@@ -274,7 +275,7 @@
             <div [class]="'center-vert title title-2 burin-sans' + (test ? ' test' : '')">
                 <div>
                 <span class="image-placeholder"></span>
-                <span *ngFor="let char of header2.split('')">{{ char }}</span>
+                <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>
                 </div>
             </div>
 
@@ -326,3 +327,4 @@
 
 <div #backgroundImageHolder class="background-image-holder">
 </div>
+    
