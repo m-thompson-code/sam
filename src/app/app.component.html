@@ -2,11 +2,11 @@
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
-<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '') + (showBackground ? ' with-background' : '')">
-    <div #imageContainer class="image">
-        <moo-image [mode]="mode" [href]="imageUrls[imageIndex]" [container]="imageContainer" (click)="showBackground = !showBackground"></moo-image>
+<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
+    <div *ngIf="activeProject.imageUrls && activeProject.imageUrls.length" #imageContainer class="image">
+        <moo-image [mode]="mode" [href]="activeProject.imageUrls[imageIndex]" [container]="imageContainer"></moo-image>
 
-        <div class="image-navigation" (click)="backImage()">
+        <div *ngIf="activeProject.imageUrls && activeProject.imageUrls.length > 1" class="image-navigation" (click)="backImage()">
             <div class="icon-holder">
                 <div class="icon-inner">
                     <moo-icon [icon]="'navigate_back'"></moo-icon>
@@ -14,29 +14,39 @@
             </div>
         </div>
 
-        <div class="image-navigation next" (click)="nextImage()">
+        <div *ngIf="activeProject.imageUrls && activeProject.imageUrls.length > 1" class="image-navigation next" (click)="nextImage()">
             <div class="icon-holder">
                 <div class="icon-inner">
                     <moo-icon [icon]="'navigate_back'"></moo-icon>
                 </div>
             </div>
         </div>
-        <div *ngIf="imageUrls && imageUrls.length > 1" class="dots-container">
-            <moo-dots [items]="imageUrls" [activeIndex]="imageIndex"></moo-dots>
+        <div *ngIf="activeProject.imageUrls && activeProject.imageUrls.length > 1" class="dots-container">
+            <moo-dots [items]="activeProject.imageUrls" [activeIndex]="imageIndex"></moo-dots>
         </div>
     </div>
-    <div class="right-side">
-        <div class="desc">
-            P R O J E C T&nbsp;&nbsp;&nbsp;&nbsp;D E S C R I P T I O N&nbsp;&nbsp;&nbsp;&nbsp;{{ desc }}
-        </div>
-        <div class="tags">
-            <div class="tag"><span>STATUS : </span> <span>COMPLETED, 2016</span></div>
-            <div class="tag"><span>CONSULTANTS : </span> <a #a1 href="https://www.cwhowe.com/" (click)="a1.blur(); getActive(a1)" (mouseleave)="getNotActive(a1)">C.W. HOWE PARTNERS (structural engineering)</a></div>
-            <div class="tag"><span>PRESS : </span> <a #a2 href="https://www.dwell.com/article/a-designer-completely-transforms-a-little-1950s-house-with-dollar125k-a5e9d1d6" (click)="a2.blur(); getActive(a2)" (mouseleave)="getNotActive(a2)">DWELL</a>, <a #a3 href="https://www.archdaily.com/885687/sparrow-house-samantha-mink" (click)="a3.blur(); getActive(a3)" (mouseleave)="getNotActive(a3)">ARCH DAILY</a></div>
-            <div class="tag"><span>SPECIAL THANKS TO : </span><span>ROGELIO MARTINEZ and his son ROGELIO who, with all their wit and grit, helped to bring this project to life.</span></div>
-        </div>
-    </div>
+    <div [class]="'right-side helvetica' + (activeProject.imageUrls && activeProject.imageUrls.length ? ' with-images' : '')">
+        <div class="desc">{{ activeProject.desc }}</div>
         
+        <div *ngIf="activeProject.tags && activeProject.tags.length" class="tags">
+            <div *ngFor="let tag of activeProject.tags" class="tag">
+                <span class="burin-sans">{{ tag.text }}&nbsp;:&nbsp;</span>
+                <ng-container *ngIf="tag.elements && tag.elements.length">
+                    <ng-container *ngFor="let element of tag.elements; let i = index">
+                        <a *ngIf="element.href" #aTag [href]="element.href" (click)="aTag.blur(); getActive(aTag)"[target]="!element.href || element.href.indexOf('mailto:') !== -1 || element.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(aTag)">{{ element.text }}</a>
+                        <span *ngIf="!element.href">{{ element.text }}</span>
+                        <ng-container *ngIf="i !== tag.elements.length - 1">
+                            <span class="burin-sans"> / </span>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </div>
+<!-- 
+            <div class="tag"><span>STATUS : </span> <span>COMPLETED, 2016</span></div>
+            <div class="tag"><span>PRESS : </span> <a #a2 href="https://www.dwell.com/article/a-designer-completely-transforms-a-little-1950s-house-with-dollar125k-a5e9d1d6" (click)="a2.blur(); getActive(a2)" (mouseleave)="getNotActive(a2)">DWELL</a>, <a #a3 href="https://www.archdaily.com/885687/sparrow-house-samantha-mink" (click)="a3.blur(); getActive(a3)" (mouseleave)="getNotActive(a3)">ARCH DAILY</a></div>
+            <div class="tag"><span>SPECIAL THANKS TO : </span><span>ROGELIO MARTINEZ and his son ROGELIO who, with all their wit and grit, helped to bring this project to life.</span></div> -->
+        </div>
+    </div>
 </div>
 
 <div *ngIf="!loggedIn && showLogin" [class]="'sign-in ' + mode">
@@ -119,10 +129,10 @@
                                 </div>
                                 <div class="inputs">
                                     <moo-input [mode]="mode" [text]="url.text" [label]="'Project name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="url.text = $event"></moo-input>
-                                    <ng-container *ngIf="!url.advanced">
+                                    <ng-container *ngIf="!url.useSlideshow">
                                         <moo-input [mode]="mode" [text]="url.href" [label]="'Project url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="url.href = $event"></moo-input>
                                     </ng-container>
-                                    <ng-container *ngIf="url.advanced">
+                                    <ng-container *ngIf="url.useSlideshow">
                                         <a (click)="setAdvanceEdit(i)">Click here to edit this project</a>
                                     </ng-container>
                                 </div>
@@ -247,13 +257,19 @@
 
             <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
                 <ng-container *ngFor="let url of urls; let j = index">
-                    <a *ngIf="j === 0" (click)="toggleSlideshow($event, 0)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                    <!-- <a *ngIf="j === 0" (click)="toggleSlideshow($event, 0)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
                         <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
                     </a>
                     <a *ngIf="j === 1" (click)="toggleSlideshow($event, 1)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
                         <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
                     </a>
                     <a *ngIf="j !== 0 && j !== 1" #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                    </a> -->
+                    <a *ngIf="url.useSlideshow" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(a)">
+                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                    </a>
+                    <a *ngIf="!url.useSlideshow" #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
                         <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
                     </a>
                 </ng-container>
@@ -290,13 +306,19 @@
                 <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'" [style.margin-bottom]="'14pt'">
                 <ng-container *ngFor="let url of urlRow; let j = index">
                     <!-- "" -->
-                    <a *ngIf="j === 0" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, 0)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                    <!-- <a *ngIf="j === 0" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, 0)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
                         <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
                     </a>
                     <a *ngIf="j === 1" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, 1)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
                         <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
                     </a>
                     <a *ngIf="j !== 0 && j !== 1" #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                    </a> -->
+                    <a *ngIf="url.useSlideshow" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                    </a>
+                    <a *ngIf="!url.useSlideshow" #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
                         <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
                     </a>
                 </ng-container>

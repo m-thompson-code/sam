@@ -50,54 +50,58 @@
   font-family: BurinSansStd, Helvetica, sans-serif;
 }
 
-.FrutigerNeue {
-  font-family: FrutigerNeue, Helvetica, sans-serif;
+.helvetica {
+  font-family: Helvetica, sans-serif;
 }
 
-.FrutigerNeueLTW01-CnMedium {
-  font-family: FrutigerNeueLTW01-CnMedium, Helvetica, sans-serif;
-}
+// .FrutigerNeue {
+//   font-family: FrutigerNeue, Helvetica, sans-serif;
+// }
 
-.FrutigerNeueW02 {
-  font-family: FrutigerNeueW02, Helvetica, sans-serif;
-}
+// .FrutigerNeueLTW01-CnMedium {
+//   font-family: FrutigerNeueLTW01-CnMedium, Helvetica, sans-serif;
+// }
 
-.Helvetica-Neue-LT-Pro {
-  font-family: Helvetica Neue LT Pro, Helvetica, sans-serif;
-}
+// .FrutigerNeueW02 {
+//   font-family: FrutigerNeueW02, Helvetica, sans-serif;
+// }
 
-.FrutigerNeueW02-Bd {
-  font-family: FrutigerNeueW02-Bd, Helvetica, sans-serif;
-}
+// .Helvetica-Neue-LT-Pro {
+//   font-family: Helvetica Neue LT Pro, Helvetica, sans-serif;
+// }
 
-.FrutigerNeueW02-Book {
-  font-family: FrutigerNeueW02-Book, Helvetica, sans-serif;
-}
+// .FrutigerNeueW02-Bd {
+//   font-family: FrutigerNeueW02-Bd, Helvetica, sans-serif;
+// }
 
-.fonts {
-  padding:24px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 10000000;
-  a {
-    cursor: pointer;
-    color: white;
-    margin-right:24px;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  a.selected {
-    text-decoration: underline;
-  }
-}
+// .FrutigerNeueW02-Book {
+//   font-family: FrutigerNeueW02-Book, Helvetica, sans-serif;
+// }
+
+// .fonts {
+//   padding:24px;
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   z-index: 10000000;
+//   a {
+//     cursor: pointer;
+//     color: white;
+//     margin-right:24px;
+//   }
+//   a:hover {
+//     text-decoration: underline;
+//   }
+//   a.selected {
+//     text-decoration: underline;
+//   }
+// }
 
 body {
   -webkit-font-smoothing: antialiased;
 
-  // font-family: BurinSansStd, Helvetica, sans-serif;
-  font-family: Helvetica, BurinSansStd, sans-serif;
+  font-family: BurinSansStd, Helvetica, sans-serif;
+  // font-family: Helvetica, BurinSansStd, sans-serif;
   
   margin: 0;
   padding: 0;

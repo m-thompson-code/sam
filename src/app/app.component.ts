@@ -14,6 +14,31 @@ import * as dragula from 'dragula';
 
 declare var M;
 
+export interface TagElement {
+	text: string;
+	href?: string;
+}
+
+export interface Tag {
+	text: string;
+	elements: TagElement[];
+}
+
+export interface DBProject {
+	text: string; // Dispaly text
+	href: string; // Href on click
+	useSlideshow: boolean; // Use slideshow instead of href on click
+	imageUrls: string[];
+	desc: string;
+	tags: Tag[];
+}
+
+export interface Project extends DBProject {
+	width: number; // Width of text
+	margin: number; // ?
+	marginRight: number; // ?
+}
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -35,7 +60,7 @@ export class AppComponent {
 	topUrls: any;
 	bottomUrls: any;
 
-	urls: any[];
+	urls: Project[];
 
 	urlFontSize: number;
 
@@ -46,7 +71,7 @@ export class AppComponent {
 	h: number;
 	w: number;
 
-	footerUrls: any[];
+	footerUrls: Project[];
 
 	showPoem: boolean;
 
@@ -93,63 +118,36 @@ export class AppComponent {
 
 	test: boolean;
 
-	desc: string;
-	test_desc: string;
-	sparrow_desc: string;
-
 	imageIndex: number;
-	imageUrls: string[];
 
 	hMargin: number;
 	wMargin: number;
 
-	showBackground: boolean;
+	activeProject: Project;
 
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
 	}
 
 	ngOnInit() {
-		this.showBackground = true;
-		
 		this.hMargin = 100;
 		this.wMargin = 100;
 		// this.test = true;
 
-		this.imageUrls = [];
+		// this.imageUrls = [];
 		
-		this.imageUrls.push('https://i.imgur.com/NloZest.jpg');
-		this.imageUrls.push('https://i.imgur.com/8KgWsBu.jpg');
-		this.imageUrls.push('https://i.imgur.com/RlHH0i2.jpg');
-		this.imageUrls.push('https://i.imgur.com/4B3KsX2.jpg');
+		// this.imageUrls.push('https://i.imgur.com/NloZest.jpg');
+		// this.imageUrls.push('https://i.imgur.com/8KgWsBu.jpg');
+		// this.imageUrls.push('https://i.imgur.com/RlHH0i2.jpg');
+		// this.imageUrls.push('https://i.imgur.com/4B3KsX2.jpg');
 		
-		this.imageUrls.push('https://i.imgur.com/NloZest.jpg');
-		this.imageUrls.push('https://i.imgur.com/8KgWsBu.jpg');
-		this.imageUrls.push('https://i.ytimg.com/vi/4eoM26ZmHd0/maxresdefault.jpg');
-		this.imageUrls.push('https://i.ytimg.com/vi/eq7Adzo4QAE/maxresdefault.jpg');
-		this.imageUrls.push('https://i.ibb.co/5hD9d3W/IMG-5066.jpg');
-		this.imageUrls.push(this.href);
+		// this.imageUrls.push('https://i.imgur.com/NloZest.jpg');
+		// this.imageUrls.push('https://i.imgur.com/8KgWsBu.jpg');
+		// this.imageUrls.push('https://i.ytimg.com/vi/4eoM26ZmHd0/maxresdefault.jpg');
+		// this.imageUrls.push('https://i.ytimg.com/vi/eq7Adzo4QAE/maxresdefault.jpg');
+		// this.imageUrls.push('https://i.ibb.co/5hD9d3W/IMG-5066.jpg');
+		// this.imageUrls.push(this.href);
 
 		this.imageIndex = 0;
-
-		this.test_desc = `Lorem ipsum dolor amet coloring book helvetica blue bottle, taxidermy aesthetic four loko gluten-free messenger bag direct trade photo booth. Four loko taxidermy disrupt raw denim mixtape pabst, selvage fashion axe meditation cardigan. Keytar hammock 90's, adaptogen deep v green juice mixtape plaid cronut live-edge farm-to-table. Copper mug gentrify tote bag, enamel pin taxidermy pug air plant ennui mumblecore flannel keytar kickstarter. Lyft marfa photo booth tofu.
-
-		Four dollar toast VHS jianbing biodiesel irony lyft tousled hashtag bespoke. Try-hard skateboard tilde drinking vinegar cloud bread copper mug twee mlkshk yr quinoa pinterest man bun. Activated charcoal heirloom health goth portland artisan jianbing subway tile DIY. Banh mi sustainable mumblecore echo park offal disrupt vape williamsburg butcher poutine next level direct trade kitsch craft beer semiotics. Tacos single-origin coffee leggings PBR&B selfies swag banjo dreamcatcher twee hashtag artisan umami.
-		
-		Put a bird on it health goth palo santo twee plaid helvetica. Forage offal sriracha blue bottle hammock edison bulb post-ironic raclette fanny pack succulents copper mug skateboard. Keffiyeh lo-fi gastropub art party pour-over messenger bag wayfarers waistcoat live-edge cred pok pok fingerstache. Plaid try-hard kickstarter cray food truck chillwave affogato hoodie prism artisan tumblr skateboard fam yuccie. Chia bushwick meditation, vaporware shabby chic live-edge you probably haven't heard of them. Chicharrones cardigan disrupt succulents. Tousled gastropub yr shaman, waistcoat chicharrones meh iPhone.
-		
-		Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.
-		
-		Subway tile portland raw denim, authentic thundercats gochujang pitchfork intelligentsia. Cloud bread vaporware paleo blog biodiesel, 8-bit wolf letterpress mustache YOLO jean shorts. Hella succulents banh mi roof party pop-up kickstarter 90's, affogato austin cold-pressed gastropub. Lumbersexual la croix seitan, church-key meditation occupy blue bottle drinking vinegar four loko subway tile skateboard. Readymade roof party offal, man bun brooklyn jean shorts la croix unicorn.`;
-		
-		this.sparrow_desc = `S P A R R O W / The unusual and modest lot size and configuration, as well as financial budgets, set the initial limitations for the scope of the project.  Due to planning restrictions, the footprint and square footage of the house had to remain the same.  Located on a unique street, the house came with all the great potential of ‘a box,’ mundane and ready for transformation. 
-
-		While the footprint remained the same, all doors were reconfigured, including moving the main entry door off the street, facilitating a more indirect approach through a new garden.  Additionally, all windows were recomposed to control and focus the admittance of light, by standardizing and shrinking all windows, while slicing open the roof down the middle for new skylights.  These simple moves create a clear contrast between the more articulated moments of light and the broad, sweeping light pouring in from above.
-   
-		All interior walls were removed to open the space, allowing for new exposed wood beams and columns, and for new ‘thickened partitions’ of functional wood cabinetry.  The assemblage of the cabinetry was made such that it could be constructed on site with standard lumber and a chop saw. 
-   
-		The exterior was clad with dark, wood boards whose black and brown textural depth transmute throughout the day and in different light conditions.  The exterior lattice, with newly planted bougainvillea, seeks to recapture some of the initial spirit of the house, which was completely covered in vines upon purchase. 
-   
-		The result is a sometimes stern, but multi-faceted exterior, with an almost unexpectedly warm, bright, and comfortable interior.  The house is small and simple, without room for stylistic and haughty gestures, but with just enough room for living.`;
 
 		(window as any).app = this;
 		(window as any).firebase = firebase;
@@ -238,7 +236,7 @@ export class AppComponent {
 
 	nextImage() {
 		this.imageIndex += 1;
-		if (this.imageIndex > this.imageUrls.length - 1) {
+		if (this.imageIndex > this.activeProject.imageUrls.length - 1) {
 			this.imageIndex = 0;
 		}
 	}
@@ -246,21 +244,17 @@ export class AppComponent {
 	backImage() {
 		this.imageIndex -= 1;
 		if (this.imageIndex < 0) {
-			this.imageIndex = this.imageUrls.length - 1;
+			this.imageIndex = this.activeProject.imageUrls.length - 1;
 		}
 	}
 
-	toggleSlideshow(event?: Event, index?: number) {
+	toggleSlideshow(event?: Event, activeProject?: Project) {
 		if (event) {
 			event.preventDefault();
 			event.stopPropagation();
 		}
 
-		if (index === 1) {
-			this.desc = this.sparrow_desc;
-		} else {
-			this.desc = this.test_desc;
-		}
+		this.activeProject = activeProject;
 
 		console.log('toggleSlideshow');
 		if (this.mode === 'light') {
@@ -269,19 +263,19 @@ export class AppComponent {
 
 		this.slideshow = !this.slideshow;
 
-		const isMobile = window.matchMedia( "(max-width: 600px)" );
+		// const isMobile = window.matchMedia( "(max-width: 600px)" );
 
-		if (isMobile) {
-			if (this.slideshow) {
-				this.imageIndex = 0;
-				this.slideshowAnimate = false;
-				this.showSlideshow = true;
-			} else {
-				this.showSlideshow = false;
-				this.slideshowAnimate = false;
-			}
-			return;
-		}
+		// if (isMobile) {
+		// 	if (this.slideshow) {
+		// 		this.imageIndex = 0;
+		// 		this.slideshowAnimate = false;
+		// 		this.showSlideshow = true;
+		// 	} else {
+		// 		this.showSlideshow = false;
+		// 		this.slideshowAnimate = false;
+		// 	}
+		// 	return;
+		// }
 
 		if (this.slideshow) {
 			this.imageIndex = 0;
@@ -380,14 +374,14 @@ export class AppComponent {
 		// 	}
 		// }));
 
-		promises.push(firebase.database().ref('prod').once('value').then(appSnapshot => {
-			if (!appSnapshot.exists()) {
-				console.error("Unexpected error. AppSnapshot missing");
-				// M.toast({html: "Unexpected error", displayLength: 1250});
+		promises.push(firebase.database().ref('prod').once('value').then(snapshot => {
+			if (!snapshot.exists()) {
+				console.error("Unexpected error. snapshot missing");
+				M.toast({html: "Unexpected error", displayLength: 1250});
 				return;
 			}
 
-			const app =  appSnapshot.val();
+			const app =  snapshot.val();
 			console.log(app);
 
 			var urls = app.projects;
@@ -398,13 +392,41 @@ export class AppComponent {
 
 			if (urls && urls.length) {
 				for (var i = 0; i < urls.length; i++) {
-					this.urls.push({width: 0, text: urls[i].text, href: urls[i].href});
+					const url: DBProject = urls[i];
+
+					this.urls.push({
+						width: 0, 
+						text: url.text, 
+						href: url.href,
+						imageUrls: url.imageUrls || [],
+						useSlideshow: url.useSlideshow || false,
+						desc: url.desc || "",
+						tags: url.tags || [],
+
+						// In app attributes
+						margin: 0,
+						marginRight: 0,
+					});
 				}
 			}
 
 			if (footerUrls && footerUrls.length) {
 				for (var i = 0; i < footerUrls.length; i++) {
-					this.footerUrls.push({width: 0, text: footerUrls[i].text, href: footerUrls[i].href});
+					const footerUrl: DBProject = footerUrls[i];
+
+					this.footerUrls.push({
+						width: 0, 
+						text: footerUrl.text, 
+						href: footerUrl.href,
+						imageUrls: footerUrl.imageUrls || [],
+						useSlideshow: footerUrl.useSlideshow || false,
+						desc: footerUrl.desc || "",
+						tags: footerUrl.tags || [],
+
+						// In app attributes
+						margin: 0,
+						marginRight: 0,
+					});
 				}
 			}
 		}));
@@ -722,8 +744,23 @@ export class AppComponent {
 		this.activeManagementOption = option;
 	}
 
+	getNewProject(): Project {
+		return {
+			text: "",
+			href: "",
+			useSlideshow: false,
+			desc: "",
+			imageUrls: [],
+			tags: [],
+
+			width: 0,
+			margin: 0,
+			marginRight: 0,
+		}
+	}
+
 	insertProject(index: number) {
-		this.urls.splice(index + 1, 0, [{width: 0, text: "", href: ""}]);
+		this.urls.splice(index + 1, 0, this.getNewProject());
 		M.toast({html: `New project added, #${index + 2}`, displayLength: 1250});
 
 	}
@@ -731,7 +768,7 @@ export class AppComponent {
 	removeProject(index: number) {
 		const url = this.urls[index];
 
-		const urlIsEmpty = !url.text || !url.href;
+		const urlIsEmpty = !url.text || !url.href;// TODO: update to handle advance
 
 		if (urlIsEmpty || confirm(`Are you sure you want to remove the project "${url.text}"?`)) {
 			console.log(this.urls[index]);
@@ -747,7 +784,7 @@ export class AppComponent {
 	}
 
 	toggleAdvancedProject(index: number) {
-		this.urls[index].advanced = !this.urls[index].advanced;
+		this.urls[index].useSlideshow = !this.urls[index].useSlideshow;
 	}
 
 	setAdvanceEdit(index: number) {
@@ -828,25 +865,25 @@ export class AppComponent {
 
 		this.saving = true;
 
-		const projects = [];
-		const footers = [];
+		// const projects = [];
+		// const footers = [];
 
 		const app = {
-			projects: projects,
-			footers: footers
+			projects: this.urls || [],
+			footers: this.footerUrls || [],
 		};
 
-		if (this.urls && this.urls.length) {
-			for (var i = 0; i < this.urls.length; i++) {
-				projects.push({text: this.urls[i].text, href: this.urls[i].href});
-			}
-		}
+		// if (this.urls && this.urls.length) {
+		// 	for (var i = 0; i < this.urls.length; i++) {
+		// 		projects.push({text: this.urls[i].text, href: this.urls[i].href});
+		// 	}
+		// }
 
-		if (this.footerUrls && this.footerUrls.length) {
-			for (var i = 0; i < this.footerUrls.length; i++) {
-				footers.push({text: this.footerUrls[i].text, href: this.footerUrls[i].href});
-			}
-		}
+		// if (this.footerUrls && this.footerUrls.length) {
+		// 	for (var i = 0; i < this.footerUrls.length; i++) {
+		// 		footers.push({text: this.footerUrls[i].text, href: this.footerUrls[i].href});
+		// 	}
+		// }
 
 		return firebase.database().ref('prod').set(app).then(() => {
 			return firebase.database().ref(`timestamps/${Date.now()}`).set(app);

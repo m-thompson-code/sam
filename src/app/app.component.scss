@@ -732,12 +732,6 @@ moo-icon.dark {
     to {opacity: 1;}
 }
 
-.slideshow-container.active.with-background {
-	.image {
-		background: rgba(0, 0, 0, 0.125);
-	}
-}
-
 .slideshow-container.active {
 	animation: fadeIn .5s;
 	opacity: 1;
@@ -800,9 +794,12 @@ moo-icon.dark {
     		bottom: -14pt;
 		}
 	}
-	.right-side {
-		width: 360px;
+	.right-side.with-images {
 		margin-left: 14.5pt;
+		width: 360px;
+	}
+
+	.right-side {
 		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
@@ -810,7 +807,7 @@ moo-icon.dark {
 		.desc {
 			white-space: pre-wrap;
 
-			// font-size: 7pt;
+			font-size: 8pt;
     		color: white;
 
 			overflow-y: auto;
@@ -950,6 +947,7 @@ moo-icon.dark {
 			justify-content: center;
 			overflow: visible;
 		}
+
 		.right-side {
 
 			width: 100%;
