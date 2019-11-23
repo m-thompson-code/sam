@@ -3,6 +3,14 @@
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
+<div *ngIf="showSlideshow" class="image-close" (click)="toggleSlideshow()">
+    <div class="icon-holder">
+        <div class="icon-inner">
+            <moo-icon [icon]="'close'"></moo-icon>
+        </div>
+    </div>
+</div>
+
 <div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
     <div *ngIf="activeProject.imageUrls && activeProject.imageUrls.length" #imageContainer class="image">
         <moo-image [mode]="mode" [href]="activeProject.imageUrls[imageIndex]" [container]="imageContainer"></moo-image>
@@ -217,112 +225,118 @@
 
 <ng-container *ngIf="!loading && !showManagement">
     <div class="fixed-full">
-        <div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
-            <div>
-                <img [class]="'poem-image ' + mode" src="./assets/poem_new.png">
-            </div>
+        <div class="fixed-full-container">
+                <div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
+                        <div>
+                            <img [class]="'poem-image ' + mode" src="./assets/poem_new.png">
+                        </div>
+                    </div>
+            
+                    <div #centerButton (click)="centerImageFunc($event)" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
+                        <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg'>
+                        <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg'>
+                    </div>
+            
+                    <div #container id="container" [class]="mode">
+                    <div *ngIf="!showSlideshow" class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
+                        <div class="wrapper-with-margins">
+                        <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans' + (test ? ' test' : '')">
+                            <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
+                            <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
+                        </div>
+            
+                        <div [class]="'center-horizontal justify-vert title-vert title-vert-2 burin-sans' + (test ? ' test' : '')">
+                            <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
+                            <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
+                        </div>
+            
+                        <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+                            <ng-container *ngFor="let url of urls; let j = index">
+                                <!-- <a *ngIf="url.useSlideshow" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(a)">
+                                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                                </a>
+                                <a *ngIf="!url.useSlideshow" #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                                </a> -->
+                                <a #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                                </a>
+                            </ng-container>
+                        </div>
+            
+                        <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
+                            <div>
+                            <a *ngFor="let url of footerUrls; let i = index" #a [href]="url.href || '#'" [style.margin-bottom]="i < footerUrls.length - 1 ? '14pt' : '0'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                                <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
+                            </a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+            
+                    <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
+                        <div (click)="titleFunc($event)" [class]="'center-vert title-container' + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
+            
+                        <div [class]="'center-vert title title-1 burin-sans' + (test ? ' test' : '')">
+                            <div>
+                            <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
+                            <span class="image-placeholder"></span>
+                            </div>
+                        </div>
+            
+                        <div [class]="'center-vert title title-2 burin-sans' + (test ? ' test' : '')">
+                            <div>
+                            <span class="image-placeholder"></span>
+                            <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>
+                            </div>
+                        </div>
+            
+                        <div *ngIf="!showSlideshow" #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
+                            <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'" [style.margin-bottom]="'14pt'">
+                            <ng-container *ngFor="let url of urlRow; let j = index">
+                                <!-- "" -->
+                                <a *ngIf="url.useSlideshow" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                                    <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                                </a>
+                                <a *ngIf="!url.useSlideshow" #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
+                                    <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
+                                </a>
+                            </ng-container>
+                            </div>
+            
+                            <div [style.visibility]="'hidden'" [style.position]="'absolute'">
+                            <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
+                            </div>
+                        </div>
+                        </div>
+            
+                        <div [class]="'footer-container' + (showOthers ? ' active' : '')">
+                        <div class="footer">
+                            <div *ngFor="let url of footerUrls" class="footer-element-container">
+                            <div class="footer-element">
+                                <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href || '#'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                                <ng-container *ngFor="let char of url.text.split(''); let i = index">
+                                    <!-- "" -->
+                                    <ng-container *ngIf="char !== '\\'">
+                                    <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
+                                        {{ ' ' }}
+                                    </span>
+                                    <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
+                                        {{ char }}
+                                    </span>
+                                    </ng-container>
+                                </ng-container>
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+            
+                </div>
         </div>
-
-        <div (click)="centerImageFunc($event)" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
-            <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg'>
-            <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg'>
-        </div>
-
-        <div #container id="container" [class]="mode">
-        <div *ngIf="!showSlideshow" class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
-            <div class="wrapper-with-margins">
-            <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans' + (test ? ' test' : '')">
-                <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
-                <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-            </div>
-
-            <div [class]="'center-horizontal justify-vert title-vert title-vert-2 burin-sans' + (test ? ' test' : '')">
-                <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
-                <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
-            </div>
-
-            <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-                <ng-container *ngFor="let url of urls; let j = index">
-                    <a *ngIf="url.useSlideshow" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" #a [href]="'#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(a)">
-                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                    </a>
-                    <a *ngIf="!url.useSlideshow" #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                        <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                    </a>
-                </ng-container>
-            </div>
-
-            <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
-                <div>
-                <a *ngFor="let url of footerUrls" #a [href]="url.href || '#'" [style.margin-bottom]="'14pt'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                    <moo-mobile-spaced [chars]="url.text"></moo-mobile-spaced>
-                </a>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
-            <div (click)="titleFunc($event)" [class]="'center-vert title-container' + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
-
-            <div [class]="'center-vert title title-1 burin-sans' + (test ? ' test' : '')">
-                <div>
-                <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
-                <span class="image-placeholder"></span>
-                </div>
-            </div>
-
-            <div [class]="'center-vert title title-2 burin-sans' + (test ? ' test' : '')">
-                <div>
-                <span class="image-placeholder"></span>
-                <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>
-                </div>
-            </div>
-
-            <div *ngIf="!showSlideshow" #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
-                <div *ngFor="let urlRow of urlRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'" [style.margin-bottom]="'14pt'">
-                <ng-container *ngFor="let url of urlRow; let j = index">
-                    <!-- "" -->
-                    <a *ngIf="url.useSlideshow" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, url)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
-                    </a>
-                    <a *ngIf="!url.useSlideshow" #a [href]="url.href || '#'" [target]="!url.href || url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
-                        <moo-spaced [chars]="url.text" [style.margin-right]="j !== urlRow.length - 1 ? (url.margin + 'px') : 0"></moo-spaced>
-                    </a>
-                </ng-container>
-                </div>
-
-                <div [style.visibility]="'hidden'" [style.position]="'absolute'">
-                <moo-text-placement-test #placementTester [urls]="urls"></moo-text-placement-test>
-                </div>
-            </div>
-            </div>
-
-            <div [class]="'footer-container' + (showOthers ? ' active' : '')">
-            <div class="footer">
-                <div *ngFor="let url of footerUrls" class="footer-element-container">
-                <div class="footer-element">
-                    <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="url.href || '#'" [target]="url.href.indexOf('mailto:') !== -1 || url.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
-                    <ng-container *ngFor="let char of url.text.split(''); let i = index">
-                        <!-- "" -->
-                        <ng-container *ngIf="char !== '\\'">
-                        <span *ngIf="i > 0 && url.text.split('')[i - 1] === '\\' && char === 's'">
-                            {{ ' ' }}
-                        </span>
-                        <span *ngIf="!i || url.text.split('')[i - 1] !== '\\'">
-                            {{ char }}
-                        </span>
-                        </ng-container>
-                    </ng-container>
-                    </a>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-
-    </div>
+        
 </ng-container>
 
 <div #backgroundImageHolder class="background-image-holder">

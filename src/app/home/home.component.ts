@@ -45,6 +45,8 @@ export class HomeComponent {
 	@ViewChild("backgroundImageHolder") backgroundImageHolder: ElementRef;
 	@ViewChild("linksContainer") linksContainer: ElementRef;
 
+	@ViewChild("centerButton") centerButton: ElementRef;
+
 	mode: string;
 	modeTimeout: any;
 
@@ -112,7 +114,58 @@ export class HomeComponent {
 
 	activeProject: Project;
 
+	started: boolean;
+
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
+	}
+
+	_ripple(x: number, y: number) {
+		const W = (window as any).Waves;
+
+		W.ripple(this.centerButton.nativeElement, {
+			wait: 200,
+			position: {
+				x: x,
+				y: y
+			}
+		});
+	}
+
+	clickMe() {
+		if (this.started) {
+			return;
+		}
+
+		if (!(window as any).Waves || !(window as any).Waves.ripple) {
+			return;
+		}
+
+		const W = (window as any).Waves;
+
+		const width = this.centerButton && this.centerButton.nativeElement && this.centerButton.nativeElement.clientWidth;
+
+		if (width) {
+			const x = width * Math.random();
+			const y = width * Math.random();
+
+			this._ripple(x, y);
+			// setTimeout(() => {
+			// 	const x = width * Math.random();
+			// 	const y = width * Math.random();
+
+			// 	this._ripple(x, y);
+			// }, 150);
+			setTimeout(() => {
+				this._ripple(12, 12);
+			}, 150);
+			// setTimeout(() => {
+			// 	this._ripple((x + 12) % 24, (y + 12) % 24);
+			// }, 450);
+		}
+
+		setTimeout(() => {
+			this.clickMe();
+		}, 2000);
 	}
 
 	ngOnInit() {
@@ -266,7 +319,7 @@ export class HomeComponent {
 		}
 	}
 
-	centerImageFunc(event: MouseEvent) {
+	centerImageFunc(event: MouseEvent) {		
 		if (this.slideshow) {
 			this.toggleSlideshow();
 		} else {
@@ -278,6 +331,8 @@ export class HomeComponent {
 	}
 
 	ngAfterViewInit() {
+		this.clickMe();
+
 		setTimeout(() => {
 			if (!this.backgroundImageHolder || !this.backgroundImageHolder.nativeElement) {
 				return;
@@ -381,9 +436,9 @@ export class HomeComponent {
 			this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 			this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-			this.mode = '';
+			this.setMode('');
 			this.modeTimeout = setTimeout(() => {
-                this.mode = 'light';
+				this.setMode('light');
                 this.showOthers = false;
 			}, 1000);
 
@@ -404,23 +459,30 @@ export class HomeComponent {
 			}, 1);
 
 			this.toggleModeTimeout = setTimeout(() => {
-				// this.toggleMode();
+				this.toggleMode();
 			}, 10000);
 		});
+	}
+
+	setMode(mode: 'dark' | 'light' | ''): void {
+		this.mode = mode;
+		document.body.className = mode;
 	}
 
 	toggleMode() {
 		clearTimeout(this.modeTimeout);
 		clearTimeout(this.toggleModeTimeout);
 
+		this.started = true;
+
 		if (this.mode === 'light') {
 			if (this.slideshow) {
 				this.toggleSlideshow();
 			}
 
-			this.mode = '';
+			this.setMode('');
 			this.modeTimeout = setTimeout(() => {
-				this.mode = 'dark';
+				this.setMode('dark');
 				setTimeout(() => {
 		       		this.recalcEvertyhing();
 				}, 1);
@@ -435,11 +497,11 @@ export class HomeComponent {
 				}, 2000);
 			}, 500);
 		} else {
-			this.mode = '';
+			this.setMode('');
 			this.showPoem = true;
 
 			this.modeTimeout = setTimeout(() => {
-				this.mode = 'light';
+				this.setMode('light');
 				this.showOthers = false;
 			}, 1000);
 		}

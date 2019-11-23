@@ -40,5 +40,6 @@ export class AppComponent implements OnInit {
 
 	ngOnInit() {
 		this.appService.loadProjects();
+		// Waves.init()
 	}
 }
