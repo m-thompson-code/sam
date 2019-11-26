@@ -1,0 +1,52 @@
+.has-slider {
+    overflow: hidden;
+    // position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slider {
+    // width: 600%; // 100% * 6 slides
+    display: flex;
+    height: 100%; // Override materialize
+}
+
+.slider-panel {
+    // padding-top: 10%;
+    width: 100%;
+    // height: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel1 {
+    background: red;
+}
+
+.panel2 {
+    background: blue;
+}
+
+.panel3 {
+    background: green;
+}
+
+.panel4 {
+    background: salmon;
+}
+
+.panel5 {
+    background: lavender;;
+}
+
+.panel6 {
+    background: darkseagreen;
+}
+
+.debug {
+    color: white;
+    display: flex;
+    flex-direction: column;
+}

@@ -30,6 +30,8 @@ import { ImageModule } from './components/image/image.module';
 import { InputModule } from './components/input/input.module';
 import { PreloaderModule } from './components/preloader/preloader.module';
 import { DotsModule } from './components/dots/dots.module';
+import { SliderModule } from './components/slider/slider.module';
+
 
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 
@@ -52,6 +54,7 @@ import { CanDeactivateGuard } from './guards/can-deactivate.guard';
         ImageModule,
         PreloaderModule,
         DotsModule,
+        SliderModule
     ],
     providers: [
         DragulaService,

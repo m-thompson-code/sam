@@ -1,0 +1,6 @@
+<div class="background">
+    <div #container class="slider-container">
+        <moo-slider [container]="container" [slides]="projects" (activeSlideSet)="activeSlide = $event"></moo-slider>
+        <moo-dots [items]="projects" [activeIndex]="activeSlide"></moo-dots>
+    </div>
+</div>

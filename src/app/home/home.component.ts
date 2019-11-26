@@ -149,15 +149,18 @@ export class HomeComponent {
 			const y = width * Math.random();
 
 			this._ripple(x, y);
-			// setTimeout(() => {
-			// 	const x = width * Math.random();
-			// 	const y = width * Math.random();
-
-			// 	this._ripple(x, y);
-			// }, 150);
 			setTimeout(() => {
+				const x = width * 1 / 3 + 2 * width * Math.random() / 3;
+				const y = width * 1 / 3 + 2 * width * Math.random() / 3;
+
+				this._ripple(x, y);
+			}, 100);
+			setTimeout(() => {
+				// const x = width * 2 / 3 + 1 * width * Math.random() / 3;
+				// const y = width * 2 / 3 + 1 * width * Math.random() / 3;
+
 				this._ripple(12, 12);
-			}, 150);
+			}, 200);
 			// setTimeout(() => {
 			// 	this._ripple((x + 12) % 24, (y + 12) % 24);
 			// }, 450);
@@ -331,7 +334,9 @@ export class HomeComponent {
 	}
 
 	ngAfterViewInit() {
-		this.clickMe();
+		setTimeout(() => {
+			this.clickMe();
+		}, 4000);
 
 		setTimeout(() => {
 			if (!this.backgroundImageHolder || !this.backgroundImageHolder.nativeElement) {

@@ -321,6 +321,8 @@ p.center {
   .fixed-full {
     overflow-y: auto;
     overflow-x: hidden;
+    // overflow-y: scroll; // has to be scroll, not auto
+    -webkit-overflow-scrolling: touch;
     .fixed-full-container {
       min-height: 500px;
       position: relative;

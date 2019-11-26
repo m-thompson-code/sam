@@ -7,9 +7,10 @@ const routes: Routes = [
     {
         path: '',
         loadChildren: './home/home.module#HomeModule',
-        canDeactivate: [
-            CanDeactivateGuard
-        ]
+    },
+    {
+        path: 'project',
+        loadChildren: './project/project.module#ProjectModule',
     },
 ];
 
