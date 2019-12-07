@@ -9,13 +9,16 @@ const routes: Routes = [
         loadChildren: './home/home.module#HomeModule',
     },
     {
-        path: 'project',
+        path: 'project/:projectIndex',
         loadChildren: './project/project.module#ProjectModule',
     },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes,{
+        useHash: true,
+        onSameUrlNavigation: 'reload',
+    })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

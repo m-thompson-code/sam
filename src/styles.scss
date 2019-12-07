@@ -3,11 +3,11 @@
 }
 
 .btn-large {
-	line-height: 0;// Fixes the svg not being center
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	fill: white;
+	line-height: 0 !important;// Fixes the svg not being center
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	fill: white !important;
 }
 
 .btn-flat:hover, .btn-flat.dark {

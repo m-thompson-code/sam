@@ -8,6 +8,7 @@ import { ProjectRoutingModule } from './project-routing.module';
 import { PreloaderModule } from '../components/preloader/preloader.module';
 import { DotsModule } from '../components/dots/dots.module';
 import { SliderModule } from '../components/slider/slider.module';
+import { SpacedModule } from '../components/spaced/spaced.module';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { SliderModule } from '../components/slider/slider.module';
         PreloaderModule,
         DotsModule,
         SliderModule,
+        SpacedModule
     ]
 })
 export class ProjectModule { }

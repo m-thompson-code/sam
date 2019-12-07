@@ -1,35 +1,15 @@
-<div class="has-slider">
-    <div #sliderContainer id="slider" class="slider" [style.margin-left]="-margin + delta + 'px'" [style.width]="slides.length + '00%'">
-        <!-- <div class="slider-panel panel6">
-            <div>SIX</div>
-        </div> -->
-        <div class="slider-panel panel1">
-            <div>ONE</div>
+<div #outerContainer class="has-slider">
+    <div #sliderContainer id="slider" class="slider" [style.margin-left]="marginPercent | margin:-delta:imageUrls.length-1 | noSanitizeStyle" [style.width]="imageUrls.length + '00%'">
+        <div *ngFor="let imageUrl of imageUrls; let imageIndex = index" class="slider-panel">
+            <moo-image [mode]="'dark'" [href]="imageUrls[imageIndex]" [container]="outerContainer"></moo-image>
         </div>
-        <div class="slider-panel panel2">
-            <div>TWO</div>
-        </div>
-        <div class="slider-panel panel3">
-            <div>THREE</div>
-        </div>
-        <div class="slider-panel panel4">
-            <div>FOUR</div>
-        </div>
-        <div class="slider-panel panel5">
-            <div>FIVE</div>
-        </div>
-        <div class="slider-panel panel6">
-            <div>SIX</div>
-        </div>
-        <!-- <div class="slider-panel panel1">
-            <div>ONE</div>
-        </div> -->
     </div>
 </div>
-
+<!-- 
 <div class="debug">
     <div>velocity: {{ velocity }}</div>
     <div>delta: {{ delta }}</div>
     <div>activeSlide: {{ activeSlide }}</div>
-    <div>margin: {{ margin }}</div>
-</div>
+    <div>marginPercent: {{ marginPercent }}</div>
+    <div>margin: {{ marginPercent | margin:delta:imageUrls.length-1 }}</div>
+</div> -->

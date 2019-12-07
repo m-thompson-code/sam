@@ -5,6 +5,7 @@ import { DragulaService } from 'ng2-dragula';
 import * as firebase from "firebase/app";
 
 import * as dragula from 'dragula';
+import { AppService } from '../app.service';
 
 declare var M;
 
@@ -39,10 +40,9 @@ export interface Project extends DBProject {
     styleUrls: ['./home.style.scss']
 })
 export class HomeComponent {
-	Urls = "URLS";
+	PROJECTS = "PROJECTS";
 	Footers = "FOOTERS";
 	
-	@ViewChild("backgroundImageHolder") backgroundImageHolder: ElementRef;
 	@ViewChild("linksContainer") linksContainer: ElementRef;
 
 	@ViewChild("centerButton") centerButton: ElementRef;
@@ -52,29 +52,20 @@ export class HomeComponent {
 
 	showOthers: boolean;
 
-	urls: Project[];
+	projectFontSize: number;
 
-	urlFontSize: number;
+	projectRows: Project[][];
 
-	urlRows: Project[][];
-
-	urlsMaxWidth: number;
-	maxUrls: number;
+	projectsMaxWidth: number;
+	maxProjects: number;
 
 	h: number;
 	w: number;
 
-	footerUrls: Project[];
-
 	showPoem: boolean;
 
-	dataLoading: boolean;
-	backgroundImageLoading: boolean;
 	loading: boolean;
 	saving: boolean;
-
-	header1: string;
-	header2: string;
 
 	email: string;
 	password: string;
@@ -116,7 +107,7 @@ export class HomeComponent {
 
 	started: boolean;
 
-	constructor(private dragulaService: DragulaService, private ngZone: NgZone) {
+	constructor(private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
 	}
 
 	_ripple(x: number, y: number) {
@@ -172,14 +163,29 @@ export class HomeComponent {
 	}
 
 	ngOnInit() {
+		const mode = this.appService.mode;//'dark';
+
+		if (mode === 'dark') {
+			this.setMode('dark');
+			this.showOthers = true;
+		} else if (mode === 'light') {
+			this.setMode('light');
+		} else {
+			this.setMode('');
+		}
+
 		// this.test = true;
+
+		this.maxProjects = 99;
+
+		this.projectRows = [[]];
 
 		this.hMargin = 100;
 		this.wMargin = 100;
 
 		this.imageIndex = 0;
 
-		(window as any).app = this;
+		(window as any).home = this;
 		(window as any).firebase = firebase;
 		// const drake = dragula([document.querySelector('#drakeTest')], {
 		// 	// moves: function (el, source, handle, sibling) {
@@ -252,16 +258,6 @@ export class HomeComponent {
 		};
 
 		this.authHandler();
-		
-		this.dataLoading = true;
-		this.backgroundImageLoading = true;
-		this.loading = true;
-
-		this.header1 = "";
-		this.header2 = "";
-
-		this.urls = [];
-		this.footerUrls = [];
 	}
 
 	nextImage() {
@@ -334,126 +330,34 @@ export class HomeComponent {
 	}
 
 	ngAfterViewInit() {
-		setTimeout(() => {
-			this.clickMe();
-		}, 4000);
-
-		setTimeout(() => {
-			if (!this.backgroundImageHolder || !this.backgroundImageHolder.nativeElement) {
-				return;
-			}
-
-			// console.log(window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image']);
-            var src = window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image'];
-            
-			if (!src) {
-				this.backgroundImageLoading = false;
-				this.loading = this.backgroundImageLoading || this.dataLoading;
-			}
-
-			var url = src.match(/\((.*?)\)/)[1].replace(/('|")/g,'');
-
-			if (!url) {
-				this.backgroundImageLoading = false;
-				this.loading = this.backgroundImageLoading || this.dataLoading;
-			}
-
-			var img = new Image();
-
-			img.onload = () => {
-			    this.backgroundImageLoading = false;
-				this.loading = this.backgroundImageLoading || this.dataLoading;
-			};
-
+		if (this.mode !== 'dark') {
 			setTimeout(() => {
-				this.backgroundImageLoading = false;
-				this.loading = this.backgroundImageLoading || this.dataLoading;
-			}, 3 * 1000);
-
-			img.src = url;
-		}, 1);
+				this.clickMe();
+			}, 2000);	
+		}
 		
-		var promises = [];
-
-		this.header1 = 'SAMANTHAMINK';
-		this.header2 = 'BODYOFWORK';
-
-		promises.push(firebase.database().ref('prod').once('value').then(snapshot => {
-			if (!snapshot.exists()) {
-				console.error("Unexpected error. snapshot missing");
-				M.toast({html: "Unexpected error", displayLength: 1250});
-				return;
-			}
-
-			const app =  snapshot.val();
-			console.log(app);
-
-			var urls = app.projects;
-			var footerUrls = app.footers;
-
-			this.urls = [];
-			this.footerUrls = [];
-
-			if (urls && urls.length) {
-				for (var i = 0; i < urls.length; i++) {
-					const url: DBProject = urls[i];
-
-					this.urls.push({
-						width: 0, 
-						text: url.text, 
-						href: url.href,
-						imageUrls: url.imageUrls || [],
-						useSlideshow: url.useSlideshow || false,
-						desc: url.desc || "",
-						tags: url.tags || [],
-
-						// In app attributes
-						margin: 0,
-						marginRight: 0,
-					});
-				}
-			}
-
-			if (footerUrls && footerUrls.length) {
-				for (var i = 0; i < footerUrls.length; i++) {
-					const footerUrl: DBProject = footerUrls[i];
-
-					this.footerUrls.push({
-						width: 0, 
-						text: footerUrl.text, 
-						href: footerUrl.href,
-						imageUrls: footerUrl.imageUrls || [],
-						useSlideshow: footerUrl.useSlideshow || false,
-						desc: footerUrl.desc || "",
-						tags: footerUrl.tags || [],
-
-						// In app attributes
-						margin: 0,
-						marginRight: 0,
-					});
-				}
-			}
-		}));
-
-		Promise.all(promises).then(() => {
+		setTimeout(() => {
 			this.showPoem = false;
 
 			this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 			this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-			this.setMode('');
-			this.modeTimeout = setTimeout(() => {
-				this.setMode('light');
-                this.showOthers = false;
-			}, 1000);
+			if (this.mode === 'light') {
+				this.showOthers = false;
+			} else if (this.mode === 'dark') {
+				this.showOthers = true;
+			} else {
+				this.showOthers = false;
 
-			this.maxUrls = 99;
-
-			this.urlRows = [[]];
-
-			// this.loading = false;
-			this.dataLoading = false;
-			this.loading = this.backgroundImageLoading || this.dataLoading;
+				this.modeTimeout = setTimeout(() => {
+					this.setMode('light');
+					this.showOthers = false;
+				}, 1000);
+	
+				this.toggleModeTimeout = setTimeout(() => {
+					this.toggleMode();
+				}, 10000);
+			}
 
 			setTimeout(() => {
 				this.getLinksContainerWidth();
@@ -462,16 +366,13 @@ export class HomeComponent {
 		       		this.recalcEvertyhing();
 		    	}, 1);
 			}, 1);
-
-			this.toggleModeTimeout = setTimeout(() => {
-				this.toggleMode();
-			}, 10000);
-		});
+		},0);
 	}
 
 	setMode(mode: 'dark' | 'light' | ''): void {
 		this.mode = mode;
 		document.body.className = mode;
+		this.appService.mode = mode;
 	}
 
 	toggleMode() {
@@ -514,70 +415,70 @@ export class HomeComponent {
 
 	getLinksContainerWidth() {
 		if (this.linksContainer && this.linksContainer.nativeElement) {
-			this.urlFontSize = parseFloat(window.getComputedStyle(this.linksContainer.nativeElement).fontSize) || 9.33;
-			this.urlsMaxWidth = this.linksContainer.nativeElement.getBoundingClientRect().width;
+			this.projectFontSize = parseFloat(window.getComputedStyle(this.linksContainer.nativeElement).fontSize) || 9.33;
+			this.projectsMaxWidth = this.linksContainer.nativeElement.getBoundingClientRect().width;
 		}
 	}
 
 	alignUrls() {
 		var y = 0;
 
-		var width = this.urlsMaxWidth;
+		var width = this.projectsMaxWidth;
 
 		var i = 0;
 		var count = 0;
 
 		var topWidth = 0;
 
-		this.urlRows = [];
+		this.projectRows = [];
 
-		this.urlRows.push([]);
+		this.projectRows.push([]);
 
 		var margin = 0;
 
-		while (i < this.urls.length) {
+		while (i < this.appService.projects.length) {
 			// console.log(width);
 
 			if (y === 0) {
 				margin = 50;//70;//this.urlFontSize * 9;
 			} else {
-				margin = (this.urlsMaxWidth - topWidth) / (this.urlRows[0].length - 1);
+				margin = (this.projectsMaxWidth - topWidth) / (this.projectRows[0].length - 1);
 			}
 
-			var url = this.urls[i];
+			const project = this.appService.projects[i];
 
 			// console.log(url.width);
 
-			if ((y > 0 || count < this.maxUrls) && url.width < width) {
-				url.margin = margin;
-				this.urlRows[y].push(url);
-				width -= url.width + margin;
+			if ((y > 0 || count < this.maxProjects) && project.width < width) {
+				project.margin = margin;
+				this.projectRows[y].push(project);
+				width -= project.width + margin;
 
 				if (y === 0) {
-					topWidth += url.width;
+					topWidth += project.width;
 				} else {
-					url.marginRight = topWidth;
+					project.marginRight = topWidth;
 				}
 
 				i += 1;
 				count += 1;
 			} else {
-				if (width === this.urlsMaxWidth) {
-					url.margin = margin;
-					this.urlRows[y].push(url);
+				if (width === this.projectsMaxWidth) {
+					project.margin = margin;
+					this.projectRows[y].push(project);
 
 					if (y === 0) {
-						topWidth += url.width
+						topWidth += project.width
 					} else {
-						url.marginRight = topWidth;
+						project.marginRight = topWidth;
 					}
 
 					i += 1;
 					count += 1;
 				}
 
-				width = this.urlsMaxWidth;
-				this.urlRows.push([]);
+				width = this.projectsMaxWidth;
+				this.projectRows.push([]);
 				y += 1;
 				count = 0;
 			}
@@ -771,23 +672,22 @@ export class HomeComponent {
 	}
 
 	insertProject(index: number) {
-		this.urls.splice(index + 1, 0, this.getNewProject());
+		this.appService.projects.splice(index + 1, 0, this.getNewProject());
 		M.toast({html: `New project added, #${index + 2}`, displayLength: 1250});
-
 	}
 
 	removeProject(index: number) {
-		const url = this.urls[index];
+		const project = this.appService.projects[index];
 
-		const urlIsEmpty = !url.text || !url.href;// TODO: update to handle advance
+		const projectIsEmpty = !project.text || !project.href;// TODO: update to handle advance
 
-		if (urlIsEmpty || confirm(`Are you sure you want to remove the project "${url.text}"?`)) {
-			console.log(this.urls[index]);
-			this.urls.splice(index, 1);
+		if (projectIsEmpty || confirm(`Are you sure you want to remove the project "${project.text}"?`)) {
+			console.log(this.appService.projects[index]);
+			this.appService.projects.splice(index, 1);
 
-			if (url.text) {
-				M.toast({html: `Project ${url.text} was removed`, displayLength: 1250});
-			} else if (url.href) {
+			if (project.text) {
+				M.toast({html: `Project ${project.text} was removed`, displayLength: 1250});
+			} else if (project.href) {
 				M.toast({html: `Project #${index + 1} was removed`, displayLength: 1250});
 			}
 
@@ -795,7 +695,7 @@ export class HomeComponent {
 	}
 
 	toggleAdvancedProject(index: number) {
-		this.urls[index].useSlideshow = !this.urls[index].useSlideshow;
+		this.appService.projects[index].useSlideshow = !this.appService.projects[index].useSlideshow;
 	}
 
 	setAdvanceEdit(index: number) {
@@ -828,30 +728,30 @@ export class HomeComponent {
 		let warningMessage = "";
 		let warningCount = 0;
 
-		for (let i = 0; i < this.urls.length; i++) {
-			const url = this.urls[i];
+		for (let i = 0; i < this.appService.projects.length; i++) {
+			const project = this.appService.projects[i];
 
-			if (this.isEmptyProject(url.text)) {
+			if (this.isEmptyProject(project.text)) {
 				warningMessage = warningMessage || `Project #${i + 1} appears to have no name.`;
 				warningCount += 1;
 			}
 
-			if (this.isInvalidUrl(url.href)) {
-				warningMessage = warningMessage || `Project #${i + 1}, "${url.text}" appears to have an invalid url.`;
+			if (this.isInvalidUrl(project.href)) {
+				warningMessage = warningMessage || `Project #${i + 1}, "${project.text}" appears to have an invalid url.`;
 				warningCount += 1;
 			}
 		}
 
-		for (let i = 0; i < this.footerUrls.length; i++) {
-			const url = this.footerUrls[i];
+		for (let i = 0; i < this.appService.footerUrls.length; i++) {
+			const footerUrl = this.appService.footerUrls[i];
 
-			if (this.isEmptyProject(url.text)) {
+			if (this.isEmptyProject(footerUrl.text)) {
 				warningMessage = warningMessage || `Footer item #${i + 1} appears to have no name.`;
 				warningCount += 1;
 			}
 
-			if (this.isInvalidUrl(url.href)) {
-				warningMessage = warningMessage || `Footer item #${i + 1}, "${url.text}" appears to have an invalid url.`;
+			if (this.isInvalidUrl(footerUrl.href)) {
+				warningMessage = warningMessage || `Footer item #${i + 1}, "${footerUrl.text}" appears to have an invalid url.`;
 				warningCount += 1;
 			}
 		}
@@ -877,8 +777,8 @@ export class HomeComponent {
 		this.saving = true;
 
 		const app = {
-			projects: this.urls || [],
-			footers: this.footerUrls || [],
+			projects: this.appService.projects || [],
+			footers: this.appService.footerUrls || [],
 		};
 
 		return firebase.database().ref('prod').set(app).then(() => {

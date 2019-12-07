@@ -9,7 +9,7 @@ import { SpacedComponent } from '../spaced/spaced.component';
   providers: [ ]
 })
 export class TextPlacementTestComponent {
- 	@Input() urls: any[];
+ 	@Input() projects: any[];
 
 	@ViewChild("container") container: ElementRef;
 
@@ -48,7 +48,7 @@ export class TextPlacementTestComponent {
 		if (this.strViewChildren && this.strComponents) {
 			var y = 0, rowHeight = 0;
 			for (var i = 0; i < this.strComponents.length; i++) {
-				this.urls[i].width = this.strComponents[i].nativeElement.getBoundingClientRect().width;
+				this.projects[i].width = this.strComponents[i].nativeElement.getBoundingClientRect().width;
 			}
 		}
 

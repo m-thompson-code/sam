@@ -32,6 +32,7 @@ import { PreloaderModule } from './components/preloader/preloader.module';
 import { DotsModule } from './components/dots/dots.module';
 import { SliderModule } from './components/slider/slider.module';
 
+import { PipeModule } from './pipes/pipe.module';
 
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 
@@ -54,7 +55,9 @@ import { CanDeactivateGuard } from './guards/can-deactivate.guard';
         ImageModule,
         PreloaderModule,
         DotsModule,
-        SliderModule
+        SliderModule,
+
+        PipeModule
     ],
     providers: [
         DragulaService,

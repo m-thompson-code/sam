@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<router-outlet *ngIf="!loading"></router-outlet>
+
+<div #backgroundImageHolder class="background-image-holder">
+</div>
+
+<ng-container *ngIf="loading">
+    <moo-preloader [delay]="loading && 500"></moo-preloader>
+</ng-container>

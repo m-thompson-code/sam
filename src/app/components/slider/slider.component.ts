@@ -11,17 +11,19 @@ import * as Hammer from 'hammerjs';
 export class SliderComponent implements OnInit, AfterViewInit {
 	timer: any;// Node.Timer
 
-	velocity: number;
-	delta: number;
+	velocity: number = 0;
+	delta: number = 0;
 
-	@Input() slides: any[];
-	activeSlide: number = 1;
+	@Input() imageUrls: any[];
+	activeSlide: number = 0;
 
+	@ViewChild("outerContainer") outerContainer: ElementRef;
 	@ViewChild("sliderContainer") sliderContainer: ElementRef;
 
 	@Input() container: HTMLElement;
 
-	margin: number = 0;
+	// margin: number = 0;
+	marginPercent: number = 0;
 
 	swipV: number = .25;
 
@@ -34,20 +36,35 @@ export class SliderComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-        this.init( '#slider' );
+        this.init();
 	}
 
-	init(selector): void {
-		// 4d. Set up HammerJS
-		var sliderManager = new Hammer.Manager(this.sliderContainer.nativeElement);
-		sliderManager.add( new Hammer.Pan({ threshold: 0, pointers: 0 }) );
+	init(): void {
+		const hammerOptions: HammerOptions = {
+			inputClass: Hammer.TouchInput,
+            touchAction: 'pan-y'  // If using horizontal gestures - http://hammerjs.github.io/touch-action/
+		}
+		var sliderManager = new Hammer.Manager(this.sliderContainer.nativeElement, hammerOptions);
+		const options: RecognizerOptions = {
+			threshold: 0, 
+			pointers: 0,
+			direction: Hammer.DIRECTION_HORIZONTAL,
+		}
+		sliderManager.add( new Hammer.Pan(options));
 		sliderManager.on( 'pan', (e: HammerInput) => {
-			this.velocity = e.velocityX;
-			this.delta = e.deltaX;
+			if (e.direction === Hammer.DIRECTION_UP || e.direction === Hammer.DIRECTION_DOWN) {
+				return;
+			}
 
+			this.velocity = e.velocityX || 0;
+			this.delta = e.deltaX || 0;
+
+			console.log(e.direction);
 			if (e.isFinal) {
 				const _delta = this.delta;
-				this.margin -= this.delta;
+				this.marginPercent = (this.marginPercent * this.outerContainer.nativeElement.offsetWidth - this.delta) / this.outerContainer.nativeElement.offsetWidth;
+				// -= this.delta;
+				this.limitMarginPercent();
 				this.delta = 0;
 				
 				if (this.velocity > this.swipV) {
@@ -67,17 +84,25 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		});
 	}
 
+	limitMarginPercent() {
+		if (this.marginPercent < 0) {
+			this.marginPercent = 0;
+		} else if (this.marginPercent > this.imageUrls.length - 1) {
+			this.marginPercent = this.imageUrls.length - 1;
+		}
+	}
+
 	setActiveSlide(value: number) {
 		this.activeSlide = value;
 		this.activeSlideSet.emit(value);
 	}
 
 	gotoNextSlide() {
-		console.log("gotoNextSlide");
+		// console.log("gotoNextSlide");
 		this.setActiveSlide(this.activeSlide += 1);
 
-		if (this.activeSlide > this.slides.length - 1) {
-			this.setActiveSlide(this.slides.length - 1);
+		if (this.activeSlide > this.imageUrls.length - 1) {
+			this.setActiveSlide(this.imageUrls.length - 1);
 
 		}
 		
@@ -85,7 +110,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
 	}
 	
 	gotoPrevSlide() {
-		console.log("gotoPrevSlide");
+		// console.log("gotoPrevSlide");
 		this.setActiveSlide(this.activeSlide -= 1);
 
 
@@ -101,30 +126,28 @@ export class SliderComponent implements OnInit, AfterViewInit {
 	}
 
 	nextToSlide() {
-		const goal = this.container.offsetWidth * this.activeSlide;
-		console.log('nextToSlide', goal, this.margin);
+		const goal = this.activeSlide;
+		// console.log('nextToSlide', goal, this.margin);
 
-
-		// if (this.velocity < 0) {
-		// 	this.velocity = -50;
-		// } else if (this.velocity > 0) {
-		// 	this.velocity = 50;
-		// }
-
-		if (this.margin === goal) {
+		if (this.marginPercent === goal) {
+			this.velocity = 0;
+			this.limitMarginPercent();
 			return;
 		}
 
-		if (this.margin < goal) {
+		if (this.marginPercent < goal) {
 			if (this.velocity > -this.swipV) {
 				this.velocity = -this.swipV;
 			}
 
-			this.margin -= this.velocity;
+			let margin = this.marginPercent * this.outerContainer.nativeElement.offsetWidth;
+			margin -= this.velocity;
+			this.marginPercent = margin / this.outerContainer.nativeElement.offsetWidth;
 
-			if (this.margin >= goal) {
-				this.margin = goal;
+			if (this.marginPercent >= goal) {
+				this.marginPercent = goal;
 				this.velocity = 0;
+				this.limitMarginPercent();
 				return;
 			}
 
@@ -137,16 +160,19 @@ export class SliderComponent implements OnInit, AfterViewInit {
 			setTimeout(() => {
 				this.nextToSlide();
 			}, 0);
-		} else if (this.margin > goal) {
+		} else if (this.marginPercent > goal) {
 			if (this.velocity < this.swipV) {
 				this.velocity = this.swipV;
 			}
 
-			this.margin -= this.velocity;
+			let margin = this.marginPercent * this.outerContainer.nativeElement.offsetWidth;
+			margin -= this.velocity;
+			this.marginPercent = margin / this.outerContainer.nativeElement.offsetWidth;
 
-			if (this.margin <= goal) {
-				this.margin = goal;
+			if (this.marginPercent <= goal) {
+				this.marginPercent = goal;
 				this.velocity = 0;
+				this.limitMarginPercent();
 				return;
 			}
 

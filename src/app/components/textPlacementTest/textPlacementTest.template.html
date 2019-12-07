@@ -1,6 +1,6 @@
 <div #container [style.width]="containerWidth + 'px'">
-	<ng-container *ngFor="let url of urls; let i = index">
+	<ng-container *ngFor="let project of projects; let i = index">
 		<!-- "" -->
-		<moo-spaced #strComponent [chars]="url.text"></moo-spaced>
+		<moo-spaced #strComponent [chars]="project.text"></moo-spaced>
 	</ng-container>
 </div>

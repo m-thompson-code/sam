@@ -7,7 +7,27 @@ import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
   providers: [ ]
 })
 export class ImageComponent implements OnChanges {
-	@Input() href: string;
+	// @Input() href: string;
+
+	mhref: string;
+
+	private _href: string;
+    @Input()
+    set href(href: string) {
+		this._href = href;
+		const parts = href.split('/');
+		parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'l.');
+		this.mhref = "";
+		for (let part of parts) {
+			if (this.mhref) {
+				this.mhref += '/';
+			}
+			this.mhref += part;
+		}
+    }
+    get href(): string {
+        return this._href;
+    };
 
 	loading: boolean;
 
@@ -21,6 +41,8 @@ export class ImageComponent implements OnChanges {
 
 	defaultWidth: string;
 	defaultHeight: string;
+
+	@Input() calcSize: boolean;
 
 	constructor() {
 	}

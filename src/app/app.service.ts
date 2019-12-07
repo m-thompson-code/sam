@@ -6,11 +6,13 @@ import * as firebase from "firebase/app";
 
 @Injectable()
 export class AppService {
-    urls: Project[];
+    projects: Project[];
 	footerUrls: Project[];
 
+	mode: 'dark' | 'light' | '';
+
     constructor() {
-        this.urls = [];
+        this.projects = [];
         this.footerUrls = [];
     }
 
@@ -26,17 +28,17 @@ export class AppService {
 			const app =  snapshot.val();
 			console.log(app);
 
-			var urls = app.projects;
-			var footerUrls = app.footers;
+			const projects = app.projects;
+			const footerUrls = app.footers;
 
-			this.urls = [];
+			this.projects = [];
 			this.footerUrls = [];
 
-			if (urls && urls.length) {
-				for (var i = 0; i < urls.length; i++) {
-					const url: DBProject = urls[i];
+			if (projects && projects.length) {
+				for (var i = 0; i < projects.length; i++) {
+					const url: DBProject = projects[i];
 
-					this.urls.push({
+					this.projects.push({
 						width: 0, 
 						text: url.text, 
 						href: url.href,
