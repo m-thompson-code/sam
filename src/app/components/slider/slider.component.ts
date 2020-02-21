@@ -46,20 +46,23 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		}
 		var sliderManager = new Hammer.Manager(this.sliderContainer.nativeElement, hammerOptions);
 		const options: RecognizerOptions = {
-			threshold: 0, 
-			pointers: 0,
+			threshold: 10, 
+			pointers: 1,
 			direction: Hammer.DIRECTION_HORIZONTAL,
 		}
 		sliderManager.add( new Hammer.Pan(options));
+
 		sliderManager.on( 'pan', (e: HammerInput) => {
-			if (e.direction === Hammer.DIRECTION_UP || e.direction === Hammer.DIRECTION_DOWN) {
-				return;
-			}
+			// if (e.direction === Hammer.DIRECTION_UP || e.direction === Hammer.DIRECTION_DOWN) {
+			// 	return;
+			// }
+
+			// console.log(e);
 
 			this.velocity = e.velocityX || 0;
 			this.delta = e.deltaX || 0;
 
-			console.log(e.direction);
+			// console.log(e.direction);
 			if (e.isFinal) {
 				const _delta = this.delta;
 				this.marginPercent = (this.marginPercent * this.outerContainer.nativeElement.offsetWidth - this.delta) / this.outerContainer.nativeElement.offsetWidth;

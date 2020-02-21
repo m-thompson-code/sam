@@ -110,7 +110,7 @@ export class HomeComponent {
 	constructor(private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
 	}
 
-	_ripple(x: number, y: number) {
+	_ripple(x: number, y: number, color: 'black' | 'white') {
 		const W = (window as any).Waves;
 
 		W.ripple(this.centerButton.nativeElement, {
@@ -118,8 +118,37 @@ export class HomeComponent {
 			position: {
 				x: x,
 				y: y
-			}
+			},
+			className: "minor-effect " + color
 		});
+	}
+
+	doRipple() {
+		const W = (window as any).Waves;
+
+		const width = this.centerButton && this.centerButton.nativeElement && this.centerButton.nativeElement.clientWidth;
+
+		if (width) {
+			const x = width * Math.random();
+			const y = width * Math.random();
+
+			this._ripple(x, y, 'white');
+			// setTimeout(() => {
+			// 	const x = width * 1 / 3 + 2 * width * Math.random() / 3;
+			// 	const y = width * 1 / 3 + 2 * width * Math.random() / 3;
+
+			// 	this._ripple(x, y);
+			// }, 100);
+			setTimeout(() => {
+				// const x = width * 2 / 3 + 1 * width * Math.random() / 3;
+				// const y = width * 2 / 3 + 1 * width * Math.random() / 3;
+
+				this._ripple(12, 12, 'white');
+			}, 200);
+			// setTimeout(() => {
+			// 	this._ripple((x + 12) % 24, (y + 12) % 24);
+			// }, 450);
+		}
 	}
 
 	clickMe() {
@@ -131,31 +160,7 @@ export class HomeComponent {
 			return;
 		}
 
-		const W = (window as any).Waves;
-
-		const width = this.centerButton && this.centerButton.nativeElement && this.centerButton.nativeElement.clientWidth;
-
-		if (width) {
-			const x = width * Math.random();
-			const y = width * Math.random();
-
-			this._ripple(x, y);
-			setTimeout(() => {
-				const x = width * 1 / 3 + 2 * width * Math.random() / 3;
-				const y = width * 1 / 3 + 2 * width * Math.random() / 3;
-
-				this._ripple(x, y);
-			}, 100);
-			setTimeout(() => {
-				// const x = width * 2 / 3 + 1 * width * Math.random() / 3;
-				// const y = width * 2 / 3 + 1 * width * Math.random() / 3;
-
-				this._ripple(12, 12);
-			}, 200);
-			// setTimeout(() => {
-			// 	this._ripple((x + 12) % 24, (y + 12) % 24);
-			// }, 450);
-		}
+		this.doRipple();
 
 		setTimeout(() => {
 			this.clickMe();

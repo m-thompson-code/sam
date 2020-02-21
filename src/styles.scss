@@ -2,6 +2,13 @@
   width: 4px;
 }
 
+.minor-effect.black {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+.minor-effect.white {
+  background-color: rgba(255,255,255,0.35) !important;
+}
+
 .btn-large {
 	line-height: 0 !important;// Fixes the svg not being center
 	display: flex !important;
@@ -119,15 +126,15 @@ body.dark {
   transition: background 1s;
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
 
-  font-family: BurinSansStd, Helvetica, sans-serif;
-  // font-family: Helvetica, BurinSansStd, sans-serif;
-  
+html {
   margin: 0;
   padding: 0;
-  font-size: 7pt;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 
   width: 100vw;
   height: 100vh;
@@ -136,6 +143,12 @@ body {
 
   color: rgba(0,0,0,0.87);
   fill: rgba(0,0,0,0.87);
+  
+  font-size: 7pt;
+
+  -webkit-font-smoothing: antialiased;
+
+  font-family: BurinSansStd, Helvetica, sans-serif;
 
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -145,17 +158,20 @@ body {
   position: relative;
 }
 
+body.project {
+  overflow-x: hidden;
+  overflow-y: visible;
+	min-height: 100vh;
+  min-height: stretch;
+  height: auto;
+}
+
 img {
   display: block;
-  -webkit-transform: translateZ(0);
   width: 100%;
   height: 100%;
 }
 
-html {
-  margin: 0;
-  padding: 0;
-}
 
 .themed-text {
   text-decoration: none;

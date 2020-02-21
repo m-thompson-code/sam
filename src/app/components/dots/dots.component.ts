@@ -82,7 +82,7 @@ export class DotsComponent {
 			_sizes[i] = this.sizes[i] || 'gone';
 		}
 
-		console.log(prevIndex, activeIndex);
+		// console.log(prevIndex, activeIndex);
 
 		if (activeIndex > prevIndex) {
 			if (this.sizes[activeIndex + 1] && (this.sizes[activeIndex + 1] === 'gone' || this.sizes[activeIndex + 1] === 'smallest')) {
@@ -121,6 +121,6 @@ export class DotsComponent {
 
 		this.sizes[activeIndex] = "full";
 
-		console.log(this.sizes);
+		// console.log(this.sizes);
 	}
 }

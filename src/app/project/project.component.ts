@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, ElementRef, NgZone, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, NgZone, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { Project } from '../app.component';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +11,7 @@ declare var M;
     templateUrl: './project.template.html',
     styleUrls: ['./project.style.scss']
 })
-export class ProjectComponent  implements OnInit, OnDestroy {
+export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 	activeSlide: number = 0;
 	urlIndex: number;
 
@@ -23,6 +23,7 @@ export class ProjectComponent  implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		document.body.className = "project";
         this.paramSubscription = this.activatedRoute.params.subscribe(params => {
 			this.urlIndex = +params['projectIndex'];
 			if (this.urlIndex === 99) {
@@ -33,7 +34,16 @@ export class ProjectComponent  implements OnInit, OnDestroy {
 		});
 	}
 
+	ngAfterViewInit() {
+		// setTimeout(function(){
+		// 	// This hides the address bar:
+		// 	window.scrollTo(0, 100);
+		// }, 0);
+	}
+
 	ngOnDestroy() {
+		document.body.className = "";
+
 		this.paramSubscription && this.paramSubscription.unsubscribe && this.paramSubscription.unsubscribe();
 	}
 }

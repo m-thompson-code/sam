@@ -235,7 +235,7 @@
                         </div>
                     </div>
             
-                    <div #centerButton (click)="centerImageFunc($event)" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
+                    <div #centerButton (click)="centerImageFunc($event)" (mouseenter)="doRipple($event)" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
                         <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg'>
                         <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg'>
                     </div>

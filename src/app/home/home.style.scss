@@ -455,14 +455,12 @@
 
 .center-image {
 	position: absolute;
-	/*opacity: .5;*/
+	
 	z-index: 4;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 
-	/*-webkit-transform: translateZ(0);
-	width: calc(100% + .49px);*/
 	width: 26px;
 	height: 26px;
 

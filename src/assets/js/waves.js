@@ -56,7 +56,8 @@
         // Effect delay
         duration: 750,
 
-        show: function(e, element) {
+        show: function(e, element, options) {
+            options = options || {};
 
             // Disable right click
             if (e.button === 2) {
@@ -68,6 +69,10 @@
             // Create ripple
             var ripple = document.createElement('div');
             ripple.className = 'waves-ripple';
+            if (options.className) {
+                ripple.className += " " + options.className;
+            }
+
             el.appendChild(ripple);
 
             // Get click coordinate and element witdh
@@ -336,7 +341,7 @@
         options          = options || {};
         options.wait     = options.wait || 0;
         options.position = options.position || null; // default = centre of element
-
+        options.className = options.className || "";
 
         // if (elementsLen) {
             // var element, pos, off, centre = {}, i = 0;
@@ -365,7 +370,11 @@
                 mousedown.pageX = centre.x;
                 mousedown.pageY = centre.y;
 
-                Effect.show(mousedown, element);
+                const effectOptions = {
+                    className: options.className
+                };
+
+                Effect.show(mousedown, element, effectOptions);
 
                 if (options.wait >= 0 && options.wait !== null) {
                     var mouseup = {
