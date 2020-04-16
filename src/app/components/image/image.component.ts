@@ -10,19 +10,31 @@ export class ImageComponent implements OnChanges {
 	// @Input() href: string;
 
 	mhref: string;
+	dhref: string;
 
 	private _href: string;
     @Input()
     set href(href: string) {
 		this._href = href;
+
 		const parts = href.split('/');
-		parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'l.');
+		parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
 		this.mhref = "";
 		for (let part of parts) {
 			if (this.mhref) {
 				this.mhref += '/';
 			}
 			this.mhref += part;
+		}
+
+		const parts2 = href.split('/');
+		parts2[parts2.length - 1] = parts2[parts2.length - 1].replace('.', 'h.');
+		this.dhref = "";
+		for (let part of parts2) {
+			if (this.dhref) {
+				this.dhref += '/';
+			}
+			this.dhref += part;
 		}
     }
     get href(): string {
@@ -61,7 +73,7 @@ export class ImageComponent implements OnChanges {
 	}
 
 	onload() {
-		console.log('onload finished');
+		// console.log('onload finished');
 		this.loading = false;
 		// console.log(this.image);
 		// console.log(this.image.height);
@@ -133,7 +145,7 @@ export class ImageComponent implements OnChanges {
 				height = this.container.offsetHeight * _heightRatio;
 			}
 
-			console.log(this.image.width, this.image.height, this.container.offsetWidth, this.container.offsetHeight, width, height);
+			// console.log(this.image.width, this.image.height, this.container.offsetWidth, this.container.offsetHeight, width, height);
 
 			return {
 				width: width + "px",
@@ -148,21 +160,21 @@ export class ImageComponent implements OnChanges {
 	}
 
 	getMaxWidth(): string {
-		console.log("getMaxWidth", this.container, this.container.offsetWidth);
+		// console.log("getMaxWidth", this.container, this.container.offsetWidth);
 
 		if (this.container && this.image) {
 			if (this.container.offsetWidth > this.container.offsetHeight) {
-				console.log(this.container.offsetWidth + "px");
+				// console.log(this.container.offsetWidth + "px");
 				return this.container.offsetWidth + "px";
 			} else {
-				console.log("auto");
+				// console.log("auto");
 				return "auto";
 			}
 		}
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		console.log(changes);
+		// console.log(changes);
 		if (changes.href) {
 			this.image = new Image();
 
@@ -171,7 +183,7 @@ export class ImageComponent implements OnChanges {
 			this.loading = true;
 			this.errored = false;
 
-			this.image.src = this.href;
+			this.image.src = this.dhref;
 		}
 	}
 }

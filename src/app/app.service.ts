@@ -26,7 +26,7 @@ export class AppService {
 			}
 
 			const app =  snapshot.val();
-			console.log(app);
+			// console.log(app);
 
 			const projects = app.projects;
 			const footerUrls = app.footers;

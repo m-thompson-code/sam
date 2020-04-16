@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve --open --progress",
     "build": "ng build --prod --aot",
+    "deploy:prod": "firebase use prod && firebase deploy --only hosting",
+    "deploy:dev": "firebase use dev && firebase deploy --only hosting",
+    "deploy": "npm run deploy:dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

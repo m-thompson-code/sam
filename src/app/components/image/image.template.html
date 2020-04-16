@@ -7,7 +7,7 @@
 
     <ng-container *ngIf="!errored">
         <div *ngIf="!loading" class="image">
-            <img *ngIf="calcSize" #image [src]="href" [style.width]="getMaxHeight().width || defaultWidth || 'auto'" [style.height]="getMaxHeight().height || defaultHeight || 'auto'">
+            <img *ngIf="calcSize" #image [src]="dhref" [style.width]="getMaxHeight().width || defaultWidth || 'auto'" [style.height]="getMaxHeight().height || defaultHeight || 'auto'">
             <img *ngIf="!calcSize" #image [src]="mhref">
         </div>
     </ng-container>

@@ -75,7 +75,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 					this.backgroundImageLoading = false;
 					this.loading = this.backgroundImageLoading || this.dataLoading;
 					
-					console.log("background loaded");
+					// console.log("background loaded");
 				};
 
 				img.src = url;

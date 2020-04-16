@@ -287,7 +287,7 @@ export class HomeComponent {
 
 		this.activeProject = activeProject;
 
-		console.log('toggleSlideshow');
+		// console.log('toggleSlideshow');
 		if (this.mode === 'light') {
 			this.toggleMode();
 		}
@@ -597,7 +597,7 @@ export class HomeComponent {
 			url += ":" + window.location.port;
 		}
 
-		console.log(url);
+		// console.log(url);
 
 		return firebase.auth().sendPasswordResetEmail(emailAddress, {url: url}).then(() => {
 			M.toast({html: 'Password reset sent. Please check your email', displayLength: 1250});
@@ -687,7 +687,7 @@ export class HomeComponent {
 		const projectIsEmpty = !project.text || !project.href;// TODO: update to handle advance
 
 		if (projectIsEmpty || confirm(`Are you sure you want to remove the project "${project.text}"?`)) {
-			console.log(this.appService.projects[index]);
+			// console.log(this.appService.projects[index]);
 			this.appService.projects.splice(index, 1);
 
 			if (project.text) {
@@ -761,7 +761,7 @@ export class HomeComponent {
 			}
 		}
 
-		console.log(warningCount);
+		// console.log(warningCount);
 
 		if (warningCount > 1) {
 			const otherWarningsCount = warningCount - 1;
