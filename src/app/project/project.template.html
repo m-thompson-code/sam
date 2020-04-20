@@ -1,13 +1,13 @@
 <div class="background helvetica">
     <div class="top" [routerLink]="['/home']">
-        <div [class]="'center-vert title title-1 burin-sans' + (test ? ' test' : '')">
+        <div [class]="'center-vert title title-1 burin-sans'">
             <div class="spread">
                 <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
                 <span class="image-placeholder"></span>
             </div>
         </div>
         
-        <div [class]="'center-vert title title-2 burin-sans' + (test ? ' test' : '')">
+        <div [class]="'center-vert title title-2 burin-sans'">
             <div class="spread">
                 <span class="image-placeholder"></span>
                 <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>
