@@ -1,4 +1,5 @@
 import { Component, HostListener, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { DragulaService } from 'ng2-dragula';
 
@@ -6,6 +7,7 @@ import * as firebase from "firebase/app";
 
 import * as dragula from 'dragula';
 import { AppService } from '../app.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var M;
 
@@ -107,7 +109,7 @@ export class HomeComponent {
 
 	started: boolean;
 
-	constructor(private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
+	constructor(private location: Location, private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
 	}
 
 	_ripple(x: number, y: number, color: 'black' | 'white') {
@@ -168,6 +170,10 @@ export class HomeComponent {
 	}
 
 	ngOnInit() {
+		setTimeout(() => {
+			this.location.replaceState('/');
+		}, 1);
+
 		const mode = this.appService.mode;//'dark';
 
 		if (mode === 'dark') {
@@ -840,7 +846,19 @@ export class HomeComponent {
             el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
         }
     }
-    // End Class stuff
+	// End Class stuff
+	
+	public canDeactivate(): boolean {
+		if (this.showSlideshow) {
+			this.toggleSlideshow();
+			setTimeout(() => {
+				this.location.replaceState('/');
+			}, 1);
+			return false;
+		}
+
+		return true;
+	}
 
 	ngOnDestroy() {
 		// destroy all the subscriptions at once

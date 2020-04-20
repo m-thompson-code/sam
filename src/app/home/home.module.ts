@@ -36,6 +36,6 @@ import { DotsModule } from '../components/dots/dots.module';
         ImageModule,
         PreloaderModule,
         DotsModule,
-    ]
+    ],
 })
 export class HomeModule { }

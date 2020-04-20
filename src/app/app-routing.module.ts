@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { CanDeactivateGuard } from './guards/can-deactivate.guard';
+import { NavComponent } from './nav/nav.component';
 
 const routes: Routes = [
     {
         path: '',
+        component: NavComponent,
+    },
+    {
+        path: 'home',
         loadChildren: './home/home.module#HomeModule',
     },
     {
@@ -15,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes,{
+    imports: [RouterModule.forRoot(routes, {
         useHash: true,
         onSameUrlNavigation: 'reload',
     })],

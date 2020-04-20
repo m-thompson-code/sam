@@ -11,6 +11,8 @@ export class AppService {
 
 	mode: 'dark' | 'light' | '';
 
+	first: boolean;
+
     constructor() {
         this.projects = [];
         this.footerUrls = [];

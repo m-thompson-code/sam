@@ -126,7 +126,6 @@ body.dark {
   transition: background 1s;
 }
 
-
 html {
   margin: 0;
   padding: 0;
@@ -164,6 +163,7 @@ body.project {
 	min-height: 100vh;
   min-height: stretch;
   height: auto;
+  background: black;
 }
 
 img {

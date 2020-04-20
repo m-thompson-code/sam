@@ -35,10 +35,12 @@ import { SliderModule } from './components/slider/slider.module';
 import { PipeModule } from './pipes/pipe.module';
 
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NavComponent,
     ],
     imports: [
         AppRoutingModule,

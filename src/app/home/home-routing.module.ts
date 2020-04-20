@@ -3,10 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 
+import { CanDeactivateGuard } from '../guards/can-deactivate.guard';
+
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        canDeactivate: [
+            CanDeactivateGuard
+        ]
     }
 ];
 

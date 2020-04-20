@@ -1,7 +1,7 @@
 import { Component, HostListener, ViewChild, ElementRef, NgZone, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { Project } from '../app.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 declare var M;
@@ -19,10 +19,12 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 
 	paramSubscription: Subscription;
 
-	constructor(public appService: AppService, private activatedRoute: ActivatedRoute) {
+	constructor(public appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
 	}
 
 	ngOnInit() {
+		this.appService.mode = 'dark';
+		
 		document.body.className = "project";
         this.paramSubscription = this.activatedRoute.params.subscribe(params => {
 			this.urlIndex = +params['projectIndex'];
