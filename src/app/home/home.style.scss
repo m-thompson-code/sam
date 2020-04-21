@@ -32,6 +32,9 @@
 	width: 100px;
     cursor: pointer;
 }
+.management-option.advancedEdit {
+	width: 300px;
+}
 
 .management-option.active {
 	color: #26a69a;
@@ -46,6 +49,9 @@
 	border-bottom: 1px solid #26a69a;
     box-shadow: 0 1px 0 0 #26a69a;
 }
+.management-option-active-border.advancedEdit {
+	width: 300px;
+}
 
 .management-option-active-border.dark {
 	background: white;
@@ -57,6 +63,10 @@
 
 .management-option-active-border.active-tips {
 	margin-left: 200px;
+}
+.management-option-active-border.active-advancedEdit {
+	margin-left: 0;
+	width: 300px;
 }
 
 .tips-container {
@@ -1007,4 +1017,9 @@
 		opacity: 1;
 		top: 50%;
 	}
+}
+
+.thumbnail {
+	width: 160px;
+	height: 120px;
 }

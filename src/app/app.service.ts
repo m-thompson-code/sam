@@ -12,14 +12,22 @@ export class AppService {
 	mode: 'dark' | 'light' | '';
 
 	first: boolean;
+	id: number;
 
     constructor() {
         this.projects = [];
-        this.footerUrls = [];
-    }
+		this.footerUrls = [];
+		
+		this.id = 0;
+	}
+	
+	public getID(): string {
+		this.id += 1;
+		return `${this.id}-${Date.now()}`;
+	}
 
     loadProjects() {
-        return firebase.database().ref('prod').once('value').then(snapshot => {
+        return firebase.database().ref('prod-3').once('value').then(snapshot => {
 			if (!snapshot.exists()) {
 				console.error("Unexpected error. snapshot missing");
 				throw {

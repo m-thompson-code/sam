@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'moo-input',
@@ -22,11 +23,11 @@ export class InputComponent {
 
 	invalidText: string;
  	
-	constructor() {
+	constructor(private appService: AppService) {
 	}
 
 	ngOnInit() {
-		this.id = "" + Date.now();
+		this.id = this.appService.getID();
 
 		// this.textIsInvalidFunc = (text: string) => {
 		// 	console.log(text);

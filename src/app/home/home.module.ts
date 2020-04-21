@@ -14,6 +14,7 @@ import { TextPlacementTestModule } from '../components/textPlacementTest/textPla
 import { IconModule } from '../components/icon/icon.module';
 import { ImageModule } from '../components/image/image.module';
 import { InputModule } from '../components/input/input.module';
+import { TextareaModule } from '../components/textarea/textarea.module';
 import { PreloaderModule } from '../components/preloader/preloader.module';
 import { DotsModule } from '../components/dots/dots.module';
 
@@ -33,6 +34,7 @@ import { DotsModule } from '../components/dots/dots.module';
 
         IconModule,
         InputModule,
+        TextareaModule,
         ImageModule,
         PreloaderModule,
         DotsModule,

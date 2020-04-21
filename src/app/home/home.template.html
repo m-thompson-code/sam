@@ -88,7 +88,7 @@
     </div>
 </div>
 
-<div *ngIf="loggedIn && showManagement" [class]="'management-wrapper ' + mode">
+<div *ngIf="loggedIn && showManagement" #managementWrapper [class]="'management-wrapper ' + mode">
     <div [class]="'fixed-action-btn ' + mode" (click)="save()">
         <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode">
             <moo-icon [icon]="'upload'"></moo-icon>
@@ -109,19 +109,43 @@
                         <span>Tips</span>
                     </div>
                 </ng-container>
+
                 <ng-container *ngIf="activeManagementOption === 'advancedEdit'">
-                    <div [class]="'management-option ' + (activeManagementOption === 'advancedEdit' ? 'active' : '')">
-                        <span>Advanced</span>
+                    <div [class]="'management-option advancedEdit ' + (activeManagementOption === 'advancedEdit' ? 'active' : '')">
+                        <span>Advanced Project Form</span>
                     </div>
-                    <div [class]="'management-option'" (click)="setActiveManagementOption('projects')">
-                        <span>Back</span>
-                    </div>
-            </ng-container>
+                   
+                </ng-container>
             </div>
             <div [class]="'management-option-active-border ' + mode + ' ' + 'active-' + activeManagementOption">
                 <!-- active bar -->
             </div>
         </div>
+
+        <ng-container *ngIf="activeManagementOption === 'advancedEdit'">
+            <div [class]="'management-option'" (click)="setActiveManagementOption('projects')">
+                <span>Back</span>
+            </div>
+
+            <moo-input [mode]="mode" [text]="advancedEditProject.text" [label]="'Project name'" [textIsInvalidFuncs]="[isEmptyProject]"
+                (valueChanged)="advancedEditProject.text = $event"></moo-input>
+            
+            <moo-textarea [mode]="mode" [text]="advancedEditProject.desc" [label]="'Project desc'"
+                (valueChanged)="advancedEditProject.desc = $event"></moo-textarea>
+
+            <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'Imgur Url'" (valueChanged)="advancedEditImageUrl.text = $event"></moo-input>
+
+            <a (click)="addImage()">Add image</a>
+
+            <ng-container *ngFor="let imageUrl of advancedEditProject.imageUrls">
+                <div class="thumbnail" #thumbnail>
+                    <moo-image [thumbnail]="true" [mode]="mode" [href]="imageUrl" [container]="thumbnail" [calcSize]="true">
+                    
+                    </moo-image>
+                </div>
+            </ng-container>
+           
+        </ng-container>
         
         <ng-container *ngIf="activeManagementOption==='projects'">
             <div id="drakeTest" dragula="URLS" [(dragulaModel)]="appService.projects" class="editables">
@@ -155,7 +179,6 @@
                                             <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -188,12 +211,11 @@
             <div [class]="'tips-container ' + mode">
                 <p class="tips-margin-bottom extra" [style.font-size]="'16px'">Setting project names and footer info</p>
                     
-                <p class="tips-margin-bottom extra">What you type is what you'll see with three exceptions: <span class="code-text">\</span> <span class="code-text">\n</span> <span class="code-text">\s</span></p>
-                <p class="tips-margin-bottom"><span class="code-text">\</span>Nothing</p>
+                <p class="tips-margin-bottom extra">What you type is what you'll see with three exceptions: <span class="code-text">\</span> <span class="code-text">\n</span></p>
                 <p class="tips-margin-bottom"><span class="code-text">\n</span>Mobile → newline.&emsp;Tablet / desktop → nothing</p>
                 <p class="tips-margin-bottom extra"><span class="code-text">\s</span>Mobile → newline.&emsp;Tablet / desktop → space</p>
 
-                <p class="tips-margin-bottom">Protip: You can change the size of your browser to be the size of mobile / tablet / desktop to see how your site will appear before saving your changes.</p>
+                <p class="tips-margin-bottom">You can change the size of your browser to be the size of mobile / tablet / desktop to see how your site will appear before saving your changes.</p>
                 <p class="tips-margin-bottom extra" [style.margin-bottom]="'24pt'">Below is an interactable example. Change the text below to experiment.</p>
 
                 <moo-input [mode]="mode" [text]="exampleText" [label]="'Example project name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="exampleText = $event"></moo-input>

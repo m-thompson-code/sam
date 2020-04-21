@@ -42,6 +42,7 @@ export interface Project extends DBProject {
     styleUrls: ['./home.style.scss']
 })
 export class HomeComponent {
+	@ViewChild('managementWrapper') private managementWrapper: ElementRef<HTMLDivElement>;
 	PROJECTS = "PROJECTS";
 	Footers = "FOOTERS";
 	
@@ -81,7 +82,7 @@ export class HomeComponent {
 
 	toggleModeTimeout: any;
 
-	activeManagementOption: string = 'projects';
+	activeManagementOption: 'projects' | 'advancedEdit' | 'footer' | 'tips' = 'projects';
 
 	authPending: boolean;
 
@@ -109,23 +110,29 @@ export class HomeComponent {
 
 	started: boolean;
 
+	managementWrapperScrollTop: number;
+	advancedEditProject: Project;
+	advancedEditImageUrl: string;
+
 	constructor(private location: Location, private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
 	}
 
-	_ripple(x: number, y: number, color: 'black' | 'white') {
+	private _ripple(x: number, y: number, color: 'black' | 'white'): void {
 		const W = (window as any).Waves;
 
-		W.ripple(this.centerButton.nativeElement, {
-			wait: 200,
-			position: {
-				x: x,
-				y: y
-			},
-			className: "minor-effect " + color
-		});
+		if (this.centerButton) {
+			W.ripple(this.centerButton.nativeElement, {
+				wait: 200,
+				position: {
+					x: x,
+					y: y
+				},
+				className: "minor-effect " + color
+			});
+		}
 	}
 
-	doRipple() {
+	public doRipple(): void {
 		const W = (window as any).Waves;
 
 		const width = this.centerButton && this.centerButton.nativeElement && this.centerButton.nativeElement.clientWidth;
@@ -153,7 +160,7 @@ export class HomeComponent {
 		}
 	}
 
-	clickMe() {
+	public clickMe(): void {
 		if (this.started) {
 			return;
 		}
@@ -169,7 +176,8 @@ export class HomeComponent {
 		}, 2000);
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
+		// Hide the current url being /home
 		setTimeout(() => {
 			this.location.replaceState('/');
 		}, 1);
@@ -196,8 +204,6 @@ export class HomeComponent {
 
 		this.imageIndex = 0;
 
-		(window as any).home = this;
-		(window as any).firebase = firebase;
 		// const drake = dragula([document.querySelector('#drakeTest')], {
 		// 	// moves: function (el, source, handle, sibling) {
 		// 	// 	console.log("moo");
@@ -271,6 +277,7 @@ export class HomeComponent {
 		this.authHandler();
 	}
 
+	// Slideshow stuff
 	nextImage() {
 		this.imageIndex += 1;
 		if (this.imageIndex > this.activeProject.imageUrls.length - 1) {
@@ -320,6 +327,7 @@ export class HomeComponent {
 			}, 1000);
 		}
 	}
+	// END Slideshow stuff
 
 	titleFunc(event: MouseEvent) {
 		if (this.slideshow) {
@@ -340,7 +348,7 @@ export class HomeComponent {
 		event.stopPropagation();
 	}
 
-	ngAfterViewInit() {
+	public ngAfterViewInit(): void {
 		if (this.mode !== 'dark') {
 			setTimeout(() => {
 				this.clickMe();
@@ -380,7 +388,7 @@ export class HomeComponent {
 		},0);
 	}
 
-	setMode(mode: 'dark' | 'light' | ''): void {
+	public setMode(mode: 'dark' | 'light' | ''): void {
 		this.mode = mode;
 		document.body.className = mode;
 		this.appService.mode = mode;
@@ -663,8 +671,16 @@ export class HomeComponent {
 		});
 	}
 
-	setActiveManagementOption(option) {
+	setActiveManagementOption(option: 'projects' | 'advancedEdit' | 'footer' | 'tips'): void {
 		this.activeManagementOption = option;
+
+		setTimeout(() => {
+			if (this.managementWrapperScrollTop || this.managementWrapperScrollTop === 0) {
+				console.log(this.managementWrapperScrollTop);
+				this.managementWrapper.nativeElement.scrollTop = this.managementWrapperScrollTop;
+				this.managementWrapperScrollTop = null;
+			}
+		}, 1);
 	}
 
 	getNewProject(): Project {
@@ -701,7 +717,6 @@ export class HomeComponent {
 			} else if (project.href) {
 				M.toast({html: `Project #${index + 1} was removed`, displayLength: 1250});
 			}
-
 		}
 	}
 
@@ -709,8 +724,21 @@ export class HomeComponent {
 		this.appService.projects[index].useSlideshow = !this.appService.projects[index].useSlideshow;
 	}
 
-	setAdvanceEdit(index: number) {
+	public setAdvanceEdit(index: number): void {
+		let managementWrapperScrollTop = 0;
+
+		if (this.managementWrapper) {
+			console.log(this.managementWrapper.nativeElement.scrollTop);
+			managementWrapperScrollTop = this.managementWrapper.nativeElement.scrollTop;
+		}
+
+		this.advancedEditProject = this.appService.projects[index];
+
 		this.setActiveManagementOption('advancedEdit');
+
+		setTimeout(() => {
+			this.managementWrapperScrollTop = managementWrapperScrollTop;
+		}, 2);
 	}
 
 	toggleShowManagement() {
@@ -792,8 +820,8 @@ export class HomeComponent {
 			footers: this.appService.footerUrls || [],
 		};
 
-		return firebase.database().ref('prod').set(app).then(() => {
-			return firebase.database().ref(`timestamps/${Date.now()}`).set(app);
+		return firebase.database().ref('prod-3').set(app).then(() => {
+			// return firebase.database().ref(`timestamps/${Date.now()}`).set(app);
 		}).then(() => {
 			this.saving = false;
 			M.toast({html: 'Saved!', displayLength: 1250});
@@ -847,10 +875,42 @@ export class HomeComponent {
         }
     }
 	// End Class stuff
+
+	public addImage(): void {
+		// If url is valid
+		// => convert to proper url
+		// add image to project
+		// Display using thumbnail
+		this.advancedEditImageUrl = "";
+	}
 	
 	public canDeactivate(): boolean {
 		if (this.showSlideshow) {
 			this.toggleSlideshow();
+			setTimeout(() => {
+				this.location.replaceState('/');
+			}, 1);
+			return false;
+		}
+
+		if (this.showManagement) {
+			if (this.activeManagementOption === 'advancedEdit') {
+				this.setActiveManagementOption('projects');
+				setTimeout(() => {
+					this.location.replaceState('/');
+				}, 1);
+				return false
+			}
+
+			this.toggleShowManagement();
+			setTimeout(() => {
+				this.location.replaceState('/');
+			}, 1);
+			return false;
+		}
+
+		if (this.showLogin) {
+			this.showLogin = false;
 			setTimeout(() => {
 				this.location.replaceState('/');
 			}, 1);

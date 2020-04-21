@@ -9,33 +9,44 @@ import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 export class ImageComponent implements OnChanges {
 	// @Input() href: string;
 
+	thref: string;
 	mhref: string;
 	dhref: string;
 
 	private _href: string;
     @Input()
     set href(href: string) {
-		this._href = href;
+			this._href = href;
 
-		const parts = href.split('/');
-		parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
-		this.mhref = "";
-		for (let part of parts) {
-			if (this.mhref) {
-				this.mhref += '/';
+			const parts = href.split('/');
+			parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
+			this.mhref = "";
+			for (let part of parts) {
+				if (this.mhref) {
+					this.mhref += '/';
+				}
+				this.mhref += part;
 			}
-			this.mhref += part;
-		}
 
-		const parts2 = href.split('/');
-		parts2[parts2.length - 1] = parts2[parts2.length - 1].replace('.', 'h.');
-		this.dhref = "";
-		for (let part of parts2) {
-			if (this.dhref) {
-				this.dhref += '/';
+			const parts2 = href.split('/');
+			parts2[parts2.length - 1] = parts2[parts2.length - 1].replace('.', 'h.');
+			this.dhref = "";
+			for (let part of parts2) {
+				if (this.dhref) {
+					this.dhref += '/';
+				}
+				this.dhref += part;
 			}
-			this.dhref += part;
-		}
+
+			const parts3 = href.split('/');
+			parts3[parts3.length - 1] = parts3[parts3.length - 1].replace('.', 'b.');
+			this.thref = "";
+			for (let part of parts3) {
+				if (this.thref) {
+					this.thref += '/';
+				}
+				this.thref += part;
+			}
     }
     get href(): string {
         return this._href;
@@ -56,6 +67,8 @@ export class ImageComponent implements OnChanges {
 
 	@Input() calcSize: boolean;
 
+	@Input() thumbnail: boolean;
+
 	constructor() {
 	}
 
@@ -75,7 +88,7 @@ export class ImageComponent implements OnChanges {
 	onload() {
 		// console.log('onload finished');
 		this.loading = false;
-		// console.log(this.image);
+		console.log(this.image);
 		// console.log(this.image.height);
 		// console.log(this.image.width);
 		if (this.image) {
@@ -183,7 +196,13 @@ export class ImageComponent implements OnChanges {
 			this.loading = true;
 			this.errored = false;
 
-			this.image.src = this.dhref;
+			if (!this.calcSize) {
+				this.image.src = this.mhref;
+			} else if (this.thumbnail) {
+				this.image.src = this.thref;
+			} else {
+				this.image.src = this.dhref;
+			}
 		}
 	}
 }
