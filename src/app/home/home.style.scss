@@ -9,6 +9,9 @@
     height: auto;
     flex-direction: row;
 }
+.bottom-buttons {
+	margin-top: 33px;
+}
 
 .management-options-container {
 	width: 300px;
@@ -17,7 +20,23 @@
 	margin-left: calc(17px + 18pt);
 	margin-bottom: 32px;
 	color: rgba(0,0,0,0.87);
-	transition: 0.3s;
+	transition: 300ms cubic-bezier(0.35, 0, 0.25, 1);
+}
+.management-options-container.management-option-advancedEdit {
+	margin-left: .75rem;
+}
+.advanced-edit-back-wrapper {
+	margin-left: .75rem;
+	margin-bottom: 1.5rem;
+}
+
+.project-slideshow-text {
+	font-size: 1rem;
+	margin-left: 75px;
+}
+
+.project-slideshow-text.dark {
+	color: white;
 }
 
 .management-options-container.dark {
@@ -45,7 +64,7 @@
 	width: 100px;
 	height: 0px;
 	// background: rgba(0,0,0,0.87);
-	transition: 0.3s;
+	transition: 300ms cubic-bezier(0.35, 0, 0.25, 1);
 	border-bottom: 1px solid #26a69a;
     box-shadow: 0 1px 0 0 #26a69a;
 }
@@ -132,6 +151,8 @@
 		font-size: 16px;
 		width: 17px;
 		margin-right: 9pt;
+
+  		font-family: Helvetica, sans-serif;
 	}
 	.index.dark {
 		color: white;
@@ -182,7 +203,7 @@
 	padding: 0 32px 12pt;
 	background: rgba(255,255,255,.95);
 
-	transition: .25s;
+	transition: 250ms cubic-bezier(0.35, 0, 0.25, 1);
 	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 .sign-in.dark {
@@ -303,7 +324,7 @@
     width: 100%;
     height: auto;
     opacity: 0;
-	transition: opacity .5s;
+	transition: opacity 500ms cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .poem-image.light {
@@ -333,7 +354,7 @@
 
 .poem {
 	opacity: 0;
-	transition: opacity .5s;
+	transition: opacity 500ms cubic-bezier(0.35, 0, 0.25, 1);
 
 	color: black;
 	width: 33.3333333%;
@@ -423,7 +444,7 @@
 	/*width: calc(50% - 6.5px - 42px);*/
 	width: calc(50% - 5px - 42px);
 	max-width: 150px;
-    transition: opacity 2s;
+    transition: opacity 2s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .mobile-text-container.with-extra-margins {
@@ -490,7 +511,7 @@
 
 .light-image, .light-image:hover {
 	opacity: 0;
-	transition: opacity .5s;
+	transition: opacity 500ms cubic-bezier(0.35, 0, 0.25, 1);
 	cursor: pointer;
 	background-color: rgb(255, 255, 255);
 }
@@ -519,7 +540,7 @@
 	/*height: 26px;*/
 	width: 100%;
 	height: 100%;
-	transition: opacity 2s;
+	transition: opacity 2s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .dark-image-safari-fix {
 	/*opacity: 1;*/
@@ -527,7 +548,7 @@
 }
 .dark-image.dark:hover {
 	opacity: .66;
-	transition: opacity .5s;
+	transition: opacity 500ms cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .first-only::first-line {
@@ -622,7 +643,7 @@
     position: absolute;
     top: 100%;
 
-    transition: opacity 2s;
+    transition: opacity 2s cubic-bezier(0.35, 0, 0.25, 1);
     opacity: 0;
 }
 
@@ -641,7 +662,7 @@
 	
 	padding-bottom: 70px;
 
-    transition: opacity 2s;
+    transition: opacity 2s cubic-bezier(0.35, 0, 0.25, 1);
     opacity: 0;
 }
 
@@ -822,9 +843,10 @@
 		flex-direction: column;
 
 		.desc {
-			// .project-name {
-			// 	// font-size: 7pt;
-			// }
+			.project-name {
+				// Makes the line-height match up with the rest of the description
+				line-height: 1;
+			}
 
 			white-space: pre-wrap;
 
@@ -860,12 +882,12 @@
 				a {
 					color: white;
 					text-decoration: underline;
-					transition: color 0.5s;
+					transition: color 500ms cubic-bezier(0.35, 0, 0.25, 1);
 					cursor: pointer;
 				}
 
 				a:not(:focus):not(:active):hover {
-					transition: color 2s;
+					transition: color 2s cubic-bezier(0.35, 0, 0.25, 1);
 					color: black;
 				}
 			}
@@ -892,12 +914,12 @@
 }
 
 .slideshow-animate.center-image {
-	transition: top 1s;
+	transition: top 1s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .slideshow-animate.center-vert.title-container {
 	.title {
-		transition: top 1s;
+		transition: top 1s cubic-bezier(0.35, 0, 0.25, 1);
 	}
 }
 
@@ -909,7 +931,7 @@
 	top: calc(70px + 13px);// margin + half height of image
 }
 .slideshow-animate.slideshow.center-image {
-	transition: top 0.5s ease-out;
+	transition: top 500ms cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .slideshow.center-vert.title-container {
@@ -920,13 +942,13 @@
 	}
 	.links-container {
 		opacity: 0;
-		transition: opacity 0.5s;
+		transition: opacity 500ms cubic-bezier(0.35, 0, 0.25, 1);
 	}
 }
 
 .slideshow-animate.slideshow.center-vert.title-container {
 	.title {
-		transition: top 0.5s ease-out;
+		transition: top 500ms cubic-bezier(0.35, 0, 0.25, 1);
 	}
 }
 
@@ -1003,23 +1025,109 @@
 		top: 50%;
 	}
 	.slideshow.center-image {
-		transition: opacity 1s ease-out;
+		transition: opacity 1s cubic-bezier(0.35, 0, 0.25, 1);
 		opacity: 0;
 		top: 50%;
 	}
 	.slideshow-animate.slideshow.center-image {
-		transition: opacity 1s ease-out;
+		transition: opacity 1s cubic-bezier(0.35, 0, 0.25, 1);
 		opacity: 0;
 		top: 50%;
 	}
 	.slideshow-animate.center-image {
-		transition: opacity 0.5s ease-out;
+		transition: opacity 500ms cubic-bezier(0.35, 0, 0.25, 1);
 		opacity: 1;
 		top: 50%;
 	}
 }
 
+.thumbnail-wrapper {
+	cursor: pointer;
+}
+
+.thumbnail-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	color: rgba(white, .5);
+	fill: rgba(white, .5);
+
+	background: rgba(0, 0, 0, .1);
+
+	border-radius: 8px;
+}
+.thumbnail-close:hover {
+	color: rgba(#26a69a, .9);
+	fill: rgba(#26a69a, .9);
+}
+
+.image-edit-back {
+	position: absolute;
+	top: 50%;
+    transform: translateY(-50%);
+
+	left: 3px;
+
+	color: rgba(white, .5);
+	fill: rgba(white, .5);
+
+	background: rgba(0, 0, 0, .1);
+
+	border-radius: 8px;
+}
+.image-edit-forward {
+	position: absolute;
+	top: 50%;
+    transform: translateY(-50%) scale(-1,1);;
+
+	right: 3px;
+
+	color: rgba(white, .5);
+	fill: rgba(white, .5);
+
+	background: rgba(0, 0, 0, .1);
+
+	border-radius: 8px;
+}
+.thumbnail-close:hover, .image-edit-back:hover, .image-edit-forward:hover {
+	color: rgba(#26a69a, .9);
+	fill: rgba(#26a69a, .9);
+}
+
 .thumbnail {
 	width: 160px;
 	height: 120px;
+    margin: 12px;
+    border-radius: 8px;
+	background: rgba(0,0,0,.86);
+	overflow: hidden;	
+	position: relative;	
+}
+
+.advanced-edit-images {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.no-images {
+	margin: 12px;
+}
+
+.tag-metadatas, .project-href, .footer-href, .tag-section-href {
+	width: calc(100% - 64px);
+	margin-left: 64px;
+}
+
+.image-input {
+	display: flex;
+
+	moo-input {
+		flex-grow: 2;
+	}
+
+	a {
+		margin-left: 1.5rem;
+    	margin-top: 26px;
+	}
 }

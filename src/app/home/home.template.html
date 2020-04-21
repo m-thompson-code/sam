@@ -5,7 +5,7 @@
 
 
 
-<div *ngIf="showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
+<div *ngIf="!showManagement && showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
     <div *ngIf="activeProject.imageUrls && activeProject.imageUrls.length" #imageContainer class="image">
         <moo-image [mode]="mode" [href]="activeProject.imageUrls[imageIndex]" [container]="imageContainer" [calcSize]="true"></moo-image>
 
@@ -61,9 +61,11 @@
     <div>
         <moo-input [mode]="mode" [text]="email" [label]="'Email'" (valueChanged)="email = $event"></moo-input>
     </div>
+
     <div>
         <moo-input [mode]="mode" [text]="password" [inputType]="'password'" [label]="'Password'" (valueChanged)="password = $event"></moo-input>
     </div>
+
     <div>
         <a [class]="'waves-effect waves-light btn-small dark-btn ' + mode" [style.margin-right]="'7pt'" (click)="firebasePasswordLogin()">Login</a>
         <a [class]="'waves-effect waves-light btn-flat btn-small ' + mode" (click)="firebaseRequestPasswordReset()">Forgot</a>
@@ -96,7 +98,7 @@
     </div>
 
     <div [class]="'management-container ' + (dragging ? 'dragging' : '')" [style.color]="'black'">
-        <div [class]="'management-options-container ' + mode">
+        <div [class]="'management-options-container ' + mode + ' management-option-' + activeManagementOption">
             <div class="management-options wave-effect">
                 <ng-container *ngIf="activeManagementOption !== 'advancedEdit'">
                     <div [class]="'management-option ' + (activeManagementOption === 'projects' ? 'active' : '')" (click)="setActiveManagementOption('projects')">
@@ -112,7 +114,7 @@
 
                 <ng-container *ngIf="activeManagementOption === 'advancedEdit'">
                     <div [class]="'management-option advancedEdit ' + (activeManagementOption === 'advancedEdit' ? 'active' : '')">
-                        <span>Advanced Project Form</span>
+                        <span>Project Slideshow Form</span>
                     </div>
                    
                 </ng-container>
@@ -123,28 +125,144 @@
         </div>
 
         <ng-container *ngIf="activeManagementOption === 'advancedEdit'">
-            <div [class]="'management-option'" (click)="setActiveManagementOption('projects')">
-                <span>Back</span>
+            <div class="advanced-edit-back-wrapper">
+                <a [class]="'waves-effect waves-light btn-flat ' + mode" (click)="setActiveManagementOption('projects')">Back</a>
             </div>
 
-            <moo-input [mode]="mode" [text]="advancedEditProject.text" [label]="'Project name'" [textIsInvalidFuncs]="[isEmptyProject]"
-                (valueChanged)="advancedEditProject.text = $event"></moo-input>
-            
-            <moo-textarea [mode]="mode" [text]="advancedEditProject.desc" [label]="'Project desc'"
-                (valueChanged)="advancedEditProject.desc = $event"></moo-textarea>
-
-            <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'Imgur Url'" (valueChanged)="advancedEditImageUrl.text = $event"></moo-input>
-
-            <a (click)="addImage()">Add image</a>
-
-            <ng-container *ngFor="let imageUrl of advancedEditProject.imageUrls">
-                <div class="thumbnail" #thumbnail>
-                    <moo-image [thumbnail]="true" [mode]="mode" [href]="imageUrl" [container]="thumbnail" [calcSize]="true">
+            <div class="row">
+                <div class="col s12">
+                    <moo-input [mode]="mode" [text]="advancedEditProject.text" [label]="'Project Name'" [textIsInvalidFuncs]="[isEmptyProject]"
+                        (valueChanged)="advancedEditProject.text = $event"></moo-input>
                     
-                    </moo-image>
+                    <moo-textarea [mode]="mode" [text]="advancedEditProject.desc" [label]="'Project Description'"
+                        (valueChanged)="advancedEditProject.desc = $event"></moo-textarea>
+
+                    <div class="image-input">
+                        <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'New Imgur Url'"
+                            (valueChanged)="advancedEditImageUrl = $event"></moo-input>
+                        
+                        <a [class]="'waves-effect wave-light btn ' + mode" (click)="addImage()">Add New Image</a>
+                    </div>
+
+                    <div dragula="IMAGES" [(dragulaModel)]="advancedEditProject.imageUrls" class="advanced-edit-images">
+                        <div *ngFor="let imageUrl of advancedEditProject.imageUrls; let i = index; let first = first; let last = last" class="thumbnail-wrapper">
+                            <div [class]="'thumbnail ' + mode" #thumbnail>
+                                <moo-image [thumbnail]="true" [mode]="mode" [href]="imageUrl" [container]="thumbnail" [calcSize]="true">
+                                </moo-image>
+
+                                <moo-icon [class]="'thumbnail-close ' + mode" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
+                                <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="removeAdvancedEditImage(i)"></moo-icon>
+                                <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + mode" [icon]="'navigate_back'" (click)="removeAdvancedEditImage(i)"></moo-icon>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!advancedEditProject.imageUrls || !advancedEditProject.imageUrls.length" class="thumbnail-wrapper">
+                            <div class="no-images">(No Images)</div>
+                        </div>
+                    </div>
                 </div>
-            </ng-container>
-           
+            </div>
+
+            <div class="advanced-edit-back-wrapper">
+                <a [class]="'waves-effect wave-light btn ' + mode" (click)="addTagSection()">Add Tag Section</a>
+            </div>
+
+            <div class="editables">
+                <div *ngFor="let tag of advancedEditProject.tags; let i = index">
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="editable-row">
+                                <div [class]="'index ' + mode">
+                                    {{ i + 1 }}.
+                                </div>
+            
+                                <div class="inputs">
+                                    <moo-input [mode]="mode" [text]="tag.text" [label]="'Tag Section ' + (i + 1)" (valueChanged)="tag.text = $event">
+                                    </moo-input>
+                                </div>
+            
+                                <div class="editable-buttons">
+                                    <div class="top-buttons">
+                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                            (click)="insertProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                        </div>
+                                
+                                        <div *ngIf="appService.projects.length > 1"
+                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                        </div>
+                                
+                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                            (click)="insertProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
+                                        </div>
+                                
+                                        <div *ngIf="appService.projects.length > 1"
+                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="editable-row">
+                                <div class="tag-metadatas">
+                                    <div *ngFor="let element of tag.elements; let j = index">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <div class="editable-row">
+                                                    <div [class]="'index ' + mode">
+                                                        {{ j + 1 }}.
+                                                    </div>
+                                
+                                                    <div class="inputs">
+                                                        <moo-input [mode]="mode" [text]="element.text" [label]="'Tag Text ' + (j + 1)"
+                                                            (valueChanged)="element.text = $event">
+                                                        </moo-input>
+                                
+                                                        <div class="tag-section-href">
+                                                            <moo-input [mode]="mode" [text]="element.href"
+                                                                [label]="'Tag Url ' + (j + 1) + ' (Optional)'" (valueChanged)="element.href = $event">
+                                                            </moo-input>
+                                                        </div>
+                                                    </div>
+                                
+                                                    <div class="editable-buttons">
+                                                        <div class="top-buttons">
+                                                            <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                (click)="insertProject(i)">
+                                                                <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                                            </div>
+                                
+                                                            <div *ngIf="appService.projects.length > 1"
+                                                                [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                (click)="removeProject(i)">
+                                                                <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                                            </div>
+                                
+                                                            <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                (click)="insertProject(i)">
+                                                                <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
+                                                            </div>
+                                
+                                                            <div *ngIf="appService.projects.length > 1"
+                                                                [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                (click)="removeProject(i)">
+                                                                <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </ng-container>
         
         <ng-container *ngIf="activeManagementOption==='projects'">
@@ -156,27 +274,41 @@
                                 <div [class]="'index ' + mode">
                                     {{ i + 1 }}.
                                 </div>
+
                                 <div class="inputs">
-                                    <moo-input [mode]="mode" [text]="project.text" [label]="'Project name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="project.text = $event"></moo-input>
-                                    <ng-container *ngIf="!project.useSlideshow">
-                                        <moo-input [mode]="mode" [text]="project.href" [label]="'Project project'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="project.href = $event"></moo-input>
-                                    </ng-container>
-                                    <ng-container *ngIf="project.useSlideshow">
-                                        <a (click)="setAdvanceEdit(i)">Click here to edit this project</a>
-                                    </ng-container>
+                                    <moo-input [mode]="mode" [text]="project.text" [label]="'Project Name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="project.text = $event"></moo-input>
+                                    
+                                    <div *ngIf="!project.useSlideshow" class="project-href">
+                                        <moo-input [mode]="mode" [text]="project.href" [label]="'Project Url (Optional)'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="project.href = $event"></moo-input>
+                                    </div>
+
+                                    <span *ngIf="project.useSlideshow" [class]="'project-slideshow-text ' + mode">Project is set to use slideshow instead of a url. <a (click)="setAdvanceEdit(i)">Edit Slideshow here</a></span>
                                 </div>
+
                                 <div class="editable-buttons">
                                     <div class="top-buttons">
                                         <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
                                             <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
                                         </div>
+
                                         <div *ngIf="appService.projects.length > 1" [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
                                             <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
                                         </div>
+
+                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
+                                        </div>
+                                        
+                                        <div *ngIf="appService.projects.length > 1"
+                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                                        </div>
                                     </div>
-                                    <div class="test">
+
+                                    <div class="bottom-buttons">
                                         <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="toggleAdvancedProject(i)">
-                                            <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                            <moo-icon *ngIf="!project.useSlideshow" [class]="mode" [icon]="'photo_library'"></moo-icon>
+                                            <moo-icon *ngIf="project.useSlideshow" [class]="mode" [icon]="'link'"></moo-icon>
                                         </div>
                                     </div>
                                 </div>
@@ -197,8 +329,10 @@
                                     {{ i + 1 }}.
                                 </div>
                                 <div class="inputs">
-                                    <moo-input [mode]="mode" [text]="footerUrl.text" [label]="'Footer item'" [textIsInvalidFuncs]="[isEmptyFooter]" (valueChanged)="footerUrl.text = $event"></moo-input>
-                                    <moo-input [mode]="mode" [text]="footerUrl.href" [label]="'Footer url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="footerUrl.href = $event"></moo-input>
+                                    <moo-input [mode]="mode" [text]="footerUrl.text" [label]="'Footer Item'" [textIsInvalidFuncs]="[isEmptyFooter]" (valueChanged)="footerUrl.text = $event"></moo-input>
+                                    <div class="footer-href">
+                                        <moo-input [mode]="mode" [text]="footerUrl.href" [label]="'Footer Url'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="footerUrl.href = $event"></moo-input>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +352,7 @@
                 <p class="tips-margin-bottom">You can change the size of your browser to be the size of mobile / tablet / desktop to see how your site will appear before saving your changes.</p>
                 <p class="tips-margin-bottom extra" [style.margin-bottom]="'24pt'">Below is an interactable example. Change the text below to experiment.</p>
 
-                <moo-input [mode]="mode" [text]="exampleText" [label]="'Example project name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="exampleText = $event"></moo-input>
+                <moo-input [mode]="mode" [text]="exampleText" [label]="'Example Project Name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="exampleText = $event"></moo-input>
                 
                 <div>
                     <p class="tips-margin-bottom">Mobile example</p>

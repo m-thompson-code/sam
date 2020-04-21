@@ -1,4 +1,4 @@
-@import url("//hello.myfonts.net/count/365413");
+/* @import url("//hello.myfonts.net/count/365413"); */
 
 @font-face {
 	font-family: 'BurinSansStd';
@@ -30,5 +30,5 @@
  * © 2018 MyFonts Inc
 */
 
-
+/* NOTE THIS INSTRUCTION LEADS TO A 404 WHICH CAUSES PROBLEMS */
 /* @import must be at top of file, otherwise CSS will not work */ 

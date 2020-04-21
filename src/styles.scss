@@ -9,6 +9,9 @@
   background-color: rgba(255,255,255,0.35) !important;
 }
 
+.btn, .btn-flat {
+  font-family: Helvetica, sans-serif;
+}
 .btn-large {
 	line-height: 0 !important;// Fixes the svg not being center
 	display: flex !important;
@@ -18,7 +21,9 @@
 }
 
 .btn-flat:hover, .btn-flat.dark {
-	color: white;
+  color: white;
+}.btn-flat:hover {
+  background: #26a69a;
 }
 
 moo-icon.dark {
@@ -123,7 +128,7 @@ moo-icon.dark {
 
 body.dark {
   background: black;
-  transition: background 1s;
+  transition: background 1s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 html {
@@ -172,11 +177,18 @@ img {
   height: 100%;
 }
 
+a {
+    cursor: pointer;
+}
+
+input, label, .toast {
+  font-family: Helvetica, sans-serif;
+}
 
 .themed-text {
   text-decoration: none;
   color: white;
-  transition: color 0.5s;
+  transition: color 500ms cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .not-active {
@@ -186,18 +198,18 @@ img {
 }
 
 .themed-text:not(:focus):not(:active):hover {
-  transition: color 2s;
+  transition: color 2s cubic-bezier(0.35, 0, 0.25, 1);
   color: black;
 }
 
 .themed-text:focus, .themed-text:active {
   color: white;
-  transition: color 0.5s;
+  transition: color 500ms cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .themed-text.active {
   color: white !important;
-  transition: color 0.5s !important;
+  transition: color 500ms cubic-bezier(0.35, 0, 0.25, 1) !important;
 }
 
 #container {
@@ -207,7 +219,7 @@ img {
   /*overflow:hidden;*/
   background-color: white;
   opacity: 0;
-  transition: opacity 1s;
+  transition: opacity 1s cubic-bezier(0.35, 0, 0.25, 1);
   
   /*background-image: url('./assets/dark_background_53.jpeg');*/
   background-image: url('./assets/dark_background.jpeg');

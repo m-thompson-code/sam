@@ -24,8 +24,10 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnInit() {
 		this.appService.mode = 'dark';
+		this.appService.first = false;
 		
 		document.body.className = "project";
+		
         this.paramSubscription = this.activatedRoute.params.subscribe(params => {
 			this.urlIndex = +params['projectIndex'];
 			if (this.urlIndex === 99) {
@@ -44,7 +46,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		document.body.className = "";
+		document.body.className = "dark";
 
 		this.paramSubscription && this.paramSubscription.unsubscribe && this.paramSubscription.unsubscribe();
 	}

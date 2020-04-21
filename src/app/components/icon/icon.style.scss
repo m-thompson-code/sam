@@ -8,7 +8,7 @@
   stroke-width: 0;
   stroke: currentColor;
   // fill: currentColor;// fill is set in styles.scss
-  transition: color .2s, fill .2s !important;
+  transition: color .2s cubic-bezier(0.35, 0, 0.25, 1), fill .2s cubic-bezier(0.35, 0, 0.25, 1) !important;
 }
 
 .svg-icon {

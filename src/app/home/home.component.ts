@@ -9,7 +9,7 @@ import * as dragula from 'dragula';
 import { AppService } from '../app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
-declare var M;
+declare const M;
 
 export interface TagElement {
 	text: string;
@@ -114,6 +114,8 @@ export class HomeComponent {
 	advancedEditProject: Project;
 	advancedEditImageUrl: string;
 
+	newTag: string;
+
 	constructor(private location: Location, private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
 	}
 
@@ -177,6 +179,8 @@ export class HomeComponent {
 	}
 
 	public ngOnInit(): void {
+		this.appService.first = true;
+
 		// Hide the current url being /home
 		setTimeout(() => {
 			this.location.replaceState('/');
@@ -741,7 +745,21 @@ export class HomeComponent {
 		}, 2);
 	}
 
-	toggleShowManagement() {
+	public removeAdvancedEditImage(index: number): void {
+		this.advancedEditProject.imageUrls.splice(index, 1);
+
+		if (this.activeProject === this.advancedEditProject) {
+			if (this.imageIndex > this.activeProject.imageUrls.length - 1) {
+				this.imageIndex -= 1;
+			}
+		}
+	}
+
+	public toggleShowManagement(): void {
+		// if (this.showSlideshow) {
+		// 	this.toggleSlideshow();
+		// }
+
 		clearTimeout(this.toggleModeTimeout);
 		this.showManagement = !this.showManagement;
 
@@ -877,10 +895,23 @@ export class HomeComponent {
 	// End Class stuff
 
 	public addImage(): void {
+		this.advancedEditImageUrl = this.advancedEditImageUrl || "";
+
 		// If url is valid
+		if (this.advancedEditImageUrl.startsWith('https://imgur.com/')) {
+			this.advancedEditImageUrl.replace('https://imgur.com/', 'https://i.imgur.com/') + '.jpg';
+		}
+
+		if (!this.advancedEditImageUrl.startsWith('https://i.imgur.com/')) {
+			M.toast({ html: 'url is invalid. Url should start with `https://i.imgur.com/`', displayLength: 7777 });
+			return;
+		}
+
 		// => convert to proper url
 		// add image to project
-		// Display using thumbnail
+		this.advancedEditProject.imageUrls = this.advancedEditProject.imageUrls || [];
+		this.advancedEditProject.imageUrls.push(this.advancedEditImageUrl);
+
 		this.advancedEditImageUrl = "";
 	}
 	
