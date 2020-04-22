@@ -122,6 +122,10 @@ export class HomeComponent {
 	private _ripple(x: number, y: number, color: 'black' | 'white'): void {
 		const W = (window as any).Waves;
 
+		if (!W || !W.ripple) {
+			return;
+		}
+
 		if (this.centerButton) {
 			W.ripple(this.centerButton.nativeElement, {
 				wait: 200,
@@ -135,7 +139,7 @@ export class HomeComponent {
 	}
 
 	public doRipple(): void {
-		const W = (window as any).Waves;
+		// const W = (window as any).Waves;
 
 		const width = this.centerButton && this.centerButton.nativeElement && this.centerButton.nativeElement.clientWidth;
 
@@ -181,10 +185,10 @@ export class HomeComponent {
 	public ngOnInit(): void {
 		this.appService.first = true;
 
-		// Hide the current url being /home
-		setTimeout(() => {
-			this.location.replaceState('/');
-		}, 1);
+		// // Hide the current url being /home
+		// setTimeout(() => {
+		// 	this.location.replaceState('/');
+		// }, 1);
 
 		const mode = this.appService.mode;//'dark';
 
@@ -680,7 +684,7 @@ export class HomeComponent {
 
 		setTimeout(() => {
 			if (this.managementWrapperScrollTop || this.managementWrapperScrollTop === 0) {
-				console.log(this.managementWrapperScrollTop);
+				// console.log(this.managementWrapperScrollTop);
 				this.managementWrapper.nativeElement.scrollTop = this.managementWrapperScrollTop;
 				this.managementWrapperScrollTop = null;
 			}
@@ -724,6 +728,18 @@ export class HomeComponent {
 		}
 	}
 
+	swapProjects(i: number, j: number) {
+		if (j < 0 || j > this.appService.projects.length - 1) {
+			return;
+		}
+		
+		const first = this.appService.projects[i];
+		const second = this.appService.projects[j];
+
+		this.appService.projects[i] = second;
+		this.appService.projects[j] = first;
+	}
+
 	toggleAdvancedProject(index: number) {
 		this.appService.projects[index].useSlideshow = !this.appService.projects[index].useSlideshow;
 	}
@@ -732,7 +748,7 @@ export class HomeComponent {
 		let managementWrapperScrollTop = 0;
 
 		if (this.managementWrapper) {
-			console.log(this.managementWrapper.nativeElement.scrollTop);
+			// console.log(this.managementWrapper.nativeElement.scrollTop);
 			managementWrapperScrollTop = this.managementWrapper.nativeElement.scrollTop;
 		}
 
@@ -749,10 +765,20 @@ export class HomeComponent {
 		this.advancedEditProject.imageUrls.splice(index, 1);
 
 		if (this.activeProject === this.advancedEditProject) {
+			this.imageIndex = this.imageIndex || 0;
+
 			if (this.imageIndex > this.activeProject.imageUrls.length - 1) {
 				this.imageIndex -= 1;
 			}
 		}
+	}
+
+	public swapAdvancedEditImages(i: number, j: number) {
+		const firstUrl = this.advancedEditProject.imageUrls[i];
+		const secondUrl = this.advancedEditProject.imageUrls[j];
+
+		this.advancedEditProject.imageUrls[i] = secondUrl;
+		this.advancedEditProject.imageUrls[j] = firstUrl;
 	}
 
 	public toggleShowManagement(): void {
@@ -838,7 +864,13 @@ export class HomeComponent {
 			footers: this.appService.footerUrls || [],
 		};
 
-		return firebase.database().ref('prod-3').set(app).then(() => {
+		let branch = 'dev';
+
+		if (location.hostname === 'samanthamink.com' || location.hostname === 'www.samanthamink.com') {
+			branch = 'prod';
+		}
+
+		return firebase.database().ref(branch).set(app).then(() => {
 			// return firebase.database().ref(`timestamps/${Date.now()}`).set(app);
 		}).then(() => {
 			this.saving = false;
@@ -913,6 +945,84 @@ export class HomeComponent {
 		this.advancedEditProject.imageUrls.push(this.advancedEditImageUrl);
 
 		this.advancedEditImageUrl = "";
+	}
+
+	public addTagSection(): void {
+		this.advancedEditProject.tags.unshift({
+			text: "",
+			elements: [
+				{
+					text: "",
+					href: "",
+				},
+			],
+		});
+
+		M.toast({ html: `New Tag Section added`, displayLength: 1250 });
+	}
+
+	public insertTagSection(i: number): void {
+		this.advancedEditProject.tags.splice(i + 1, 0, {
+			text: "",
+			elements: [
+				{
+					text: "",
+					href: "",
+				},
+			],
+		});
+
+		M.toast({ html: `New Tag Section added`, displayLength: 1250 });
+	}
+
+	public removeTagSection(i: number): void {
+		this.advancedEditProject.tags.splice(i, 1);
+
+		M.toast({ html: `Tag Section removed`, displayLength: 1250 });
+	}
+
+	public swapTagSections(i: number, j: number): void {
+		if (j < 0 || j > this.advancedEditProject.tags.length - 1) {
+			return;
+		}
+
+		const first = this.advancedEditProject.tags[i];
+		const second = this.advancedEditProject.tags[j];
+
+		this.advancedEditProject.tags[i] = second;
+		this.advancedEditProject.tags[j] = first;
+	}
+
+	public insertTag(elements: TagElement[], i: number): void {
+		elements.splice(i + 1, 0, {
+			text: "",
+			href: "",
+		},);
+
+		M.toast({ html: `New Tag added`, displayLength: 1250 });
+	}
+
+	public removeTag(elements: TagElement[], i: number): void {
+		if (this.advancedEditProject.tags.length <= 1) {
+			M.toast({ html: `You must have at least one Tag per Tag Section`, displayLength: 1250 });
+			return;
+		}
+
+		elements.splice(i, 1);
+
+		M.toast({ html: `Tag removed`, displayLength: 1250 });
+	}
+
+	public swapTags(elements: TagElement[], i: number, j: number): void {
+		if (j < 0 || j > elements.length - 1) {
+			return;
+		}
+
+		const first = elements[i];
+		const second = elements[j];
+
+		elements[i] = second;
+		elements[j] = first;
 	}
 	
 	public canDeactivate(): boolean {

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 	timeout: any;
+	count: 0;
 	constructor(public appService: AppService, private router: Router) {
 	}
 
@@ -20,37 +21,44 @@ export class NavComponent implements OnInit {
 			clearTimeout(this.timeout);
 
 			this.timeout = setTimeout(() => {
-				this.nav();
+				this.navHome();
 			}, 1);
 		} else {
-			console.log('first');
-			window.history.back();
+			setTimeout(() => {
+				this.navBack();
 
-			clearTimeout(this.timeout);
-
-			this.timeout = setTimeout(() => {
-				console.log('second');
-
-				window.history.back();
 				this.backLoop();
-			}, 1);
+			}, 100);
 		}
 	}
 
-	public nav(): void {
+	public navHome(): void {
 		this.appService.first = true;
 
 		this.router.navigate(['/home']);
 	}
 
 	public backLoop(): void {
+		console.log(this.router.url);
+		if (this.router.url !== '/') {
+			return;
+		}
+
 		clearTimeout(this.timeout);
 
 		this.timeout = setTimeout(() => {
-			console.log('loop back');
-			window.history.back();
+			this.count += 1;
+
+			// console.log('loop back');
+			this.navBack();
 			this.backLoop();
-		}, 100);
+		}, 100 + this.count * 100);
+	}
+
+	public navBack(): void {
+		if (this.router.url === '/') {
+			window.history.back();
+		}
 	}
 
 	public ngOnDestroy() {

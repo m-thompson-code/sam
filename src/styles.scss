@@ -178,7 +178,9 @@ img {
 }
 
 a {
-    cursor: pointer;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
 }
 
 input, label, .toast {

@@ -24,7 +24,7 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnInit() {
 		this.appService.mode = 'dark';
-		this.appService.first = false;
+		this.appService.first = true;
 		
 		document.body.className = "project";
 		
@@ -39,10 +39,6 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngAfterViewInit() {
-		// setTimeout(function(){
-		// 	// This hides the address bar:
-		// 	window.scrollTo(0, 100);
-		// }, 0);
 	}
 
 	ngOnDestroy() {

@@ -151,13 +151,9 @@
                                 </moo-image>
 
                                 <moo-icon [class]="'thumbnail-close ' + mode" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
-                                <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="removeAdvancedEditImage(i)"></moo-icon>
-                                <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + mode" [icon]="'navigate_back'" (click)="removeAdvancedEditImage(i)"></moo-icon>
+                                <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i - 1)"></moo-icon>
+                                <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i + 1)"></moo-icon>
                             </div>
-                        </div>
-
-                        <div *ngIf="!advancedEditProject.imageUrls || !advancedEditProject.imageUrls.length" class="thumbnail-wrapper">
-                            <div class="no-images">(No Images)</div>
                         </div>
                     </div>
                 </div>
@@ -184,22 +180,22 @@
                                 <div class="editable-buttons">
                                     <div class="top-buttons">
                                         <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                            (click)="insertProject(i)">
+                                            (click)="insertTagSection(i)">
                                             <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
                                         </div>
                                 
                                         <div *ngIf="appService.projects.length > 1"
-                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeTagSection(i)">
                                             <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
                                         </div>
                                 
                                         <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                            (click)="insertProject(i)">
+                                            (click)="swapTagSections(i, i - 1)">
                                             <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
                                         </div>
                                 
                                         <div *ngIf="appService.projects.length > 1"
-                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="swapTagSections(i, i + 1)">
                                             <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
                                         </div>
                                     </div>
@@ -231,24 +227,24 @@
                                                     <div class="editable-buttons">
                                                         <div class="top-buttons">
                                                             <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="insertProject(i)">
+                                                                (click)="insertTag(tag.elements, j)">
                                                                 <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
                                                             </div>
                                 
                                                             <div *ngIf="appService.projects.length > 1"
                                                                 [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="removeProject(i)">
+                                                                (click)="removeTag(tag.elements, j)">
                                                                 <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
                                                             </div>
                                 
                                                             <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="insertProject(i)">
+                                                                (click)="swapTags(tag.elements, j, j - 1)">
                                                                 <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
                                                             </div>
                                 
                                                             <div *ngIf="appService.projects.length > 1"
                                                                 [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="removeProject(i)">
+                                                                (click)="swapTags(tag.elements, j, j + 1)">
                                                                 <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
                                                             </div>
                                                         </div>
@@ -282,7 +278,7 @@
                                         <moo-input [mode]="mode" [text]="project.href" [label]="'Project Url (Optional)'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="project.href = $event"></moo-input>
                                     </div>
 
-                                    <span *ngIf="project.useSlideshow" [class]="'project-slideshow-text ' + mode">Project is set to use slideshow instead of a url. <a (click)="setAdvanceEdit(i)">Edit Slideshow here</a></span>
+                                    <span *ngIf="project.useSlideshow" [class]="'project-slideshow-text ' + mode">Project is set to use slideshow instead of a url. <a (click)="setAdvanceEdit(i)">Click here to edit {{ project.text ? (project.text + ' ') : '' }}Slideshow</a></span>
                                 </div>
 
                                 <div class="editable-buttons">
@@ -295,12 +291,12 @@
                                             <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
                                         </div>
 
-                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="insertProject(i)">
+                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="swapProjects(i, i - 1)">
                                             <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
                                         </div>
                                         
                                         <div *ngIf="appService.projects.length > 1"
-                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeProject(i)">
+                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="swapProjects(i, i + 1)">
                                             <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
                                         </div>
                                     </div>

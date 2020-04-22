@@ -88,7 +88,7 @@ export class ImageComponent implements OnChanges {
 	onload() {
 		// console.log('onload finished');
 		this.loading = false;
-		console.log(this.image);
+		// console.log(this.image);
 		// console.log(this.image.height);
 		// console.log(this.image.width);
 		if (this.image) {

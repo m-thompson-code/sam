@@ -828,6 +828,9 @@
 		}
 		.dots-container {
 			position: absolute;
+			transform: translateX(-50%);
+			left: 50%;
+
 			// bottom: 10px;
     		bottom: -14pt;
 		}
@@ -838,7 +841,9 @@
 	}
 
 	.right-side {
-		overflow-y: auto;
+		// overflow-y: auto;
+		// overflow-x: hidden;
+		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 
@@ -854,6 +859,8 @@
     		color: white;
 
 			overflow-y: auto;
+			overflow-x: hidden;
+
 			flex-grow: 1;
 
 			// source: https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
@@ -995,7 +1002,6 @@
 		}
 
 		.right-side {
-
 			width: 100%;
 			margin: 0;
 			padding: 0;

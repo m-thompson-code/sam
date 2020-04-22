@@ -27,7 +27,13 @@ export class AppService {
 	}
 
     loadProjects() {
-        return firebase.database().ref('prod-3').once('value').then(snapshot => {
+		let branch = 'dev';
+
+		if (location.hostname === 'samanthamink.com' || location.hostname === 'www.samanthamink.com') {
+			branch = 'prod';
+		}
+
+		return firebase.database().ref(branch).once('value').then(snapshot => {
 			if (!snapshot.exists()) {
 				console.error("Unexpected error. snapshot missing");
 				throw {

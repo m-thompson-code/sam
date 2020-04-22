@@ -133,7 +133,7 @@
             var ripple = null;
             var ripples = el.getElementsByClassName('waves-ripple');
             if (ripples.length > 0) {
-                for (const ripple of ripples) {
+                for (var ripple of ripples) {
                     var relativeX   = ripple.getAttribute('data-x');
                     var relativeY   = ripple.getAttribute('data-y');
                     var scale       = ripple.getAttribute('data-scale');
@@ -370,7 +370,7 @@
                 mousedown.pageX = centre.x;
                 mousedown.pageY = centre.y;
 
-                const effectOptions = {
+                var effectOptions = {
                     className: options.className
                 };
 
