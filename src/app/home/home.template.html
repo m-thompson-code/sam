@@ -467,8 +467,8 @@
             
                         <div [class]="'footer-container' + (showOthers ? ' active' : '')">
                         <div class="footer">
-                            <div *ngFor="let footerUrl of appService.footerUrls" class="footer-element-container">
-                            <div class="footer-element">
+                            <div *ngFor="let footerUrl of appService.footerUrls; let first = first; let last = last" class="footer-element-container">
+                            <div [class]="'footer-element' + (first ? ' first' : '') + (last ? ' last' :'')">
                                 <a #a [class]="'themed-text top-urls-justified' + (!showOthers ? ' not-active' : '')" [style.width]="'100%'" [href]="footerUrl.href || '#'" [target]="footerUrl.href.indexOf('mailto:') !== -1 || footerUrl.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
                                 <ng-container *ngFor="let char of footerUrl.text.split(''); let i = index">
                                     <!-- "" -->

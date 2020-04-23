@@ -357,11 +357,11 @@ export class HomeComponent {
 	}
 
 	public ngAfterViewInit(): void {
-		if (this.mode !== 'dark') {
-			setTimeout(() => {
-				this.clickMe();
-			}, 2000);	
-		}
+		// if (this.mode !== 'dark') {
+		// 	setTimeout(() => {
+		// 		this.clickMe();
+		// 	}, 2000);	
+		// }
 		
 		setTimeout(() => {
 			this.showPoem = false;
@@ -610,8 +610,7 @@ export class HomeComponent {
 
 		this.authPending = true;
 
-		var emailAddress = this.email;//"mark.thompson@smpl.company";
-		// var emailAddress = "sam@samanthamink.com";
+		var emailAddress = this.email || "";
 
 		let url = window.location.protocol + "//" + window.location.hostname;
 
@@ -619,7 +618,10 @@ export class HomeComponent {
 			url += ":" + window.location.port;
 		}
 
-		// console.log(url);
+		if (!emailAddress) {
+			M.toast({ html: 'Email is blank. Please enter an email first.', displayLength: 1250 });
+			return;
+		}
 
 		return firebase.auth().sendPasswordResetEmail(emailAddress, {url: url}).then(() => {
 			M.toast({html: 'Password reset sent. Please check your email', displayLength: 1250});
@@ -931,7 +933,7 @@ export class HomeComponent {
 
 		// If url is valid
 		if (this.advancedEditImageUrl.startsWith('https://imgur.com/')) {
-			this.advancedEditImageUrl.replace('https://imgur.com/', 'https://i.imgur.com/') + '.jpg';
+			this.advancedEditImageUrl = this.advancedEditImageUrl.replace('https://imgur.com/', 'https://i.imgur.com/') + '.jpg';
 		}
 
 		if (!this.advancedEditImageUrl.startsWith('https://i.imgur.com/')) {
