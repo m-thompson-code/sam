@@ -937,7 +937,7 @@ export class HomeComponent {
 		}
 
 		if (!this.advancedEditImageUrl.startsWith('https://i.imgur.com/')) {
-			M.toast({ html: 'url is invalid. Url should start with `https://i.imgur.com/`', displayLength: 7777 });
+			M.toast({ html: 'url is invalid. Url should start with `https://i.imgur.com/`', displayLength: 5000 });
 			return;
 		}
 
