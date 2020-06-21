@@ -931,7 +931,7 @@ export class HomeComponent {
 
 		// If url is valid
 		if (this.advancedEditImageUrl.startsWith('https://imgur.com/')) {
-			this.advancedEditImageUrl.replace('https://imgur.com/', 'https://i.imgur.com/') + '.jpg';
+			this.advancedEditImageUrl = this.advancedEditImageUrl.replace('https://imgur.com/', 'https://i.imgur.com/') + '.jpg';
 		}
 
 		if (!this.advancedEditImageUrl.startsWith('https://i.imgur.com/')) {
