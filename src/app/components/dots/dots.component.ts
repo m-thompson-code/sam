@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { isDifferent } from '@angular/core/src/render3/util';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'moo-dots',
