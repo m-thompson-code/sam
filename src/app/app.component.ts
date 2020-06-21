@@ -14,11 +14,16 @@ export interface Tag {
 	elements: TagElement[];
 }
 
+export interface Asset {
+	type: 'image' | 'video';
+	url: string;
+}
+
 export interface DBProject {
 	text: string; // Dispaly text
 	href: string; // Href on click
 	useSlideshow: boolean; // Use slideshow instead of href on click
-	imageUrls: string[];
+	assets: Asset[];
 	desc: string;
 	tags: Tag[];
 }

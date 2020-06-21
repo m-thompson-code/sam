@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ImageComponent } from './image.component';
+import { VideoComponent } from './video.component';
 
 import { PreloaderModule } from '../preloader/preloader.module';
 
 @NgModule({
   declarations: [
-    ImageComponent
+    VideoComponent
   ],
   imports: [
     PreloaderModule,
     CommonModule
   ],
-  exports: [ ImageComponent ]
+  exports: [ VideoComponent ]
 })
-export class ImageModule {
+export class VideoModule {
 }

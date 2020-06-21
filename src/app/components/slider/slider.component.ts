@@ -14,7 +14,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
 	velocity: number = 0;
 	delta: number = 0;
 
-	@Input() imageUrls: any[];
+	@Input() assets: any[];
 	activeSlide: number = 0;
 
 	@ViewChild("outerContainer", { static: true }) outerContainer: ElementRef;
@@ -90,8 +90,8 @@ export class SliderComponent implements OnInit, AfterViewInit {
 	limitMarginPercent() {
 		if (this.marginPercent < 0) {
 			this.marginPercent = 0;
-		} else if (this.marginPercent > this.imageUrls.length - 1) {
-			this.marginPercent = this.imageUrls.length - 1;
+		} else if (this.marginPercent > this.assets.length - 1) {
+			this.marginPercent = this.assets.length - 1;
 		}
 	}
 
@@ -104,8 +104,8 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		// console.log("gotoNextSlide");
 		this.setActiveSlide(this.activeSlide += 1);
 
-		if (this.activeSlide > this.imageUrls.length - 1) {
-			this.setActiveSlide(this.imageUrls.length - 1);
+		if (this.activeSlide > this.assets.length - 1) {
+			this.setActiveSlide(this.assets.length - 1);
 
 		}
 		

@@ -1,15 +1,7 @@
 <div #outerContainer class="has-slider">
-    <div #sliderContainer id="slider" class="slider" [style.margin-left]="marginPercent | margin:-delta:imageUrls.length-1 | noSanitizeStyle" [style.width]="imageUrls.length + '00%'">
-        <div *ngFor="let imageUrl of imageUrls; let imageIndex = index" class="slider-panel">
-            <moo-image [mode]="'dark'" [href]="imageUrls[imageIndex]" [container]="outerContainer"></moo-image>
+    <div #sliderContainer id="slider" class="slider" [style.margin-left]="marginPercent | margin:-delta:assets.length-1 | noSanitizeStyle" [style.width]="assets.length + '00%'">
+        <div *ngFor="let asset of assets; let assetIndex = index" class="slider-panel">
+            <moo-image [mode]="'dark'" [href]="assets[assetIndex].url" [container]="outerContainer"></moo-image>
         </div>
     </div>
 </div>
-<!-- 
-<div class="debug">
-    <div>velocity: {{ velocity }}</div>
-    <div>delta: {{ delta }}</div>
-    <div>activeSlide: {{ activeSlide }}</div>
-    <div>marginPercent: {{ marginPercent }}</div>
-    <div>margin: {{ marginPercent | margin:delta:imageUrls.length-1 }}</div>
-</div> -->

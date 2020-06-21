@@ -1,0 +1,22 @@
+<div [class]="'video-container' + (video && video.width > video.height ? ' alt' : '')">
+    <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 300" [relative]="true"></moo-preloader>
+    
+    <ng-container *ngIf="errored">
+        <span [style.color]="'white'">X</span>
+    </ng-container>
+
+    <ng-container *ngIf="!errored">
+        <div *ngIf="!loading" class="video">
+            <ng-container *ngIf="calcSize">
+                <ng-container *ngIf="thumbnail">
+                    <video #video [src]="thref" [style.width]="getMaxHeight().width || defaultWidth || 'auto'" [style.height]="getMaxHeight().height || defaultHeight || 'auto'">
+                </ng-container>
+                <ng-container *ngIf="!thumbnail">
+                    <video #video [src]="dhref" [style.width]="getMaxHeight().width || defaultWidth || 'auto'"
+                        [style.height]="getMaxHeight().height || defaultHeight || 'auto'">
+                </ng-container>
+            </ng-container>
+            <video *ngIf="!calcSize" #video [src]="mhref">
+        </div>
+    </ng-container>
+</div>

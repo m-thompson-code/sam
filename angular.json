@@ -145,5 +145,8 @@
       }
     }
   },
-  "defaultProject": "sam"
+  "defaultProject": "sam",
+  "cli": {
+    "analytics": "e94e6ed2-8530-49ad-a08c-e23e8c102fc4"
+  }
 }

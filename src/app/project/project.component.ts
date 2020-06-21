@@ -38,6 +38,14 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 		});
 	}
 
+	getActive(el: HTMLElement) {
+    	el.classList.add("active");
+    }
+
+    getNotActive(el: HTMLElement) {
+    	el.classList.remove("active");
+    }
+
 	ngAfterViewInit() {
 	}
 

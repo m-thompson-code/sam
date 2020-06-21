@@ -1,4 +1,4 @@
-.image-container {
+.video-container {
     width: auto;
     min-height: 1px;
     height: 100%;
@@ -6,12 +6,12 @@
     align-items: center;
     justify-content: center;
 
-    .image {
+    .video {
         width: auto;
         min-height: 1px;
         height: 100%;
 
-        img {
+        video {
             width: auto;
             min-height: 1px;
             height: 100%;
@@ -19,17 +19,17 @@
     }
 }
 
-.image-container.alt {
+.video-container.alt {
     width: 100%;
     min-width: 1px;
     height: auto;
 
-    .image {
+    .video {
         width: 100%;
         min-width: 1px;
         height: auto;
 
-        img {
+        video {
             width: 100%;
             min-width: 1px;
             height: auto;

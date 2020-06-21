@@ -19,10 +19,10 @@
     
     
     <div #container class="slider-container">
-        <moo-slider [container]="container" [imageUrls]="activeProject.imageUrls" (activeSlideSet)="activeSlide = $event"></moo-slider>
+        <moo-slider [container]="container" [assets]="activeProject.assets" (activeSlideSet)="activeSlide = $event"></moo-slider>
     </div>
 
-    <moo-dots [items]="activeProject.imageUrls" [activeIndex]="activeSlide"></moo-dots>
+    <moo-dots [items]="activeProject.assets" [activeIndex]="activeSlide"></moo-dots>
     
     <div *ngIf="urlIndex === 99" class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}</div>
     <div *ngIf="urlIndex !== 99" class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}</div>

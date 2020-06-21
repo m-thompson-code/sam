@@ -8,33 +8,9 @@ import * as firebase from "firebase/app";
 import * as dragula from 'dragula';
 import { AppService } from '../app.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Project, TagElement } from '../app.component';
 
 declare const M;
-
-export interface TagElement {
-	text: string;
-	href?: string;
-}
-
-export interface Tag {
-	text: string;
-	elements: TagElement[];
-}
-
-export interface DBProject {
-	text: string; // Dispaly text
-	href: string; // Href on click
-	useSlideshow: boolean; // Use slideshow instead of href on click
-	imageUrls: string[];
-	desc: string;
-	tags: Tag[];
-}
-
-export interface Project extends DBProject {
-	width: number; // Width of text
-	margin: number; // ?
-	marginRight: number; // ?
-}
 
 @Component({
     selector: 'moo-home',
@@ -101,7 +77,7 @@ export class HomeComponent {
 
 	test: boolean;
 
-	imageIndex: number;
+	assetIndex: number;
 
 	hMargin: number;
 	wMargin: number;
@@ -210,7 +186,7 @@ export class HomeComponent {
 		this.hMargin = 100;
 		this.wMargin = 100;
 
-		this.imageIndex = 0;
+		this.assetIndex = 0;
 
 		// const drake = dragula([document.querySelector('#drakeTest')], {
 		// 	// moves: function (el, source, handle, sibling) {
@@ -286,17 +262,17 @@ export class HomeComponent {
 	}
 
 	// Slideshow stuff
-	nextImage() {
-		this.imageIndex += 1;
-		if (this.imageIndex > this.activeProject.imageUrls.length - 1) {
-			this.imageIndex = 0;
+	nextAsset() {
+		this.assetIndex += 1;
+		if (this.assetIndex > this.activeProject.assets.length - 1) {
+			this.assetIndex = 0;
 		}
 	}
 
-	backImage() {
-		this.imageIndex -= 1;
-		if (this.imageIndex < 0) {
-			this.imageIndex = this.activeProject.imageUrls.length - 1;
+	backAsset() {
+		this.assetIndex -= 1;
+		if (this.assetIndex < 0) {
+			this.assetIndex = this.activeProject.assets.length - 1;
 		}
 	}
 
@@ -316,7 +292,7 @@ export class HomeComponent {
 		this.slideshow = !this.slideshow;
 
 		if (this.slideshow) {
-			this.imageIndex = 0;
+			this.assetIndex = 0;
 			this.slideshowAnimate = true;
 			clearTimeout(this.slideshowAnimateTimeout);
 			this.slideshowAnimateTimeout = setTimeout(() => {
@@ -699,7 +675,7 @@ export class HomeComponent {
 			href: "",
 			useSlideshow: false,
 			desc: "",
-			imageUrls: [],
+			assets: [],
 			tags: [],
 
 			width: 0,
@@ -764,23 +740,23 @@ export class HomeComponent {
 	}
 
 	public removeAdvancedEditImage(index: number): void {
-		this.advancedEditProject.imageUrls.splice(index, 1);
+		this.advancedEditProject.assets.splice(index, 1);
 
 		if (this.activeProject === this.advancedEditProject) {
-			this.imageIndex = this.imageIndex || 0;
+			this.assetIndex = this.assetIndex || 0;
 
-			if (this.imageIndex > this.activeProject.imageUrls.length - 1) {
-				this.imageIndex -= 1;
+			if (this.assetIndex > this.activeProject.assets.length - 1) {
+				this.assetIndex -= 1;
 			}
 		}
 	}
 
 	public swapAdvancedEditImages(i: number, j: number) {
-		const firstUrl = this.advancedEditProject.imageUrls[i];
-		const secondUrl = this.advancedEditProject.imageUrls[j];
+		const firstUrl = this.advancedEditProject.assets[i];
+		const secondUrl = this.advancedEditProject.assets[j];
 
-		this.advancedEditProject.imageUrls[i] = secondUrl;
-		this.advancedEditProject.imageUrls[j] = firstUrl;
+		this.advancedEditProject.assets[i] = secondUrl;
+		this.advancedEditProject.assets[j] = firstUrl;
 	}
 
 	public toggleShowManagement(): void {
@@ -928,8 +904,8 @@ export class HomeComponent {
     }
 	// End Class stuff
 
-	public addImage(): void {
-		this.advancedEditImageUrl = this.advancedEditImageUrl || "";
+	public addAsset(): void {
+		this.advancedEditImageUrl = (this.advancedEditImageUrl || "").trim();
 
 		// If url is valid
 		if (this.advancedEditImageUrl.startsWith('https://imgur.com/')) {
@@ -943,8 +919,18 @@ export class HomeComponent {
 
 		// => convert to proper url
 		// add image to project
-		this.advancedEditProject.imageUrls = this.advancedEditProject.imageUrls || [];
-		this.advancedEditProject.imageUrls.push(this.advancedEditImageUrl);
+		this.advancedEditProject.assets = this.advancedEditProject.assets || [];
+
+		let type: 'image' | 'video' = 'image';
+
+		if (this.advancedEditImageUrl.endsWith('.mp4')) {
+			type = 'video';
+		}
+
+		this.advancedEditProject.assets.push({
+			url: this.advancedEditImageUrl,
+			type: type,
+		});
 
 		this.advancedEditImageUrl = "";
 	}

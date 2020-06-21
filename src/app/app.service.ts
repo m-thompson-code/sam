@@ -4,6 +4,10 @@ import { Project, DBProject } from './app.component';
 
 import * as firebase from "firebase/app";
 
+export interface BackwardsCompatibleDBProject extends DBProject {
+	imageUrls?: string[];// No longer a thing since we are now supporting videos and images
+}
+
 @Injectable()
 export class AppService {
     projects: Project[];
@@ -52,13 +56,13 @@ export class AppService {
 
 			if (projects && projects.length) {
 				for (var i = 0; i < projects.length; i++) {
-					const url: DBProject = projects[i];
+					const url: BackwardsCompatibleDBProject = projects[i];
 
-					this.projects.push({
+					const project = {
 						width: 0, 
 						text: url.text, 
 						href: url.href,
-						imageUrls: url.imageUrls || [],
+						assets: url.assets || [],
 						useSlideshow: url.useSlideshow || false,
 						desc: url.desc || "",
 						tags: url.tags || [],
@@ -66,19 +70,30 @@ export class AppService {
 						// In app attributes
 						margin: 0,
 						marginRight: 0,
-					});
+					};
+
+					if (url.imageUrls) {
+						for (const imageUrl of url.imageUrls) {
+							project.assets.push({
+								type: 'image',
+								url: imageUrl,
+							});
+						}
+					}
+
+					this.projects.push(project);
 				}
 			}
 
 			if (footerUrls && footerUrls.length) {
 				for (var i = 0; i < footerUrls.length; i++) {
-					const footerUrl: DBProject = footerUrls[i];
+					const footerUrl: BackwardsCompatibleDBProject = footerUrls[i];
 
 					this.footerUrls.push({
 						width: 0, 
 						text: footerUrl.text, 
 						href: footerUrl.href,
-						imageUrls: footerUrl.imageUrls || [],
+						assets: footerUrl.assets || [],
 						useSlideshow: footerUrl.useSlideshow || false,
 						desc: footerUrl.desc || "",
 						tags: footerUrl.tags || [],
@@ -87,6 +102,15 @@ export class AppService {
 						margin: 0,
 						marginRight: 0,
 					});
+
+					if (footerUrl.imageUrls) {
+						for (const imageUrl of footerUrl.imageUrls) {
+							footerUrls.assets.push({
+								type: 'image',
+								footerUrl: imageUrl,
+							});
+						}
+					}
 				}
 			}
 		});
