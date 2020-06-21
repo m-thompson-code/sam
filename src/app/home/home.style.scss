@@ -682,7 +682,43 @@
 }
 
 .footer-element {
-	margin: 0 30px;
+	// margin: 0 30px;
+	margin: 0 105px;
+}
+
+.footer-element.first {
+	margin-left: 30px;
+}
+.footer-element.last {
+	margin-right: 30px;
+}
+
+@media only screen and (max-width: 1650px) {
+	.footer-element {
+		// margin: 0 30px;
+		margin: 0 70px;
+	}
+
+	.footer-element.first {
+		margin-left: 30px;
+	}
+	.footer-element.last {
+		margin-right: 30px;
+	}
+}
+
+@media only screen and (max-width: 1350px) {
+	.footer-element {
+		// margin: 0 30px;
+		margin: 0 45px;
+	}
+
+	.footer-element.first {
+		margin-left: 30px;
+	}
+	.footer-element.last {
+		margin-right: 30px;
+	}
 }
 
 /* Horizontal margin changes for better iPad / mobile experiences */
@@ -725,7 +761,7 @@
 		margin: 0 -7pt;
 	}
 
-	.footer-element {
+	.footer-element, .footer-element.first, .footer-element.last {
 		margin: 0 7pt;
 	}
 }
