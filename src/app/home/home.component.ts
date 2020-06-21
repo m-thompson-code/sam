@@ -42,13 +42,13 @@ export interface Project extends DBProject {
     styleUrls: ['./home.style.scss']
 })
 export class HomeComponent {
-	@ViewChild('managementWrapper', { static: false }) private managementWrapper: ElementRef<HTMLDivElement>;
+	@ViewChild('managementWrapper') private managementWrapper: ElementRef<HTMLDivElement>;
 	PROJECTS = "PROJECTS";
 	Footers = "FOOTERS";
 	
-	@ViewChild("linksContainer", { static: false }) linksContainer: ElementRef;
+	@ViewChild("linksContainer") linksContainer: ElementRef;
 
-	@ViewChild("centerButton", { static: false }) centerButton: ElementRef;
+	@ViewChild("centerButton") centerButton: ElementRef;
 
 	mode: string;
 	modeTimeout: any;
