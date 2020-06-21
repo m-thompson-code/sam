@@ -11,7 +11,7 @@ import { SpacedComponent } from '../spaced/spaced.component';
 export class TextPlacementTestComponent {
  	@Input() projects: any[];
 
-	@ViewChild("container") container: ElementRef;
+	@ViewChild("container", { static: true }) container: ElementRef;
 
 	// source: https://stackoverflow.com/questions/40165294/access-multiple-viewchildren-using-viewchild
 	@ViewChildren('strComponent', {read: ElementRef}) strViewChildren: QueryList<SpacedComponent>;

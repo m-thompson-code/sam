@@ -17,8 +17,8 @@ export class SliderComponent implements OnInit, AfterViewInit {
 	@Input() imageUrls: any[];
 	activeSlide: number = 0;
 
-	@ViewChild("outerContainer") outerContainer: ElementRef;
-	@ViewChild("sliderContainer") sliderContainer: ElementRef;
+	@ViewChild("outerContainer", { static: true }) outerContainer: ElementRef;
+	@ViewChild("sliderContainer", { static: true }) sliderContainer: ElementRef;
 
 	@Input() container: HTMLElement;
 

@@ -10,7 +10,7 @@ declare var M;
   providers: [ ]
 })
 export class TextareaComponent implements OnInit, AfterViewInit {
-	@ViewChild("textarea") textarea: ElementRef<HTMLTextAreaElement>;
+	@ViewChild("textarea", { static: true }) textarea: ElementRef<HTMLTextAreaElement>;
 
  	@Input() text: string;
  	@Input() label: string;

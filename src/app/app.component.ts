@@ -35,7 +35,7 @@ export interface Project extends DBProject {
     styleUrls: ['./app.style.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-	@ViewChild("backgroundImageHolder") backgroundImageHolder: ElementRef;
+	@ViewChild("backgroundImageHolder", { static: true }) backgroundImageHolder: ElementRef;
 
 	loading : boolean;
 
