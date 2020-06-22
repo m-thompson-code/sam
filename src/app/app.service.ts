@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Project, DBProject } from './app.component';
 
 import * as firebase from "firebase/app";
+import { Mode } from './home/home.component';
 
 export interface BackwardsCompatibleDBProject extends DBProject {
 	imageUrls?: string[];// No longer a thing since we are now supporting videos and images
@@ -10,13 +11,13 @@ export interface BackwardsCompatibleDBProject extends DBProject {
 
 @Injectable()
 export class AppService {
-    projects: Project[];
-	footerUrls: Project[];
+    public projects: Project[];
+	public footerUrls: Project[];
 
-	mode: 'dark' | 'light' | '';
+	public mode: Mode;
 
-	first: boolean;
-	id: number;
+	public first?: boolean;// Used on HomeComponent (at least HomeComponent)
+	public id: number;
 
     constructor() {
         this.projects = [];

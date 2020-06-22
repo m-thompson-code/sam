@@ -1,6 +1,8 @@
-import { Component, HostListener, Input, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, HostListener, Input, ViewChildren, QueryList, ElementRef } from '@angular/core';
 
 import { SpacedComponent } from '../spaced/spaced.component';
+
+import { Project } from 'src/app/app.component';
 
 @Component({
   selector: 'moo-text-placement-test',
@@ -9,28 +11,19 @@ import { SpacedComponent } from '../spaced/spaced.component';
   providers: [ ]
 })
 export class TextPlacementTestComponent {
- 	@Input() projects: any[];
+ 	@Input() public projects?: Project[];
 
-	@ViewChild("container", { static: true }) container: ElementRef;
+	// @ViewChild("container", { static: true }) private container!: ElementRef<HTMLDivElement>;
 
 	// source: https://stackoverflow.com/questions/40165294/access-multiple-viewchildren-using-viewchild
-	@ViewChildren('strComponent', {read: ElementRef}) strViewChildren: QueryList<SpacedComponent>;
-	strComponents: any[];
-	// s: any[];
+	@ViewChildren('strComponent', {read: ElementRef}) strViewChildren!: QueryList<SpacedComponent>;
+	private strComponents: any[];// TODO: rework to get past this issue of SpacedComponent doesn't have property of nativeElement
 
-	viewLoaded: boolean;
-
-	JSON: any;
-
-	@Input() containerWidth: number;
-	@Input() marginRight: number;
+	@Input() containerWidth?: number;
+	// @Input() marginRight?: number;
 
 	constructor() {
-	}
-
-	ngOnInit() {
-		this.JSON = JSON;
-		this.viewLoaded = false;
+		this.strComponents = [];
 	}
 
 	ngAfterViewInit() {
@@ -41,23 +34,27 @@ export class TextPlacementTestComponent {
 		});
 
 		this.getStringRows();
-		this.viewLoaded = true;
 	}
 
-	getStringRows() {
+	public getStringRows(): void {
+		if (!this.projects) {
+			return;
+		}
+
 		if (this.strViewChildren && this.strComponents) {
-			var y = 0, rowHeight = 0;
 			for (var i = 0; i < this.strComponents.length; i++) {
+				if (!this.projects[i]) {
+					return;
+				}
+
 				this.projects[i].width = this.strComponents[i].nativeElement.getBoundingClientRect().width;
 			}
 		}
-
-		this.viewLoaded = true;
 	}
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive
 	@HostListener('window:resize')
-    onResize() {
+    public onResize() {
         // // call our matchHeight function here
         // this.matchHeight(this.el.nativeElement, this.myMatchHeight);
 		// console.log(this.getStringRows());

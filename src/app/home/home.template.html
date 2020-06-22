@@ -5,11 +5,11 @@
 
 
 
-<div *ngIf="!showManagement && showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '') + (test ? ' test' : '')">
-    <div *ngIf="activeProject.assets && activeProject.assets.length" #imageContainer class="image">
+<div *ngIf="!showManagement && showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '')">
+    <div *ngIf="activeProject && activeProject.assets && activeProject.assets.length" #imageContainer class="image">
         <moo-image [mode]="mode" [href]="activeProject.assets[assetIndex].url" [container]="imageContainer" [calcSize]="true"></moo-image>
 
-        <div *ngIf="activeProject.assets && activeProject.assets.length > 1" class="image-navigation" (click)="backAsset()">
+        <div *ngIf="activeProject && activeProject.assets && activeProject.assets.length > 1" class="image-navigation" (click)="backAsset()">
             <div class="icon-holder">
                 <div class="icon-inner">
                     <moo-icon [icon]="'navigate_back'"></moo-icon>
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div *ngIf="activeProject.assets && activeProject.assets.length > 1" class="image-navigation next" (click)="nextAsset()">
+        <div *ngIf="activeProject && activeProject.assets && activeProject.assets.length > 1" class="image-navigation next" (click)="nextAsset()">
             <div class="icon-holder">
                 <div class="icon-inner">
                     <moo-icon [icon]="'navigate_back'"></moo-icon>
@@ -33,14 +33,14 @@
             </div>
         </div>
 
-        <div *ngIf="activeProject.assets && activeProject.assets.length > 1" class="dots-container">
+        <div *ngIf="activeProject && activeProject.assets && activeProject.assets.length > 1" class="dots-container">
             <moo-dots [items]="activeProject.assets" [activeIndex]="assetIndex"></moo-dots>
         </div>
     </div>
-    <div [class]="'right-side helvetica' + (activeProject.assets && activeProject.assets.length ? ' with-images' : '')">
+    <div *ngIf="activeProject" [class]="'right-side helvetica' + (activeProject.assets && activeProject.assets.length ? ' with-images' : '')">
         <div class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}</div>
 
-        <div *ngIf="activeProject.tags && activeProject.tags.length" class="tags">
+        <div *ngIf="activeProject && activeProject.tags && activeProject.tags.length" class="tags">
             <div *ngFor="let tag of activeProject.tags" class="tag">
                 <span class="burin-sans">{{ tag.text }}&nbsp;:&nbsp;</span>
                 <ng-container *ngIf="tag.elements && tag.elements.length">
@@ -130,33 +130,35 @@
             </div>
 
             <div class="row">
-                <div class="col s12">
-                    <moo-input [mode]="mode" [text]="advancedEditProject.text" [label]="'Project Name'" [textIsInvalidFuncs]="[isEmptyProject]"
-                        (valueChanged)="advancedEditProject.text = $event"></moo-input>
-                    
-                    <moo-textarea [mode]="mode" [text]="advancedEditProject.desc" [label]="'Project Description'"
-                        (valueChanged)="advancedEditProject.desc = $event"></moo-textarea>
-
-                    <div class="image-input">
-                        <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'New Imgur Url'"
-                            (valueChanged)="advancedEditImageUrl = $event"></moo-input>
+                <ng-container *ngIf="advancedEditProject">
+                    <div class="col s12">
+                        <moo-input [mode]="mode" [text]="advancedEditProject.text" [label]="'Project Name'" [textIsInvalidFuncs]="[isEmptyProject]"
+                            (valueChanged)="advancedEditProject.text = $event"></moo-input>
                         
-                        <a [class]="'waves-effect wave-light btn ' + mode" (click)="addAsset()">Add New Image</a>
-                    </div>
-
-                    <div dragula="IMAGES" [(dragulaModel)]="advancedEditProject.assets" class="advanced-edit-images">
-                        <div *ngFor="let asset of advancedEditProject.assets; let i = index; let first = first; let last = last" class="thumbnail-wrapper">
-                            <div [class]="'thumbnail ' + mode" #thumbnail>
-                                <moo-image [thumbnail]="true" [mode]="mode" [href]="asset.url" [container]="thumbnail" [calcSize]="true">
-                                </moo-image>
-
-                                <moo-icon [class]="'thumbnail-close ' + mode" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
-                                <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i - 1)"></moo-icon>
-                                <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i + 1)"></moo-icon>
+                        <moo-textarea [mode]="mode" [text]="advancedEditProject.desc" [label]="'Project Description'"
+                            (valueChanged)="advancedEditProject.desc = $event"></moo-textarea>
+    
+                        <div class="image-input">
+                            <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'New Imgur Url'"
+                                (valueChanged)="advancedEditImageUrl = $event"></moo-input>
+                            
+                            <a [class]="'waves-effect wave-light btn ' + mode" (click)="addAsset()">Add New Image</a>
+                        </div>
+    
+                        <div dragula="IMAGES" [(dragulaModel)]="advancedEditProject.assets" class="advanced-edit-images">
+                            <div *ngFor="let asset of advancedEditProject.assets; let i = index; let first = first; let last = last" class="thumbnail-wrapper">
+                                <div [class]="'thumbnail ' + mode" #thumbnail>
+                                    <moo-image [thumbnail]="true" [mode]="mode" [href]="asset.url" [container]="thumbnail" [calcSize]="true">
+                                    </moo-image>
+    
+                                    <moo-icon [class]="'thumbnail-close ' + mode" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
+                                    <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i - 1)"></moo-icon>
+                                    <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i + 1)"></moo-icon>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
 
             <div class="advanced-edit-back-wrapper">
@@ -164,88 +166,90 @@
             </div>
 
             <div class="editables">
-                <div *ngFor="let tag of advancedEditProject.tags; let i = index">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="editable-row">
-                                <div [class]="'index ' + mode">
-                                    {{ i + 1 }}.
-                                </div>
-            
-                                <div class="inputs">
-                                    <moo-input [mode]="mode" [text]="tag.text" [label]="'Tag Section ' + (i + 1)" (valueChanged)="tag.text = $event">
-                                    </moo-input>
-                                </div>
-            
-                                <div class="editable-buttons">
-                                    <div class="top-buttons">
-                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                            (click)="insertTagSection(i)">
-                                            <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
-                                        </div>
-                                
-                                        <div *ngIf="appService.projects.length > 1"
-                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeTagSection(i)">
-                                            <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
-                                        </div>
-                                
-                                        <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                            (click)="swapTagSections(i, i - 1)">
-                                            <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
-                                        </div>
-                                
-                                        <div *ngIf="appService.projects.length > 1"
-                                            [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="swapTagSections(i, i + 1)">
-                                            <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                <ng-container *ngIf="advancedEditProject">
+                    <div *ngFor="let tag of advancedEditProject.tags; let i = index">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="editable-row">
+                                    <div [class]="'index ' + mode">
+                                        {{ i + 1 }}.
+                                    </div>
+                
+                                    <div class="inputs">
+                                        <moo-input [mode]="mode" [text]="tag.text" [label]="'Tag Section ' + (i + 1)" (valueChanged)="tag.text = $event">
+                                        </moo-input>
+                                    </div>
+                
+                                    <div class="editable-buttons">
+                                        <div class="top-buttons">
+                                            <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                (click)="insertTagSection(i)">
+                                                <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                            </div>
+                                    
+                                            <div *ngIf="appService.projects.length > 1"
+                                                [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="removeTagSection(i)">
+                                                <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                            </div>
+                                    
+                                            <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                (click)="swapTagSections(i, i - 1)">
+                                                <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
+                                            </div>
+                                    
+                                            <div *ngIf="appService.projects.length > 1"
+                                                [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')" (click)="swapTagSections(i, i + 1)">
+                                                <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="editable-row">
-                                <div class="tag-metadatas">
-                                    <div *ngFor="let element of tag.elements; let j = index">
-                                        <div class="row">
-                                            <div class="col s12">
-                                                <div class="editable-row">
-                                                    <div [class]="'index ' + mode">
-                                                        {{ j + 1 }}.
-                                                    </div>
-                                
-                                                    <div class="inputs">
-                                                        <moo-input [mode]="mode" [text]="element.text" [label]="'Tag Text ' + (j + 1)"
-                                                            (valueChanged)="element.text = $event">
-                                                        </moo-input>
-                                
-                                                        <div class="tag-section-href">
-                                                            <moo-input [mode]="mode" [text]="element.href"
-                                                                [label]="'Tag Url ' + (j + 1) + ' (Optional)'" (valueChanged)="element.href = $event">
-                                                            </moo-input>
+    
+                                <div class="editable-row">
+                                    <div class="tag-metadatas">
+                                        <div *ngFor="let element of tag.elements; let j = index">
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div class="editable-row">
+                                                        <div [class]="'index ' + mode">
+                                                            {{ j + 1 }}.
                                                         </div>
-                                                    </div>
-                                
-                                                    <div class="editable-buttons">
-                                                        <div class="top-buttons">
-                                                            <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="insertTag(tag.elements, j)">
-                                                                <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                    
+                                                        <div class="inputs">
+                                                            <moo-input [mode]="mode" [text]="element.text" [label]="'Tag Text ' + (j + 1)"
+                                                                (valueChanged)="element.text = $event">
+                                                            </moo-input>
+                                    
+                                                            <div class="tag-section-href">
+                                                                <moo-input [mode]="mode" [text]="element.href"
+                                                                    [label]="'Tag Url ' + (j + 1) + ' (Optional)'" (valueChanged)="element.href = $event">
+                                                                </moo-input>
                                                             </div>
-                                
-                                                            <div *ngIf="appService.projects.length > 1"
-                                                                [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="removeTag(tag.elements, j)">
-                                                                <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
-                                                            </div>
-                                
-                                                            <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="swapTags(tag.elements, j, j - 1)">
-                                                                <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
-                                                            </div>
-                                
-                                                            <div *ngIf="appService.projects.length > 1"
-                                                                [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
-                                                                (click)="swapTags(tag.elements, j, j + 1)">
-                                                                <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                                                        </div>
+                                    
+                                                        <div class="editable-buttons">
+                                                            <div class="top-buttons">
+                                                                <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                    (click)="insertTag(tag.elements, j)">
+                                                                    <moo-icon [class]="mode" [icon]="'add'"></moo-icon>
+                                                                </div>
+                                    
+                                                                <div *ngIf="appService.projects.length > 1"
+                                                                    [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                    (click)="removeTag(tag.elements, j)">
+                                                                    <moo-icon [class]="mode" [icon]="'remove'"></moo-icon>
+                                                                </div>
+                                    
+                                                                <div [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                    (click)="swapTags(tag.elements, j, j - 1)">
+                                                                    <moo-icon [class]="mode" [icon]="'up'"></moo-icon>
+                                                                </div>
+                                    
+                                                                <div *ngIf="appService.projects.length > 1"
+                                                                    [class]="'editable-button waves-effect ' + (mode==='dark' ? 'waves-light' : '')"
+                                                                    (click)="swapTags(tag.elements, j, j + 1)">
+                                                                    <moo-icon [class]="mode" [icon]="'down'"></moo-icon>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -257,7 +261,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
         </ng-container>
         
@@ -395,12 +399,12 @@
                     <div #container id="container" [class]="mode">
                     <div *ngIf="!showSlideshow" class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
                         <div class="wrapper-with-margins">
-                        <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans' + (test ? ' test' : '')">
+                        <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans'">
                             <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
                             <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
                         </div>
             
-                        <div [class]="'center-horizontal justify-vert title-vert title-vert-2 burin-sans' + (test ? ' test' : '')">
+                        <div [class]="'center-horizontal justify-vert title-vert title-vert-2 burin-sans'">
                             <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
                             <div *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</div>
                         </div>
@@ -429,14 +433,14 @@
                     <div class="fixed-full" [style.visibility]="(w > 812 || h >= 450) && (w >= h  || w >= 750) ? '' : 'hidden'">
                         <div (click)="titleFunc($event)" [class]="'center-vert title-container' + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
             
-                        <div [class]="'center-vert title title-1 burin-sans' + (test ? ' test' : '')">
+                        <div [class]="'center-vert title title-1 burin-sans'">
                             <div>
                             <span *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</span>
                             <span class="image-placeholder"></span>
                             </div>
                         </div>
             
-                        <div [class]="'center-vert title title-2 burin-sans' + (test ? ' test' : '')">
+                        <div [class]="'center-vert title title-2 burin-sans'">
                             <div>
                             <span class="image-placeholder"></span>
                             <span *ngFor="let char of 'BODYOFWORK'.split('')">{{ char }}</span>

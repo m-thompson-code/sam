@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'moo-preloader',
@@ -7,12 +7,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   providers: [ ]
 })
 export class PreloaderComponent {
-	@Input() mode: any;
-	@Input() delay: any;
+	@Input() public mode: any;
+	@Input() public delay?: number;
 
-	@Input() relative: boolean;
+	@Input() public relative?: boolean;
 
-	active: boolean;
+	public active?: boolean;
 	constructor() {
 	}
 

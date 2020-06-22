@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 
 import * as Hammer from 'hammerjs';
+import { Asset } from 'src/app/app.component';
 
 @Component({
   selector: 'moo-slider',
@@ -8,38 +9,33 @@ import * as Hammer from 'hammerjs';
   templateUrl: './slider.template.html',
   providers: [ ]
 })
-export class SliderComponent implements OnInit, AfterViewInit {
-	timer: any;// Node.Timer
+export class SliderComponent implements AfterViewInit {
+	public velocity: number = 0;
+	public delta: number = 0;
 
-	velocity: number = 0;
-	delta: number = 0;
+	@Input() public assets?: Asset[];
+	public activeSlide: number = 0;
 
-	@Input() assets: any[];
-	activeSlide: number = 0;
+	@ViewChild("outerContainer", { static: true }) private outerContainer!: ElementRef;
+	@ViewChild("sliderContainer", { static: true }) private sliderContainer!: ElementRef;
 
-	@ViewChild("outerContainer", { static: true }) outerContainer: ElementRef;
-	@ViewChild("sliderContainer", { static: true }) sliderContainer: ElementRef;
-
-	@Input() container: HTMLElement;
+	@Input() public container?: HTMLElement;
 
 	// margin: number = 0;
-	marginPercent: number = 0;
+	public marginPercent: number = 0;
 
-	swipV: number = .25;
+	private swipV: number = .25;
 
-	@Output() activeSlideSet: EventEmitter<number> = new EventEmitter();
+	@Output() public activeSlideSet: EventEmitter<number> = new EventEmitter();
 
 	constructor() {
 	}
 
-	ngOnInit() {
-	}
-
-	ngAfterViewInit() {
+	public ngAfterViewInit() {
         this.init();
 	}
 
-	init(): void {
+	public init(): void {
 		const hammerOptions: HammerOptions = {
 			inputClass: Hammer.TouchInput,
             touchAction: 'pan-y'  // If using horizontal gestures - http://hammerjs.github.io/touch-action/
@@ -75,6 +71,11 @@ export class SliderComponent implements OnInit, AfterViewInit {
 				} else if (this.velocity < -this.swipV) {
 					this.gotoNextSlide();
 				} else {
+					if (!this.container) {
+						console.warn("Unexpected missing container");
+						return;
+					}
+
 					if (_delta < -this.container.offsetWidth / 2) {
 						this.gotoNextSlide();
 					} else if (_delta > this.container.offsetWidth / 2) {
@@ -87,7 +88,12 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	limitMarginPercent() {
+	public limitMarginPercent(): void {
+		if (!this.assets) {
+			this.marginPercent = 0;
+			return;
+		}
+
 		if (this.marginPercent < 0) {
 			this.marginPercent = 0;
 		} else if (this.marginPercent > this.assets.length - 1) {
@@ -95,13 +101,17 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	setActiveSlide(value: number) {
+	public setActiveSlide(value: number): void {
 		this.activeSlide = value;
 		this.activeSlideSet.emit(value);
 	}
 
-	gotoNextSlide() {
-		// console.log("gotoNextSlide");
+	public gotoNextSlide(): void {
+		if (!this.assets) {
+			this.setActiveSlide(0);
+			return;
+		}
+		
 		this.setActiveSlide(this.activeSlide += 1);
 
 		if (this.activeSlide > this.assets.length - 1) {
@@ -112,8 +122,7 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		this.nextToSlide();
 	}
 	
-	gotoPrevSlide() {
-		// console.log("gotoPrevSlide");
+	public gotoPrevSlide(): void {
 		this.setActiveSlide(this.activeSlide -= 1);
 
 
@@ -124,13 +133,12 @@ export class SliderComponent implements OnInit, AfterViewInit {
 		this.nextToSlide();
 	}
 
-	returnToSlide() {
+	public returnToSlide(): void {
 		this.nextToSlide();
 	}
 
-	nextToSlide() {
+	public nextToSlide(): void {
 		const goal = this.activeSlide;
-		// console.log('nextToSlide', goal, this.margin);
 
 		if (this.marginPercent === goal) {
 			this.velocity = 0;

@@ -9,10 +9,10 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 @Pipe({ name: 'noSanitizeStyle' })
 export class NoSanitizeStylePipe implements PipeTransform {
-     	constructor(private domSanitizer: DomSanitizer) { }
+	constructor(private domSanitizer: DomSanitizer) { }
 
-     	transform(style: string): SafeStyle {
-     		style = style || "";
-     		return this.domSanitizer.bypassSecurityTrustStyle(style);
-     	}
+	public transform(style: string): SafeStyle {
+		style = style || "";
+		return this.domSanitizer.bypassSecurityTrustStyle(style);
+	}
 }

@@ -10,10 +10,18 @@
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+
+        "strict": true, /* Enable all strict type-checking options. */
+        "noImplicitReturns": true,/* Firebase's default lint options make these pretty required */
+        "noUnusedLocals": true,/* Firebase's default lint options make these pretty required */
+
         "importHelpers": true,
         "target": "es2015",
         "typeRoots": [
             "node_modules/@types"
+        ],
+        "types": [
+            "materialize-css"
         ],
         "lib": [
             "es2018",

@@ -1,4 +1,6 @@
-import { Component, HostListener, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+// TODO: this page is likely not needed anymore since Angular 9+
 
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
@@ -9,22 +11,26 @@ import { Router } from '@angular/router';
     styleUrls: ['./nav.style.scss']
 })
 export class NavComponent implements OnInit {
-	timeout: any;
-	count: 0;
+	private timeout?: number;
+	public count: number;
+
 	constructor(public appService: AppService, private router: Router) {
+		this.count = 0;
 	}
 
 	public ngOnInit(): void {
+		this.count = 0;
+
 		if (!this.appService.first) {
 			this.appService.first = true;
 			
 			clearTimeout(this.timeout);
 
-			this.timeout = setTimeout(() => {
+			this.timeout = window.setTimeout(() => {
 				this.navHome();
 			}, 1);
 		} else {
-			setTimeout(() => {
+			window.setTimeout(() => {
 				this.navBack();
 
 				this.backLoop();
@@ -39,14 +45,15 @@ export class NavComponent implements OnInit {
 	}
 
 	public backLoop(): void {
-		console.log(this.router.url);
+		// console.log(this.router.url);
+
 		if (this.router.url !== '/') {
 			return;
 		}
 
 		clearTimeout(this.timeout);
 
-		this.timeout = setTimeout(() => {
+		this.timeout = window.setTimeout(() => {
 			this.count += 1;
 
 			// console.log('loop back');

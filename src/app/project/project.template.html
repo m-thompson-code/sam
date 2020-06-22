@@ -17,27 +17,28 @@
         <img class="dark-image-safari-fix dark-image" src='./assets/dark_logo.jpeg'>
     </div>
     
+    <ng-container *ngIf="activeProject">
+        <div #container class="slider-container">
+            <moo-slider [container]="container" [assets]="activeProject.assets" (activeSlideSet)="activeSlide = $event"></moo-slider>
+        </div>
     
-    <div #container class="slider-container">
-        <moo-slider [container]="container" [assets]="activeProject.assets" (activeSlideSet)="activeSlide = $event"></moo-slider>
-    </div>
-
-    <moo-dots [items]="activeProject.assets" [activeIndex]="activeSlide"></moo-dots>
-    
-    <div *ngIf="urlIndex === 99" class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}{{ activeProject.desc }}</div>
-    <div *ngIf="urlIndex !== 99" class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}</div>
-    <div *ngIf="activeProject.tags && activeProject.tags.length" class="tags">
-        <div *ngFor="let tag of activeProject.tags" class="tag">
-            <span class="burin-sans">{{ tag.text }}&nbsp;:&nbsp;</span>
-            <ng-container *ngIf="tag.elements && tag.elements.length">
-                <ng-container *ngFor="let element of tag.elements; let i = index">
-                    <a *ngIf="element.href" #aTag [href]="element.href" (click)="aTag.blur(); getActive(aTag)"[target]="!element.href || element.href.indexOf('mailto:') !== -1 || element.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(aTag)">{{ element.text }}</a>
-                    <span *ngIf="!element.href">{{ element.text }}</span>
-                    <ng-container *ngIf="i !== tag.elements.length - 1">
-                        <span class="burin-sans"> / </span>
+        <moo-dots [items]="activeProject.assets" [activeIndex]="activeSlide"></moo-dots>
+        
+        <div class="desc"><span class="project-name burin-sans"><moo-spaced [chars]="activeProject.text"></moo-spaced></span>&nbsp;&nbsp;/&nbsp;&nbsp;{{ activeProject.desc }}</div>
+        
+        <div *ngIf="activeProject.tags && activeProject.tags.length" class="tags">
+            <div *ngFor="let tag of activeProject.tags" class="tag">
+                <span class="burin-sans">{{ tag.text }}&nbsp;:&nbsp;</span>
+                <ng-container *ngIf="tag.elements && tag.elements.length">
+                    <ng-container *ngFor="let element of tag.elements; let i = index">
+                        <a *ngIf="element.href" #aTag [href]="element.href" (click)="aTag.blur(); getActive(aTag)"[target]="!element.href || element.href.indexOf('mailto:') !== -1 || element.href.indexOf('tel:') !== -1 ? '' : '_blank'" (mouseleave)="getNotActive(aTag)">{{ element.text }}</a>
+                        <span *ngIf="!element.href">{{ element.text }}</span>
+                        <ng-container *ngIf="i !== tag.elements.length - 1">
+                            <span class="burin-sans"> / </span>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
-            </ng-container>
+            </div>
         </div>
-    </div>
+    </ng-container>
 </div>

@@ -7,8 +7,10 @@ import { Component, Input } from '@angular/core';
   providers: [ ]
 })
 export class IconComponent {
-	@Input() icon: string;
+	@Input() public icon: string;
+	
 	constructor() {
+		this.icon = "";
 	}
 
 	ngOnInit() {

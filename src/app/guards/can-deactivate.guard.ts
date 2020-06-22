@@ -1,6 +1,6 @@
 // source: https://angular.io/guide/router#cancel-and-save
 // source: Search 'src/app/can-deactivate-guard.service.ts' at https://angular.io/guide/router#cancel-and-save;
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Injectable }    from '@angular/core';
 import { CanDeactivate } from '@angular/router';
@@ -16,10 +16,11 @@ export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate>
 		this.router = router;
 	}
 
-  	canDeactivate(component: CanComponentDeactivate) {
+  	public canDeactivate(component: CanComponentDeactivate): boolean {
 	  	if (component.canDeactivate ? component.canDeactivate() : true) {
 	  		return true;
 	  	} else {
+			// TODO: This shouldn't be needed anymore for Angular 9+
 	  		// source: https://github.com/angular/angular/issues/12851
 	  		// This allows for the deactivate guard to work twice+ in a row
 	  		window.history.pushState({}, "", this.router.url);

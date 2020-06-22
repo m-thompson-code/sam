@@ -1,12 +1,5 @@
 <div class="input-field">
-    <!-- <input #input [class]="(invalidText ? 'invalid ' : '') + mode" [id]="id" [type]="inputType || 'text'" (focus)="focusFunc()" (blur)="blurFunc()" [value]="text || ''" (input)="handleInputChange($event)"> -->
     <textarea #textarea [class]="'materialize-textarea ' + mode" [id]="id" (focus)="focusFunc()" (blur)="blurFunc()" [value]="text || ''" (input)="handleInputChange($event)"></textarea>
 
     <label *ngIf="label" [class]="text || focused ? 'active' : ''" [for]="id">{{ label }}</label>
-    
-    <!-- <div *ngIf="invalidText" class="helper-text-container">
-        <span [class]="'helper-text' + (invalidText ? ' invalid' : '')" data-success="right">{{ invalidText }}</span>
-    </div>
-
-    <div class="helper-text-container-margin"></div> -->
 </div>

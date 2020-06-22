@@ -1,77 +1,73 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { AppService } from 'src/app/app.service';
 
+import { Mode } from 'src/app/home/home.component';
+
 @Component({
-  selector: 'moo-input',
-  styleUrls: [ './input.style.scss' ],
-  templateUrl: './input.template.html',
-  providers: [ ]
+	selector: 'moo-input',
+	styleUrls: [ './input.style.scss' ],
+	templateUrl: './input.template.html',
+	providers: [ ]
 })
 export class InputComponent {
- 	@Input() text: string;
- 	@Input() label: string;
-	@Input() mode: any;
-	@Input() inputType: string;
+ 	@Input() public text: string;
+ 	@Input() public label: string;
+	@Input() public mode: Mode;
+	@Input() public inputType?: string;
 
- 	@Output() valueChanged: EventEmitter<string> = new EventEmitter();
+ 	@Output() public valueChanged: EventEmitter<string> = new EventEmitter();
 
- 	focused: boolean;
+ 	public focused: boolean;
 
-	id: string;
+	public id: string;
 	 
-	@Input() textIsInvalidFuncs: ((text: string) => string)[];
+	@Input() public textIsInvalidFuncs?: ((text: string) => string)[];
 
-	invalidText: string;
+	public invalidText?: string;
  	
 	constructor(private appService: AppService) {
+		this.text = "";
+		this.label = "";
+
+		this.focused = false;
+
+		this.id = "temp-id";
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.id = this.appService.getID();
-
-		// this.textIsInvalidFunc = (text: string) => {
-		// 	console.log(text);
-
-		// 	if (text && text.indexOf('p') !== -1) {
-		// 		console.log(text.indexOf('p'));
-		// 		return "contains p";
-		// 	}
-		// }
 	}
 
-	blurFunc() {
+	public blurFunc(): void {
 		this.focused = false;
 
 		this.handleValidation(this.text);
 	}
 
-	focusFunc() {
+	public focusFunc(): void {
 		this.focused = true;
 	}
 
-	handleValidation(text: string) {
+	public handleValidation(text: string): void {
 		text = text || this.text;
-
-		// if (!text) {
-		// 	this.invalidText = null;
-		// 	return;
-		// }
 
 		if (this.textIsInvalidFuncs && this.textIsInvalidFuncs.length) {
 			for (let textIsInvalidFunc of this.textIsInvalidFuncs) {
 				const invalidText = textIsInvalidFunc(text);
-				this.invalidText = invalidText || null;
+				this.invalidText = invalidText || undefined;
 
 				if (invalidText) {
 					break;
 				}
 			}
 		} else {
-			this.invalidText = null;
+			this.invalidText = undefined;
 		}
 	}
 
-	handleInputChange(event) {
+	// TODO: Figure out what typescript's change event is
+	public handleInputChange(event: any) {
 		const text = event.target.value;
 
 		this.valueChanged.emit(text);

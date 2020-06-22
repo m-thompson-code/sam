@@ -1,10 +1,10 @@
-import { Component, HostListener, ViewChild, ElementRef, NgZone, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AppService } from '../app.service';
 import { Project } from '../app.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-declare var M;
+declare var M: any;
 
 @Component({
     selector: 'moo-project',
@@ -12,23 +12,27 @@ declare var M;
     styleUrls: ['./project.style.scss']
 })
 export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
-	activeSlide: number = 0;
-	urlIndex: number;
+	public activeSlide: number = 0;
+	private urlIndex?: number;
 
-	activeProject: Project;
+	public activeProject?: Project;
 
-	paramSubscription: Subscription;
+	private paramSubscription?: Subscription;
 
-	constructor(public appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
+	constructor(public appService: AppService, private activatedRoute: ActivatedRoute) {
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
+		this.activeSlide = 0;
+
 		this.appService.mode = 'dark';
 		this.appService.first = true;
 		
 		document.body.className = "project";
 		
         this.paramSubscription = this.activatedRoute.params.subscribe(params => {
+			this.activeSlide = 0;
+
 			this.urlIndex = +params['projectIndex'];
 			if (this.urlIndex === 99) {
 				this.activeProject = this.appService.projects[1];
@@ -38,18 +42,18 @@ export class ProjectComponent  implements OnInit, AfterViewInit, OnDestroy {
 		});
 	}
 
-	getActive(el: HTMLElement) {
+	public getActive(el: HTMLElement): void {
     	el.classList.add("active");
     }
 
-    getNotActive(el: HTMLElement) {
+    public getNotActive(el: HTMLElement): void {
     	el.classList.remove("active");
     }
 
-	ngAfterViewInit() {
+	public ngAfterViewInit(): void {
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy(): void {
 		document.body.className = "dark";
 
 		this.paramSubscription && this.paramSubscription.unsubscribe && this.paramSubscription.unsubscribe();

@@ -7,29 +7,34 @@ import { Component, Input } from '@angular/core';
   providers: [ ]
 })
 export class DotsComponent {
-	@Input() items: any[];
+	@Input() items?: any[];
 
 	private _activeIndex: number;
     @Input()
-    set activeIndex(activeIndex: number) {
+    public set activeIndex(activeIndex: number) {
 		this.setSizes(this._activeIndex, activeIndex);
 		this._activeIndex = activeIndex;
-
     }
-    get activeIndex(): number {
+    public get activeIndex(): number {
         return this._activeIndex;
     };
 
-	sizes: string[] = [];
+	public sizes: string[] = [];
 	constructor() {
+		this._activeIndex = 0;
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.setToBeginning();
 	}
 
-	setToBeginning() {
+	public setToBeginning(): void {
 		const _sizes = [];
+
+		if (!this.items) {
+			this.sizes = [];
+			return;
+		}
 
 		for (let i = 0; i < this.items.length; i++) {
 			if (i < 4) {
@@ -46,8 +51,13 @@ export class DotsComponent {
 		this.sizes = _sizes;
 	}
 
-	setToEnding() {
+	public setToEnding(): void {
 		const _sizes = [];
+
+		if (!this.items) {
+			this.sizes = [];
+			return;
+		}
 
 		for (let i = 0; i < this.items.length; i++) {
 			if (i < 4) {
@@ -64,8 +74,13 @@ export class DotsComponent {
 		this.sizes = _sizes;
 	}
 
-	setSizes(prevIndex: number, activeIndex: number) {
-		if (prevIndex === this.sizes.length- 1&& activeIndex === 0) {
+	public setSizes(prevIndex: number, activeIndex: number): void {
+		if (!this.items) {
+			this.sizes = [];
+			return;
+		}
+
+		if (prevIndex === this.sizes.length - 1 && activeIndex === 0) {
 			this.setToBeginning();
 			return;
 		}
@@ -80,8 +95,6 @@ export class DotsComponent {
 		for (let i = 0; i < this.items.length; i++) {
 			_sizes[i] = this.sizes[i] || 'gone';
 		}
-
-		// console.log(prevIndex, activeIndex);
 
 		if (activeIndex > prevIndex) {
 			if (this.sizes[activeIndex + 1] && (this.sizes[activeIndex + 1] === 'gone' || this.sizes[activeIndex + 1] === 'smallest')) {
@@ -119,7 +132,5 @@ export class DotsComponent {
 		}
 
 		this.sizes[activeIndex] = "full";
-
-		// console.log(this.sizes);
 	}
 }

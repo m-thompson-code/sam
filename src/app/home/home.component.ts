@@ -1,16 +1,18 @@
 import { Component, HostListener, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 
-import { DragulaService } from 'ng2-dragula';
+// import { DragulaService } from 'ng2-dragula';
 
 import * as firebase from "firebase/app";
 
-import * as dragula from 'dragula';
+// import * as dragula from 'dragula';
 import { AppService } from '../app.service';
-import { Router, ActivatedRoute } from '@angular/router';
+
 import { Project, TagElement } from '../app.component';
 
-declare const M;
+import "materialize-css";
+
+export type Mode = 'dark' | 'light' | '' | undefined;
 
 @Component({
     selector: 'moo-home',
@@ -18,81 +20,122 @@ declare const M;
     styleUrls: ['./home.style.scss']
 })
 export class HomeComponent {
-	@ViewChild('managementWrapper') private managementWrapper: ElementRef<HTMLDivElement>;
-	PROJECTS = "PROJECTS";
-	Footers = "FOOTERS";
+	@ViewChild('managementWrapper') private managementWrapper?: ElementRef<HTMLDivElement>;
+	// PROJECTS = "PROJECTS";
+	// Footers = "FOOTERS";
 	
-	@ViewChild("linksContainer") linksContainer: ElementRef;
+	@ViewChild("linksContainer") private linksContainer?: ElementRef<HTMLDivElement>;
 
-	@ViewChild("centerButton") centerButton: ElementRef;
+	@ViewChild("centerButton") private centerButton?: ElementRef<HTMLDivElement>;
 
-	mode: string;
-	modeTimeout: any;
+	public mode?: Mode;
+	public modeTimeout?: number;
 
-	showOthers: boolean;
+	public showOthers: boolean;
 
-	projectFontSize: number;
+	public projectFontSize: number = 9.33;
 
-	projectRows: Project[][];
+	public projectRows: Project[][];
 
-	projectsMaxWidth: number;
-	maxProjects: number;
+	public projectsMaxWidth: number = 0;
+	public maxProjects: number = 99;
 
-	h: number;
-	w: number;
+	public h: number = 0;
+	public w: number = 0;
 
-	showPoem: boolean;
+	public showPoem: boolean;
 
-	loading: boolean;
-	saving: boolean;
+	public loading: boolean;
+	public saving: boolean;
 
-	email: string;
-	password: string;
+	public email: string;
+	public password: string;
 
-	showLogin: boolean;
-	loggedIn: boolean;
+	public showLogin: boolean;
+	public loggedIn: boolean;
 
-	dragging: boolean;
+	public dragging: boolean;// This variable is no longer maintained on this Component but is used in template
 
-	showManagement: boolean;
+	public showManagement: boolean;
 
-	toggleModeTimeout: any;
+	public toggleModeTimeout?: number;
 
-	activeManagementOption: 'projects' | 'advancedEdit' | 'footer' | 'tips' = 'projects';
+	public activeManagementOption: 'projects' | 'advancedEdit' | 'footer' | 'tips' = 'projects';
 
-	authPending: boolean;
+	public authPending: boolean;
 
-	isInvalidUrl: (text: string) => string;
-	isEmptyProject: (text: string) => string;
-	isEmptyFooter: (text: string) => string;
+	public isInvalidUrl: (text: string) => string | undefined;
+	public isEmptyProject: (text: string) => string | undefined;
+	public isEmptyFooter: (text: string) => string | undefined;
 
-	exampleText: string = "How now brown cow?\\sSAMANTHAMINK\\nBODYOFWORK";
+	public exampleText: string = "How now brown cow?\\sSAMANTHAMINK\\nBODYOFWORK";
 
-	slideshow: boolean;
-	showSlideshow: boolean;
-	slideshowAnimate: boolean;
-	slideshowAnimateTimeout: any;
+	public slideshow: boolean;
+	public showSlideshow: boolean;
+	public slideshowAnimate: boolean;
+	public slideshowAnimateTimeout?: number;
 
-	selectedFont: string;
+	// public selectedFont: string;
 
-	test: boolean;
+	// public test: boolean;
 
-	assetIndex: number;
+	public assetIndex: number;
 
-	hMargin: number;
-	wMargin: number;
+	// public hMargin: number;
+	// public wMargin: number;
 
-	activeProject: Project;
+	public activeProject?: Project;
 
-	started: boolean;
+	public started: boolean;
 
-	managementWrapperScrollTop: number;
-	advancedEditProject: Project;
-	advancedEditImageUrl: string;
+	public managementWrapperScrollTop: number | null;
+	public advancedEditProject?: Project;
+	public advancedEditImageUrl: string;
 
-	newTag: string;
+	constructor(private location: Location, private ngZone: NgZone, public appService: AppService) {
+		this.projectRows = [[]];
 
-	constructor(private location: Location, private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
+		this.showPoem = false;
+
+		this.loading = false;
+		this.saving = false;
+
+		this.email = "";
+		this.password = "";
+
+		this.showLogin = false;
+		this.loggedIn = false;
+
+		this.dragging = false;
+		
+		this.showManagement = false;
+
+		this.authPending = false;
+
+		this.isEmptyProject = (text: string) => {
+			return undefined;
+		};
+
+		this.isEmptyFooter = (text: string) => {
+			return undefined;
+		};
+
+		this.isInvalidUrl = (text: string) => {
+			return undefined;
+		};
+
+		this.showOthers = false;
+
+		this.slideshow = false;
+		this.showSlideshow = false;
+		this.slideshowAnimate = false;
+
+		this.assetIndex = 0;
+
+		this.started = false;
+
+		this.managementWrapperScrollTop = null;
+		this.advancedEditImageUrl = "";
 	}
 
 	private _ripple(x: number, y: number, color: 'black' | 'white'): void {
@@ -179,12 +222,10 @@ export class HomeComponent {
 
 		// this.test = true;
 
-		this.maxProjects = 99;
-
 		this.projectRows = [[]];
 
-		this.hMargin = 100;
-		this.wMargin = 100;
+		// this.hMargin = 100;
+		// this.wMargin = 100;
 
 		this.assetIndex = 0;
 
@@ -214,12 +255,16 @@ export class HomeComponent {
 			if (!text) {
 				return "Project name is blank";
 			}
+
+			return undefined;
 		};
 
 		this.isEmptyFooter = (text: string) => {
 			if (!text) {
 				return "Footer item is blank";
 			}
+
+			return undefined;
 		};
 
 		this.isInvalidUrl = (text: string) => {
@@ -228,7 +273,7 @@ export class HomeComponent {
 			const invalidMessage = "Invalid url";
 
 			if (!text) {
-				return;
+				return undefined;
 			}
 
 			if (!firstCheckPassed && text.indexOf('https:') === 0) {
@@ -256,27 +301,39 @@ export class HomeComponent {
 			} catch (error) {
 				return invalidMessage;
 			}
+
+			return undefined;
 		};
 
 		this.authHandler();
 	}
 
 	// Slideshow stuff
-	nextAsset() {
+	public nextAsset(): void {
+		if (!this.activeProject) {
+			this.assetIndex = 0;
+			return;
+		}
+
 		this.assetIndex += 1;
 		if (this.assetIndex > this.activeProject.assets.length - 1) {
 			this.assetIndex = 0;
 		}
 	}
 
-	backAsset() {
+	public backAsset(): void {
+		if (!this.activeProject) {
+			this.assetIndex = 0;
+			return;
+		}
+
 		this.assetIndex -= 1;
 		if (this.assetIndex < 0) {
 			this.assetIndex = this.activeProject.assets.length - 1;
 		}
 	}
 
-	toggleSlideshow(event?: Event, activeProject?: Project) {
+	public toggleSlideshow(event?: Event, activeProject?: Project): void {
 		if (event) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -295,7 +352,7 @@ export class HomeComponent {
 			this.assetIndex = 0;
 			this.slideshowAnimate = true;
 			clearTimeout(this.slideshowAnimateTimeout);
-			this.slideshowAnimateTimeout = setTimeout(() => {
+			this.slideshowAnimateTimeout = window.setTimeout(() => {
 				this.slideshowAnimate = false;
 				this.showSlideshow = true;
 			}, 500);
@@ -306,7 +363,7 @@ export class HomeComponent {
 			}, 1);
 			this.slideshowAnimate = true;
 			clearTimeout(this.slideshowAnimateTimeout);
-			this.slideshowAnimateTimeout = setTimeout(() => {
+			this.slideshowAnimateTimeout = window.setTimeout(() => {
 				this.slideshowAnimate = false;
 			}, 1000);
 		}
@@ -352,18 +409,18 @@ export class HomeComponent {
 			} else {
 				this.showOthers = false;
 
-				this.modeTimeout = setTimeout(() => {
+				this.modeTimeout = window.setTimeout(() => {
 					this.setMode('light');
 					this.showOthers = false;
 				}, 1000);
 	
-				this.toggleModeTimeout = setTimeout(() => {
+				this.toggleModeTimeout = window.setTimeout(() => {
 					this.toggleMode();
 				}, 10000);
 			}
 
 			setTimeout(() => {
-				this.getLinksContainerWidth();
+				// this.getLinksContainerWidth();
 	        	this.alignUrls();
 	        	setTimeout(() => {
 		       		this.recalcEvertyhing();
@@ -390,13 +447,13 @@ export class HomeComponent {
 			}
 
 			this.setMode('');
-			this.modeTimeout = setTimeout(() => {
+			this.modeTimeout = window.setTimeout(() => {
 				this.setMode('dark');
 				setTimeout(() => {
 		       		this.recalcEvertyhing();
 				}, 1);
 				
-				this.modeTimeout = setTimeout(() => {
+				this.modeTimeout = window.setTimeout(() => {
 					if (this.mode === 'dark') {
 						this.showOthers = true;
 						setTimeout(() => {
@@ -409,35 +466,37 @@ export class HomeComponent {
 			this.setMode('');
 			this.showPoem = true;
 
-			this.modeTimeout = setTimeout(() => {
+			this.modeTimeout = window.setTimeout(() => {
 				this.setMode('light');
 				this.showOthers = false;
 			}, 1000);
 		}
 	}
 
-	getLinksContainerWidth() {
+	private _getLinksContainerWidth() {
 		if (this.linksContainer && this.linksContainer.nativeElement) {
 			this.projectFontSize = parseFloat(window.getComputedStyle(this.linksContainer.nativeElement).fontSize) || 9.33;
 			this.projectsMaxWidth = this.linksContainer.nativeElement.getBoundingClientRect().width;
 		}
 	}
 
-	alignUrls() {
-		var y = 0;
+	public alignUrls(): void {
+		this._getLinksContainerWidth();
 
-		var width = this.projectsMaxWidth;
+		let y = 0;
 
-		var i = 0;
-		var count = 0;
+		let width = this.projectsMaxWidth;
 
-		var topWidth = 0;
+		let i = 0;
+		let count = 0;
+
+		let topWidth = 0;
 
 		this.projectRows = [];
 
 		this.projectRows.push([]);
 
-		var margin = 0;
+		let margin = 0;
 
 		while (i < this.appService.projects.length) {
 			// console.log(width);
@@ -515,7 +574,7 @@ export class HomeComponent {
     		return;
     	}
 
-    	this.getLinksContainerWidth();
+    	// this.getLinksContainerWidth();
         this.alignUrls();
 
         this.w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -663,7 +722,10 @@ export class HomeComponent {
 		setTimeout(() => {
 			if (this.managementWrapperScrollTop || this.managementWrapperScrollTop === 0) {
 				// console.log(this.managementWrapperScrollTop);
-				this.managementWrapper.nativeElement.scrollTop = this.managementWrapperScrollTop;
+				if (this.managementWrapper) {
+					this.managementWrapper.nativeElement.scrollTop = this.managementWrapperScrollTop;
+				}
+
 				this.managementWrapperScrollTop = null;
 			}
 		}, 1);
@@ -740,6 +802,10 @@ export class HomeComponent {
 	}
 
 	public removeAdvancedEditImage(index: number): void {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		this.advancedEditProject.assets.splice(index, 1);
 
 		if (this.activeProject === this.advancedEditProject) {
@@ -752,6 +818,10 @@ export class HomeComponent {
 	}
 
 	public swapAdvancedEditImages(i: number, j: number) {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		const firstUrl = this.advancedEditProject.assets[i];
 		const secondUrl = this.advancedEditProject.assets[j];
 
@@ -768,7 +838,7 @@ export class HomeComponent {
 		this.showManagement = !this.showManagement;
 
 		setTimeout(() => {
-			this.getLinksContainerWidth();
+			// this.getLinksContainerWidth();
 			this.alignUrls();
 			setTimeout(() => {
 				   this.recalcEvertyhing();
@@ -917,6 +987,11 @@ export class HomeComponent {
 			return;
 		}
 
+		if (!this.advancedEditProject) {
+			console.error("Unexpected missing advancedEditProject");
+			return;
+		}
+
 		// => convert to proper url
 		// add image to project
 		this.advancedEditProject.assets = this.advancedEditProject.assets || [];
@@ -936,6 +1011,10 @@ export class HomeComponent {
 	}
 
 	public addTagSection(): void {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		this.advancedEditProject.tags.unshift({
 			text: "",
 			elements: [
@@ -950,6 +1029,10 @@ export class HomeComponent {
 	}
 
 	public insertTagSection(i: number): void {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		this.advancedEditProject.tags.splice(i + 1, 0, {
 			text: "",
 			elements: [
@@ -964,12 +1047,20 @@ export class HomeComponent {
 	}
 
 	public removeTagSection(i: number): void {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		this.advancedEditProject.tags.splice(i, 1);
 
 		M.toast({ html: `Tag Section removed`, displayLength: 1250 });
 	}
 
 	public swapTagSections(i: number, j: number): void {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		if (j < 0 || j > this.advancedEditProject.tags.length - 1) {
 			return;
 		}
@@ -991,6 +1082,10 @@ export class HomeComponent {
 	}
 
 	public removeTag(elements: TagElement[], i: number): void {
+		if (!this.advancedEditProject) {
+			return;
+		}
+
 		if (this.advancedEditProject.tags.length <= 1) {
 			M.toast({ html: `You must have at least one Tag per Tag Section`, displayLength: 1250 });
 			return;

@@ -1,8 +1,6 @@
-import { Component, NgZone, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 import { AppService } from './app.service';
-
-import { DragulaService } from 'ng2-dragula';
 
 export interface TagElement {
 	text: string;
@@ -40,17 +38,20 @@ export interface Project extends DBProject {
     styleUrls: ['./app.style.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-	@ViewChild("backgroundImageHolder", { static: true }) backgroundImageHolder: ElementRef;
+	@ViewChild("backgroundImageHolder", { static: true }) backgroundImageHolder?: ElementRef;
 
-	loading : boolean;
+	public loading : boolean;
 
-	dataLoading: boolean;
-	backgroundImageLoading: boolean;
+	public dataLoading: boolean;
+	public backgroundImageLoading: boolean;
 
-	constructor(private dragulaService: DragulaService, private ngZone: NgZone, public appService: AppService) {
+	constructor(public appService: AppService) {
+		this.loading = false;
+		this.dataLoading = false;
+		this.backgroundImageLoading = false;
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.dataLoading = true;
 		this.backgroundImageLoading = true;
 		this.loading = true;
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.loadProjects();
 	}
 
-	loadProjects() {
+	public loadProjects(): Promise<void> {
 		return this.appService.loadProjects().then(() => {
 			this.dataLoading = false;
 
@@ -66,30 +67,36 @@ export class AppComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	ngAfterViewInit() {
+	public ngAfterViewInit(): void {
 		setTimeout(() => {
 			try {
-				// console.log(window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image']);
-				var src = window.getComputedStyle(this.backgroundImageHolder.nativeElement)['background-image'];
+				if (!this.backgroundImageHolder) {
+					throw {
+						message: "Unexpected missing backgroundImageHolder",
+					};
+				}
 
-				var url = src.match(/\((.*?)\)/)[1].replace(/('|")/g,'');
+				const _computedStyle: CSSStyleDeclaration = window.getComputedStyle(this.backgroundImageHolder.nativeElement);
+				const src = _computedStyle && _computedStyle['backgroundImage'] || "";
+
+				const urlMatches = src.match(/\((.*?)\)/);
+
+				var url = urlMatches && urlMatches.length && urlMatches[1].replace(/('|")/g,'') || "";
 
 				var img = new Image();
 
 				img.onload = () => {
 					this.backgroundImageLoading = false;
 					this.loading = this.backgroundImageLoading || this.dataLoading;
-					
-					// console.log("background loaded");
+				};
+
+				img.onerror = (error) => {
+					console.error(error);
+					this.backgroundImageLoading = false;
+					this.loading = this.backgroundImageLoading || this.dataLoading;
 				};
 
 				img.src = url;
-
-				// setTimeout(() => {
-				// 	this.backgroundImageLoading = false;
-				// 	this.loading = this.backgroundImageLoading || this.dataLoading;
-				// }, 3 * 1000);
-
 			}catch(error) {
 				console.error(error);
 				this.backgroundImageLoading = false;

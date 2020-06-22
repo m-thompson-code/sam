@@ -1,4 +1,5 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
+import { Mode } from 'src/app/home/home.component';
 
 @Component({
   selector: 'moo-image',
@@ -6,12 +7,12 @@ import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
   templateUrl: './image.template.html',
   providers: [ ]
 })
-export class ImageComponent implements OnChanges {
+export class ImageComponent implements OnInit, OnChanges {
 	// @Input() href: string;
 
-	thref: string;
-	mhref: string;
-	dhref: string;
+	public thref: string;
+	public mhref: string;
+	public dhref: string;
 
 	private _href: string;
     @Input()
@@ -52,32 +53,46 @@ export class ImageComponent implements OnChanges {
         return this._href;
     };
 
-	loading: boolean;
+	public loading: boolean;
 
-	image: HTMLImageElement;
+	public image?: HTMLImageElement;
 
-	errored: boolean;
+	public errored: boolean;
 
-	@Input() mode: string;
+	@Input() public mode: Mode;
 
-	@Input() container: HTMLElement;
+	@Input() public container?: HTMLElement;
 
-	defaultWidth: string;
-	defaultHeight: string;
+	public defaultWidth: string;
+	public defaultHeight: string;
 
-	@Input() calcSize: boolean;
+	@Input() public calcSize?: boolean;
 
-	@Input() thumbnail: boolean;
+	@Input() public thumbnail?: boolean;
 
 	constructor() {
+		this.thref = "";
+		this.mhref = "";
+		this.dhref = "";
+		this._href = "";
+
+		this.loading = true;
+		this.errored = false;
+
+		this.defaultWidth = "";
+		this.defaultHeight = "";
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.loading = true;
 		this.errored = false;
 	}
 	
-	handleEvents() {
+	public handleEvents(): void {
+		if (!this.image) {
+			return;
+		}
+		
 		this.image.removeEventListener('load', this.onload.bind(this));
 		this.image.removeEventListener('error', this.onerror.bind(this));
 		
@@ -85,7 +100,7 @@ export class ImageComponent implements OnChanges {
 		this.image.addEventListener('error', this.onerror.bind(this));
 	}
 
-	onload() {
+	public onload(): void {
 		// console.log('onload finished');
 		this.loading = false;
 		// console.log(this.image);
@@ -105,22 +120,15 @@ export class ImageComponent implements OnChanges {
 		}
 	}
 	
-	onerror(error: any) {
+	public onerror(error: any): void {
 		console.error("errored", error);
+
 		this.loading = false;
 		this.errored = true;
 	}
 
-	getMaxHeight(): {width: string, height: string} {
+	public getMaxHeight(): {width: string, height: string} {
 		if (this.container && this.image) {
-			// if (this.container.offsetWidth > this.container.offsetHeight) {
-			// 	console.log("auto");
-			// 	return "auto";
-			// } else {
-			// 	console.log(this.container.offsetHeight + "px");
-
-			// 	return this.container.offsetHeight + "px";
-			// }
 			let height = this.image.height;
 			let width = this.image.width;
 
@@ -158,36 +166,34 @@ export class ImageComponent implements OnChanges {
 				height = this.container.offsetHeight * _heightRatio;
 			}
 
-			// console.log(this.image.width, this.image.height, this.container.offsetWidth, this.container.offsetHeight, width, height);
-
 			return {
 				width: width + "px",
 				height: height + "px"
-			}
+			};
 		}
 
 		return {
 			width: "auto",
 			height: "auto"
-		}
+		};
 	}
 
-	getMaxWidth(): string {
-		// console.log("getMaxWidth", this.container, this.container.offsetWidth);
+	// public getMaxWidth(): string {
+	// 	// console.log("getMaxWidth", this.container, this.container.offsetWidth);
 
-		if (this.container && this.image) {
-			if (this.container.offsetWidth > this.container.offsetHeight) {
-				// console.log(this.container.offsetWidth + "px");
-				return this.container.offsetWidth + "px";
-			} else {
-				// console.log("auto");
-				return "auto";
-			}
-		}
-	}
+	// 	if (this.container && this.image) {
+	// 		if (this.container.offsetWidth > this.container.offsetHeight) {
+	// 			// console.log(this.container.offsetWidth + "px");
+	// 			return this.container.offsetWidth + "px";
+	// 		} else {
+	// 			// console.log("auto");
+	// 		}
+	// 	}
 
-	ngOnChanges(changes: SimpleChanges) {
-		// console.log(changes);
+	// 	return "auto";
+	// }
+
+	public ngOnChanges(changes: SimpleChanges): void {
 		if (changes.href) {
 			this.image = new Image();
 
