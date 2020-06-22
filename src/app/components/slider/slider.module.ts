@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { SliderComponent } from './slider.component';
 
 import { ImageModule } from '../image/image.module';
+import { VideoModule } from '../video/video.module';
 
 import { PipeModule } from '../../pipes/pipe.module';
 
@@ -16,6 +17,7 @@ import { PipeModule } from '../../pipes/pipe.module';
     CommonModule,
 
     ImageModule,
+    VideoModule,
 
     PipeModule
   ],

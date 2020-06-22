@@ -31,7 +31,7 @@ export class AppService {
 		return `${this.id}-${Date.now()}`;
 	}
 
-    loadProjects() {
+    public loadProjects(): Promise<void> {
 		let branch = 'dev';
 
 		if (location.hostname === 'samanthamink.com' || location.hostname === 'www.samanthamink.com') {

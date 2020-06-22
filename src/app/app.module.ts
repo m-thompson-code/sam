@@ -21,16 +21,17 @@ import { AppComponent } from './app.component';
 import { AppService } from './app.service';
 
 
-import { SpacedModule } from './components/spaced/spaced.module';
-import { MobileSpacedModule } from './components/mobileSpaced/mobileSpaced.module';
-import { TextPlacementTestModule } from './components/textPlacementTest/textPlacementTest.module';
+// import { SpacedModule } from './components/spaced/spaced.module';
+// import { MobileSpacedModule } from './components/mobileSpaced/mobileSpaced.module';
+// import { TextPlacementTestModule } from './components/textPlacementTest/textPlacementTest.module';
 
-import { IconModule } from './components/icon/icon.module';
-import { ImageModule } from './components/image/image.module';
-import { InputModule } from './components/input/input.module';
+// import { IconModule } from './components/icon/icon.module';
+// import { ImageModule } from './components/image/image.module';
+// import { VideoModule } from './components/video/video.module';
+// import { InputModule } from './components/input/input.module';
 import { PreloaderModule } from './components/preloader/preloader.module';
-import { DotsModule } from './components/dots/dots.module';
-import { SliderModule } from './components/slider/slider.module';
+// import { DotsModule } from './components/dots/dots.module';
+// import { SliderModule } from './components/slider/slider.module';
 
 import { PipeModule } from './pipes/pipe.module';
 
@@ -48,16 +49,17 @@ import { NavComponent } from './nav/nav.component';
         DragulaModule.forRoot(),
         BrowserModule,
 
-        SpacedModule,
-        MobileSpacedModule,
-        TextPlacementTestModule,
+        // SpacedModule,
+        // MobileSpacedModule,
+        // TextPlacementTestModule,
 
-        IconModule,
-        InputModule,
-        ImageModule,
+        // IconModule,
+        // InputModule,
+        // ImageModule,
+        // VideoModule,
         PreloaderModule,
-        DotsModule,
-        SliderModule,
+        // DotsModule,
+        // SliderModule,
 
         PipeModule
     ],

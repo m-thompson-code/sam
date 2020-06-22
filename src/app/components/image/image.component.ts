@@ -55,7 +55,7 @@ export class ImageComponent implements OnInit, OnChanges {
 
 	public loading: boolean;
 
-	public image?: HTMLImageElement;
+	private _image?: HTMLImageElement;
 
 	public errored: boolean;
 
@@ -89,25 +89,25 @@ export class ImageComponent implements OnInit, OnChanges {
 	}
 	
 	public handleEvents(): void {
-		if (!this.image) {
+		if (!this._image) {
 			return;
 		}
 		
-		this.image.removeEventListener('load', this.onload.bind(this));
-		this.image.removeEventListener('error', this.onerror.bind(this));
+		this._image.removeEventListener('load', this.onload.bind(this));
+		this._image.removeEventListener('error', this.onerror.bind(this));
 		
-		this.image.addEventListener('load', this.onload.bind(this));
-		this.image.addEventListener('error', this.onerror.bind(this));
+		this._image.addEventListener('load', this.onload.bind(this));
+		this._image.addEventListener('error', this.onerror.bind(this));
 	}
 
 	public onload(): void {
 		// console.log('onload finished');
 		this.loading = false;
-		// console.log(this.image);
-		// console.log(this.image.height);
-		// console.log(this.image.width);
-		if (this.image) {
-			if (this.image.width > this.image.height) {
+		// console.log(this._image);
+		// console.log(this._image.height);
+		// console.log(this._image.width);
+		if (this._image) {
+			if (this._image.width > this._image.height) {
 				this.defaultHeight = "auto";
 				this.defaultWidth = "100%";
 			} else {
@@ -128,9 +128,9 @@ export class ImageComponent implements OnInit, OnChanges {
 	}
 
 	public getMaxHeight(): {width: string, height: string} {
-		if (this.container && this.image) {
-			let height = this.image.height;
-			let width = this.image.width;
+		if (this.container && this._image) {
+			let height = this._image.height;
+			let width = this._image.width;
 
 			if (height < this.container.offsetHeight) {
 				width = width * this.container.offsetHeight / height;
@@ -181,7 +181,7 @@ export class ImageComponent implements OnInit, OnChanges {
 	// public getMaxWidth(): string {
 	// 	// console.log("getMaxWidth", this.container, this.container.offsetWidth);
 
-	// 	if (this.container && this.image) {
+	// 	if (this.container && this._image) {
 	// 		if (this.container.offsetWidth > this.container.offsetHeight) {
 	// 			// console.log(this.container.offsetWidth + "px");
 	// 			return this.container.offsetWidth + "px";
@@ -195,7 +195,7 @@ export class ImageComponent implements OnInit, OnChanges {
 
 	public ngOnChanges(changes: SimpleChanges): void {
 		if (changes.href) {
-			this.image = new Image();
+			this._image = new Image();
 
 			this.handleEvents();
 
@@ -203,11 +203,11 @@ export class ImageComponent implements OnInit, OnChanges {
 			this.errored = false;
 
 			if (!this.calcSize) {
-				this.image.src = this.mhref;
+				this._image.src = this.mhref;
 			} else if (this.thumbnail) {
-				this.image.src = this.thref;
+				this._image.src = this.thref;
 			} else {
-				this.image.src = this.dhref;
+				this._image.src = this.dhref;
 			}
 		}
 	}

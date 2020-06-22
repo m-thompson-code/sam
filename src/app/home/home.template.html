@@ -3,11 +3,15 @@
     <moo-preloader [mode]="mode" [delay]="loading && 1000"></moo-preloader>
 </ng-container>
 
-
-
 <div *ngIf="!showManagement && showSlideshow" [class]="'slideshow-container' + (slideshow ? ' active' : '')">
     <div *ngIf="activeProject && activeProject.assets && activeProject.assets.length" #imageContainer class="image">
-        <moo-image [mode]="mode" [href]="activeProject.assets[assetIndex].url" [container]="imageContainer" [calcSize]="true"></moo-image>
+        <ng-container *ngIf="activeProject.assets[assetIndex].type === 'image'">
+            <moo-image [mode]="mode" [href]="activeProject.assets[assetIndex].url" [container]="imageContainer" [calcSize]="true"></moo-image>
+        </ng-container>
+
+        <ng-container *ngIf="activeProject.assets[assetIndex].type === 'video'">
+            <moo-video [mode]="mode" [href]="activeProject.assets[assetIndex].url" [container]="imageContainer" [calcSize]="true"></moo-video>
+        </ng-container>
 
         <div *ngIf="activeProject && activeProject.assets && activeProject.assets.length > 1" class="image-navigation" (click)="backAsset()">
             <div class="icon-holder">
@@ -142,14 +146,21 @@
                             <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'New Imgur Url'"
                                 (valueChanged)="advancedEditImageUrl = $event"></moo-input>
                             
-                            <a [class]="'waves-effect wave-light btn ' + mode" (click)="addAsset()">Add New Image</a>
+                            <a [class]="'waves-effect wave-light btn ' + mode" (click)="addAsset()">Add New Image / Video</a>
                         </div>
     
                         <div dragula="IMAGES" [(dragulaModel)]="advancedEditProject.assets" class="advanced-edit-images">
                             <div *ngFor="let asset of advancedEditProject.assets; let i = index; let first = first; let last = last" class="thumbnail-wrapper">
                                 <div [class]="'thumbnail ' + mode" #thumbnail>
-                                    <moo-image [thumbnail]="true" [mode]="mode" [href]="asset.url" [container]="thumbnail" [calcSize]="true">
-                                    </moo-image>
+                                    <ng-container *ngIf="asset.type === 'image'">
+                                        <moo-image [thumbnail]="true" [mode]="mode" [href]="asset.url" [container]="thumbnail" [calcSize]="true">
+                                        </moo-image>
+                                    </ng-container>
+                                    
+                                    <ng-container *ngIf="asset.type === 'video'">
+                                        <moo-video [thumbnail]="true" [mode]="mode" [href]="asset.url" [container]="thumbnail" [calcSize]="true">
+                                        </moo-video>
+                                    </ng-container>
     
                                     <moo-icon [class]="'thumbnail-close ' + mode" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
                                     <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i - 1)"></moo-icon>

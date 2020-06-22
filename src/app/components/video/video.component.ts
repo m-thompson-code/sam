@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Mode } from 'src/app/home/home.component';
 
 @Component({
   selector: 'moo-video',
@@ -9,90 +10,105 @@ import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 export class VideoComponent implements OnChanges {
 	// @Input() href: string;
 
-	thref: string;
-	mhref: string;
-	dhref: string;
+	public thref: string;
+	public mhref: string;
+	public dhref: string;
 
 	private _href: string;
     @Input()
     set href(href: string) {
-			this._href = href;
+		this._href = href;
 
-			const parts = href.split('/');
-			parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
-			this.mhref = "";
-			for (let part of parts) {
-				if (this.mhref) {
-					this.mhref += '/';
-				}
-				this.mhref += part;
-			}
+		this.thref = href;
+		this.mhref = href;
+		this.dhref = href;
 
-			const parts2 = href.split('/');
-			parts2[parts2.length - 1] = parts2[parts2.length - 1].replace('.', 'h.');
-			this.dhref = "";
-			for (let part of parts2) {
-				if (this.dhref) {
-					this.dhref += '/';
-				}
-				this.dhref += part;
-			}
+		// const parts = href.split('/');
+		// parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
+		// this.mhref = "";
+		// for (let part of parts) {
+		// 	if (this.mhref) {
+		// 		this.mhref += '/';
+		// 	}
+		// 	this.mhref += part;
+		// }
 
-			const parts3 = href.split('/');
-			parts3[parts3.length - 1] = parts3[parts3.length - 1].replace('.', 'b.');
-			this.thref = "";
-			for (let part of parts3) {
-				if (this.thref) {
-					this.thref += '/';
-				}
-				this.thref += part;
-			}
+		// const parts2 = href.split('/');
+		// parts2[parts2.length - 1] = parts2[parts2.length - 1].replace('.', 'h.');
+		// this.dhref = "";
+		// for (let part of parts2) {
+		// 	if (this.dhref) {
+		// 		this.dhref += '/';
+		// 	}
+		// 	this.dhref += part;
+		// }
+
+		// const parts3 = href.split('/');
+		// parts3[parts3.length - 1] = parts3[parts3.length - 1].replace('.', 'b.');
+		// this.thref = "";
+		// for (let part of parts3) {
+		// 	if (this.thref) {
+		// 		this.thref += '/';
+		// 	}
+		// 	this.thref += part;
+		// }
     }
     get href(): string {
         return this._href;
     };
 
-	loading: boolean;
+	public loading: boolean;
 
-	private video: HTMLVideoElement;
+	private _video?: HTMLVideoElement;
 
-	errored: boolean;
+	public errored: boolean;
 
-	@Input() mode: string;
+	@Input() public mode: Mode;
 
-	@Input() container: HTMLElement;
+	@Input() public container?: HTMLElement;
 
-	defaultWidth: string;
-	defaultHeight: string;
+	public defaultWidth: string;
+	public defaultHeight: string;
 
-	@Input() calcSize: boolean;
+	@Input() public calcSize?: boolean;
 
-	@Input() thumbnail: boolean;
+	@Input() public thumbnail?: boolean;
 
 	constructor() {
+		this.thref = "";
+		this.mhref = "";
+		this.dhref = "";
+		this._href = "";
+
+		this.loading = true;
+		this.errored = false;
+
+		this.defaultWidth = "";
+		this.defaultHeight = "";
 	}
 
-	ngOnInit() {
+	public ngOnInit(): void {
 		this.loading = true;
 		this.errored = false;
 	}
 	
-	handleEvents() {
-		this.video.removeEventListener('loadedmetadata', this.onload.bind(this));
-		this.video.removeEventListener('error', this.onerror.bind(this));
+	public handleEvents(): void {
+		if (!this._video) {
+			return;
+		}
+
+		this._video.removeEventListener('loadedmetadata', this.onload.bind(this));
+		this._video.removeEventListener('error', this.onerror.bind(this));
 		
-		this.video.addEventListener('loadedmetadata', this.onload.bind(this));
-		this.video.addEventListener('error', this.onerror.bind(this));
+		this._video.addEventListener('loadedmetadata', this.onload.bind(this));
+		this._video.addEventListener('error', this.onerror.bind(this));
 	}
 
-	onload() {
-		// console.log('onload finished');
+	public onload(): void {
 		this.loading = false;
-		// console.log(this.video);
-		// console.log(this.video.height);
-		// console.log(this.video.width);
-		if (this.video) {
-			if (this.video.width > this.video.height) {
+
+		if (this._video) {
+			if (this._video.videoWidth > this._video.videoHeight) {
 				this.defaultHeight = "auto";
 				this.defaultWidth = "100%";
 			} else {
@@ -105,24 +121,16 @@ export class VideoComponent implements OnChanges {
 		}
 	}
 	
-	onerror(error: any) {
+	public onerror(error: any): void {
 		console.error("errored", error);
 		this.loading = false;
 		this.errored = true;
 	}
 
-	getMaxHeight(): {width: string, height: string} {
-		if (this.container && this.video) {
-			// if (this.container.offsetWidth > this.container.offsetHeight) {
-			// 	console.log("auto");
-			// 	return "auto";
-			// } else {
-			// 	console.log(this.container.offsetHeight + "px");
-
-			// 	return this.container.offsetHeight + "px";
-			// }
-			let height = this.video.height;
-			let width = this.video.width;
+	public getMaxHeight(): {width: string, height: string} {
+		if (this.container && this._video) {
+			let height = this._video.height;
+			let width = this._video.width;
 
 			if (height < this.container.offsetHeight) {
 				width = width * this.container.offsetHeight / height;
@@ -158,38 +166,37 @@ export class VideoComponent implements OnChanges {
 				height = this.container.offsetHeight * _heightRatio;
 			}
 
-			// console.log(this.video.width, this.video.height, this.container.offsetWidth, this.container.offsetHeight, width, height);
-
 			return {
 				width: width + "px",
 				height: height + "px"
-			}
+			};
 		}
 
 		return {
 			width: "auto",
 			height: "auto"
-		}
+		};
 	}
 
-	getMaxWidth(): string {
-		// console.log("getMaxWidth", this.container, this.container.offsetWidth);
+	// public getMaxWidth(): string {
+	// 	// console.log("getMaxWidth", this.container, this.container.offsetWidth);
 
-		if (this.container && this.video) {
-			if (this.container.offsetWidth > this.container.offsetHeight) {
-				// console.log(this.container.offsetWidth + "px");
-				return this.container.offsetWidth + "px";
-			} else {
-				// console.log("auto");
-				return "auto";
-			}
-		}
-	}
+	// 	if (this.container && this._video) {
+	// 		if (this.container.offsetWidth > this.container.offsetHeight) {
+	// 			// console.log(this.container.offsetWidth + "px");
+	// 			return this.container.offsetWidth + "px";
+	// 		} else {
+	// 			// console.log("auto");
+	// 		}
+	// 	}
 
-	ngOnChanges(changes: SimpleChanges) {
+	// 	return "auto";
+	// }
+
+	public ngOnChanges(changes: SimpleChanges): void {
 		// console.log(changes);
 		if (changes.href) {
-			this.video = document.createElement('video');
+			this._video = document.createElement('video');
 
 			this.handleEvents();
 
@@ -197,11 +204,11 @@ export class VideoComponent implements OnChanges {
 			this.errored = false;
 
 			if (!this.calcSize) {
-				this.video.src = this.mhref;
+				this._video.src = this.mhref;
 			} else if (this.thumbnail) {
-				this.video.src = this.thref;
+				this._video.src = this.thref;
 			} else {
-				this.video.src = this.dhref;
+				this._video.src = this.dhref;
 			}
 		}
 	}
