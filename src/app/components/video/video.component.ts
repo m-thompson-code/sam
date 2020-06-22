@@ -59,7 +59,7 @@ export class VideoComponent implements OnChanges {
 
 	public loading: boolean;
 
-	private _video?: HTMLVideoElement;
+	public _video?: HTMLVideoElement;
 
 	public errored: boolean;
 
@@ -129,8 +129,8 @@ export class VideoComponent implements OnChanges {
 
 	public getMaxHeight(): {width: string, height: string} {
 		if (this.container && this._video) {
-			let height = this._video.height;
-			let width = this._video.width;
+			let height = this._video.offsetHeight;
+			let width = this._video.offsetWidth;
 
 			if (height < this.container.offsetHeight) {
 				width = width * this.container.offsetHeight / height;

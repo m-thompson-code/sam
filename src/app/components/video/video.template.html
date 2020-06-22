@@ -1,4 +1,4 @@
-<div [class]="'moo-video-container' + (video && video.width > video.height ? ' alt' : '')">
+<div [class]="'moo-video-container' + (_video && _video.offsetWidth > _video.offsetHeight ? ' alt' : '')">
     <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 300" [relative]="true"></moo-preloader>
     
     <ng-container *ngIf="errored">

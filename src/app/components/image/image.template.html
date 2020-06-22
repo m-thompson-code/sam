@@ -1,4 +1,4 @@
-<div [class]="'image-container' + (image && image.width > image.height ? ' alt' : '')">
+<div [class]="'image-container' + (_image && _image.width > _image.height ? ' alt' : '')">
     <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 300" [relative]="true"></moo-preloader>
     
     <ng-container *ngIf="errored">

@@ -55,7 +55,7 @@ export class ImageComponent implements OnInit, OnChanges {
 
 	public loading: boolean;
 
-	private _image?: HTMLImageElement;
+	public _image?: HTMLImageElement;
 
 	public errored: boolean;
 
