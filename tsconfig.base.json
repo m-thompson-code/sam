@@ -1,0 +1,34 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "downlevelIteration": true,
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+
+        "strict": true, /* Enable all strict type-checking options. */
+        "noImplicitReturns": true,/* Firebase's default lint options make these pretty required */
+        "noUnusedLocals": true,/* Firebase's default lint options make these pretty required */
+
+        "importHelpers": true,
+        // "target": "es2015",// Default up to Angular 9
+        "target": "es2018",// ASupport for IE is handled by using browserlist
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2018",
+            "dom"
+        ]
+    },
+    "angularCompilerOptions": {
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true,
+        "enableIvy": true
+    }
+}
