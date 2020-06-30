@@ -17,7 +17,7 @@
 
         "importHelpers": true,
         // "target": "es2015",// Default up to Angular 9
-        "target": "es2018",// ASupport for IE is handled by updated es5BrowserSupport in angular.json
+        "target": "es2018",// ASupport for IE is handled by using browserlist
         "typeRoots": [
             "node_modules/@types"
         ],
