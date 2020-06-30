@@ -1,0 +1,18 @@
+.dev-watermark {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    padding: 12px;
+    width: 100vw;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: rgba(72, 72, 72, .5);
+
+    pointer-events: none;
+
+    font-size: 40px;
+    font-weight: 1000;
+}

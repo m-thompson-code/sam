@@ -6,3 +6,7 @@
 <ng-container *ngIf="loading">
     <moo-preloader [delay]="loading && 500"></moo-preloader>
 </ng-container>
+
+<div *ngIf="appService.env !== 'prod'" class="dev-watermark">
+    STAGING
+</div>

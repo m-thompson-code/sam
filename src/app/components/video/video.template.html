@@ -1,4 +1,4 @@
-<div [class]="'moo-video-container' + (_video && _video.offsetWidth > _video.offsetHeight ? ' alt' : '')">
+<div [class]="'moo-video-container' + (_video && _video.videoWidth > _video.videoHeight ? ' alt' : '')">
     <moo-preloader *ngIf="loading" [mode]="mode" [delay]="loading && 300" [relative]="true"></moo-preloader>
     
     <ng-container *ngIf="errored">
@@ -20,7 +20,7 @@
                 </ng-container>
             </ng-container>
 
-            <video *ngIf="!calcSize" #video [src]="mhref" controls></video>
+            <video *ngIf="!calcSize" #video [src]="mhref" class="object-fit-contain" controls></video>
         </div>
     </ng-container>
 </div>

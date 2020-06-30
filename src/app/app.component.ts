@@ -45,10 +45,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 	public dataLoading: boolean;
 	public backgroundImageLoading: boolean;
 
+	public env: 'dev' | 'prod';
+
 	constructor(public appService: AppService) {
 		this.loading = false;
 		this.dataLoading = false;
 		this.backgroundImageLoading = false;
+
+		this.env = "dev";// Will update using AppService on ngOnInit
 	}
 
 	public ngOnInit(): void {
@@ -56,6 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.backgroundImageLoading = true;
 		this.loading = true;
 
+		this.env = this.appService.env;
 		this.loadProjects();
 	}
 

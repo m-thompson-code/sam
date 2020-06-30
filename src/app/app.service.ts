@@ -19,11 +19,24 @@ export class AppService {
 	public first?: boolean;// Used on HomeComponent (at least HomeComponent)
 	public id: number;
 
+	public env: "dev" | "prod";
+
     constructor() {
         this.projects = [];
 		this.footerUrls = [];
 		
 		this.id = 0;
+
+		this.env = "dev";// Will get updated once updatedEnv gets called
+		this.updateEnv();
+	}
+
+	public updateEnv(): void {
+		this.env = 'dev';
+
+		if (location.hostname === 'samanthamink.com' || location.hostname === 'www.samanthamink.com' || location.hostname === 'samanthamink.web.app' || location.hostname === 'samanthamink.firebaseapp.com') {
+			this.env = 'prod';
+		}
 	}
 	
 	public getID(): string {
@@ -32,13 +45,7 @@ export class AppService {
 	}
 
     public loadProjects(): Promise<void> {
-		let branch = 'dev';
-
-		if (location.hostname === 'samanthamink.com' || location.hostname === 'www.samanthamink.com') {
-			branch = 'prod';
-		}
-
-		return firebase.database().ref(branch).once('value').then(snapshot => {
+		return firebase.database().ref(this.env).once('value').then(snapshot => {
 			if (!snapshot.exists()) {
 				console.error("Unexpected error. snapshot missing");
 				throw {

@@ -59,7 +59,8 @@ export class VideoComponent implements OnChanges {
 
 	public loading: boolean;
 
-	public _video?: HTMLVideoElement;
+
+	public _video?: HTMLVideoElement;// Used to determine inital dimensions
 
 	public errored: boolean;
 
@@ -129,8 +130,8 @@ export class VideoComponent implements OnChanges {
 
 	public getMaxHeight(): {width: string, height: string} {
 		if (this.container && this._video) {
-			let height = this._video.offsetHeight;
-			let width = this._video.offsetWidth;
+			let height = this._video.videoHeight;
+			let width = this._video.videoWidth;
 
 			if (height < this.container.offsetHeight) {
 				width = width * this.container.offsetHeight / height;
@@ -177,21 +178,6 @@ export class VideoComponent implements OnChanges {
 			height: "auto"
 		};
 	}
-
-	// public getMaxWidth(): string {
-	// 	// console.log("getMaxWidth", this.container, this.container.offsetWidth);
-
-	// 	if (this.container && this._video) {
-	// 		if (this.container.offsetWidth > this.container.offsetHeight) {
-	// 			// console.log(this.container.offsetWidth + "px");
-	// 			return this.container.offsetWidth + "px";
-	// 		} else {
-	// 			// console.log("auto");
-	// 		}
-	// 	}
-
-	// 	return "auto";
-	// }
 
 	public ngOnChanges(changes: SimpleChanges): void {
 		// console.log(changes);
