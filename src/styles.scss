@@ -60,8 +60,6 @@ moo-icon.dark {
 
 .extra-spacing {
   /* Half of the font-size */
-  /*letter-spacing: 2.5pt;*/
-  // margin-right: 7pt;
   margin-right: 3.5pt;
 }
 
@@ -82,49 +80,6 @@ moo-icon.dark {
 .helvetica {
   font-family: Helvetica, sans-serif;
 }
-
-// .FrutigerNeue {
-//   font-family: FrutigerNeue, Helvetica, sans-serif;
-// }
-
-// .FrutigerNeueLTW01-CnMedium {
-//   font-family: FrutigerNeueLTW01-CnMedium, Helvetica, sans-serif;
-// }
-
-// .FrutigerNeueW02 {
-//   font-family: FrutigerNeueW02, Helvetica, sans-serif;
-// }
-
-// .Helvetica-Neue-LT-Pro {
-//   font-family: Helvetica Neue LT Pro, Helvetica, sans-serif;
-// }
-
-// .FrutigerNeueW02-Bd {
-//   font-family: FrutigerNeueW02-Bd, Helvetica, sans-serif;
-// }
-
-// .FrutigerNeueW02-Book {
-//   font-family: FrutigerNeueW02-Book, Helvetica, sans-serif;
-// }
-
-// .fonts {
-//   padding:24px;
-//   position: fixed;
-//   bottom: 0;
-//   left: 0;
-//   z-index: 10000000;
-//   a {
-//     cursor: pointer;
-//     color: white;
-//     margin-right:24px;
-//   }
-//   a:hover {
-//     text-decoration: underline;
-//   }
-//   a.selected {
-//     text-decoration: underline;
-//   }
-// }
 
 body.dark {
   background: black;
@@ -199,7 +154,6 @@ input, label, .toast {
 .not-active {
   pointer-events: none;
   cursor: default;
-  /*text-decoration: none;*/
 }
 
 .themed-text:not(:focus):not(:active):hover {
@@ -221,12 +175,10 @@ input, label, .toast {
   width: 100vw;
   height: 100vh;
 
-  /*overflow:hidden;*/
   background-color: white;
   opacity: 0;
   transition: opacity 1s cubic-bezier(0.35, 0, 0.25, 1);
   
-  /*background-image: url('./assets/dark_background_53.jpeg');*/
   background-image: url('./assets/dark_background.jpeg');
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -235,7 +187,6 @@ input, label, .toast {
 }
 
 .management-wrapper {
-  //   position: absolute;
     height: 100vh;
     width: 100vw;
     overflow-y: auto;
@@ -247,7 +198,6 @@ input, label, .toast {
   
   .management-wrapper.dark {
     background-color: rgba(0, 0, 0, 0.87);
-    /*background-image: url('./assets/dark_background_53.jpeg');*/
     background-image: url('./assets/dark_background.jpeg');
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -258,7 +208,6 @@ input, label, .toast {
 .wrapper-with-margins {
   position: absolute;
   margin: 14pt;
-  /*margin: 7pt*/
   height: calc(100% - 28pt);
   width: calc(100% - 28pt);
 }
@@ -266,7 +215,6 @@ input, label, .toast {
 #container.dark {
   background-color: black;
   opacity: 1;
-  /*background-image: url('./assets/dark_background.jpeg');*/
 }
 
 p {
@@ -277,75 +225,6 @@ p {
 p.center {
   text-align: center;
 }
-
-/* TODO: Remove */
-/* https://css-tricks.com/forums/topic/one-line-justified-text-design/ */
-/*.justified {*/
-  /*height: 1em;
-  line-height: 1em;*/
-  /*text-align: justify;*/
-  /*text-align-last: justify;*/
-/*}*/
-
-/*.justified:after {
-  content: '';
-  display: inline-block;
-  width: 100%;
-}*/
-
-/*@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {*/
-// @media screen and (max-width: 812px) and (max-height: 450px) and (orientation: landscape) {
-//     html {
-//       transform: rotate(-90deg);
-//       transform-origin: left top;
-//       width: 100vh;
-//       height: 100vw;
-//       /*overflow-x: hidden;*/
-//       position: absolute;
-//       top: 100%;
-//       left: 0;
-//     }
-
-//     #container {
-//       width: 100vh;
-//       height: 100vw;
-//   }
-
-//   .center-image {
-//       width: 20px !important;/*calc(.85 * 26px);*/
-//       height: 20px !important;/*calc(.85 * 26px);*/
-//   }
-
-//   .poem {
-//       width: calc(100% - 28pt) !important;
-//   }
-//   .poem.top {
-//       margin-bottom: 40px !important;
-//   }
-
-//   .poem.tester {
-//       transform: rotate(90deg);
-//   }
-
-//   // .vertical-image-placeholder {
-//   //   width: 10px;
-//   //   height: 10px;
-//   // }
-
-//   .management-wrapper {
-//     height: 100vw !important;
-//     width: 100vh !important;
-//   }
-
-//   .url-container {
-//       /*width: calc(100vh - 7pt) !important;*/
-//   }
-  
-//   @media only screen and (max-height: 600px) {
-//       .input-container {
-//           width: 100% !important;
-//       }
-//   }
 
 @media only screen and (max-height: 600px) {
   #container {
