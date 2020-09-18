@@ -1,3 +1,5 @@
+@import 'styles/font.scss';
+
 .top {
 	position: relative;
     -webkit-user-select: none;
@@ -14,8 +16,8 @@
     vertical-align: baseline;
 	text-align: center;
 	
-	font-size: 9pt;
-	padding: 7pt 7pt 10.5pt;
+	font-size: $bigFontSize;//9pt;
+	padding: $smallFontSize $smallFontSize ($smallFontSize*1.5);//7pt 7pt 10.5pt;;
 	box-sizing: border-box;
 
 	display: flex;
@@ -50,14 +52,13 @@
 }
 
 moo-dots {
-	margin-top: 7pt;
-	margin-bottom: 7pt;
+	margin-top: $smallFontSize;//7pt;
+	margin-bottom: $smallFontSize;//7pt;
 }
 
 .background {
 	color: white;
 
-	// min-height: 100vh;
 	min-height: 100vh;
 	min-height: stretch;
 
@@ -73,8 +74,6 @@ moo-dots {
 	// -webkit-overflow-scrolling: touch;
 
 	-webkit-font-smoothing: antialiased;
-	// text-rendering: optimizeLegibility;
-	// text-size-adjust: none;
 
 	background-image: url('../../assets/dark_background.jpeg');
 	-webkit-background-size: cover;
@@ -82,10 +81,6 @@ moo-dots {
 	-o-background-size: cover;
 	background-size: cover;
 
-	// overflow: auto;
-	// -webkit-overflow-scrolling: touch;
-
-	// overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -94,19 +89,18 @@ moo-dots {
 
 	width: auto;
 	overflow: visible;
-	margin: 0 7pt;
-	width: calc(100% - 14pt);
+	margin: 0 $smallFontSize;//0 7pt;
+	width: calc(100% - 2 * #{$smallFontSize});//calc(100% - 14pt);
 
-	font-size: 8pt;
+	font-size: $mediumFontSize;//8pt;
 	white-space: pre-wrap;
-	// margin-bottom: 14px;
 }
 
 .tags {
 	width: auto;
-	margin: 0 7pt;
-	width: calc(100% - 14pt);
-	margin-bottom: 14pt;
+	margin: 0 $smallFontSize;//0 7pt;
+	width: calc(100% - 2 * #{$smallFontSize});//calc(100% - 14pt);
+	margin-bottom: $smallFontSize*2;//14pt;
 }
 
 a {

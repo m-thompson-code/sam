@@ -553,13 +553,13 @@ export class HomeComponent {
 		}
 	}
 
-	ptToPx(pt: number) {
-    	return pt * 96 / 72;
-    }
+	// ptToPx(pt: number) {
+    // 	return pt * 96 / 72;
+    // }
 
-    pxToPt(px: number) {
-    	return px * 72 / 96;
-    }
+    // pxToPt(px: number) {
+    // 	return px * 72 / 96;
+    // }
 
     getActive(el: HTMLElement) {
     	el.classList.add("active");

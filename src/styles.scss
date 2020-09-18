@@ -1,3 +1,22 @@
+@import 'styles/font.scss';
+
+// Font related styles
+.margin-right-small-font-size {
+  margin-right: $smallFontSize;
+}
+.margin-bottom-mobile-small-font-size-2 {
+  margin-bottom: $mobileSmallFontSize*2;
+}
+.margin-bottom-small-font-size-2 {
+  margin-bottom: $smallFontSize*2;
+}
+.margin-bottom-small-font-size-4 {
+  margin-bottom: $smallFontSize*4;
+}
+.margin-bottom-0 {
+  margin-bottom: 0;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -59,8 +78,7 @@ moo-icon.dark {
 }
 
 .extra-spacing {
-  /* Half of the font-size */
-  margin-right: 3.5pt;
+  margin-right: $smallFontSize/2;//3.5pt;
 }
 
 .fixed-full {
@@ -103,7 +121,7 @@ body {
   color: rgba(0,0,0,0.87);
   fill: rgba(0,0,0,0.87);
   
-  font-size: 7pt;
+  font-size: $smallFontSize;//7pt;
 
   -webkit-font-smoothing: antialiased;
 
@@ -205,11 +223,11 @@ input, label, .toast {
     background-size: cover;
   }
 
-.wrapper-with-margins {
+.mobile-wrapper-with-margins {
   position: absolute;
-  margin: 14pt;
-  height: calc(100% - 28pt);
-  width: calc(100% - 28pt);
+  margin: $mobileSmallFontSize * 2;//$smallFontSize * 2;//14pt;
+  height: calc(100% - 4 * #{$mobileSmallFontSize});//calc(100% - 4 * #{$smallFontSize});//calc(100% - 28pt);
+  width: calc(100% - 4 * #{$mobileSmallFontSize});//calc(100% - 4 * #{$smallFontSize});//calc(100% - 28pt);
 }
 
 #container.dark {

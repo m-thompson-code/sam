@@ -61,7 +61,7 @@
     </div>
 </div>
 
-<div *ngIf="!loggedIn && showLogin" [class]="'sign-in ' + mode">
+<div *ngIf="!loggedIn && showLogin" [class]="'sign-in ' + (mode || '')">
     <div>
         <moo-input [mode]="mode" [text]="email" [label]="'Email'" (valueChanged)="email = $event"></moo-input>
     </div>
@@ -71,38 +71,38 @@
     </div>
 
     <div>
-        <a [class]="'waves-effect waves-light btn-small dark-btn ' + mode" [style.margin-right]="'7pt'" (click)="firebasePasswordLogin()">Login</a>
-        <a [class]="'waves-effect waves-light btn-flat btn-small ' + mode" (click)="firebaseRequestPasswordReset()">Forgot</a>
+        <a [class]="'waves-effect waves-light btn-small dark-btn margin-right-small-font-size ' + (mode || '')" (click)="firebasePasswordLogin()">Login</a>
+        <a [class]="'waves-effect waves-light btn-flat btn-small ' + (mode || '')" (click)="firebaseRequestPasswordReset()">Forgot</a>
     </div>
 </div>
 
 <div class="top-nav">
-    <div *ngIf="loggedIn" [class]="'management-top-nav management-hide waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + mode">
+    <div *ngIf="loggedIn" [class]="'management-top-nav management-hide waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + (mode || '')">
         <div (click)="toggleShowManagement()">
             <div *ngIf="showManagement" [class]="'top-nav-text'">Hide</div>
             <div *ngIf="!showManagement" [class]="'top-nav-text'">Show</div>
         </div>
     </div>
     
-    <div [class]="'management-top-nav management-log waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + mode">
-        <div *ngIf="!loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="showLogin = !showLogin">
+    <div [class]="'management-top-nav management-log waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + (mode || '')">
+        <div *ngIf="!loggedIn" [class]="'management-top-nav management-log ' + (mode || '')" (click)="showLogin = !showLogin">
             <div *ngIf="showLogin" [class]="'top-nav-text'">Cancel</div>
         </div>
-        <div *ngIf="loggedIn" [class]="'management-top-nav management-log ' + mode" (click)="logUserOut()">
+        <div *ngIf="loggedIn" [class]="'management-top-nav management-log ' + (mode || '')" (click)="logUserOut()">
             <div [class]="'top-nav-text'">Logout</div>
         </div>
     </div>
 </div>
 
-<div *ngIf="loggedIn && showManagement" #managementWrapper [class]="'management-wrapper ' + mode">
-    <div [class]="'fixed-action-btn ' + mode" (click)="save()">
-        <a [class]="'btn-floating btn-large waves-effect waves-light ' + mode">
+<div *ngIf="loggedIn && showManagement" #managementWrapper [class]="'management-wrapper ' + (mode || '')">
+    <div [class]="'fixed-action-btn ' + (mode || '')" (click)="save()">
+        <a [class]="'btn-floating btn-large waves-effect waves-light ' + (mode || '')">
             <moo-icon [icon]="'upload'"></moo-icon>
         </a>
     </div>
 
     <div [class]="'management-container ' + (dragging ? 'dragging' : '')" [style.color]="'black'">
-        <div [class]="'management-options-container ' + mode + ' management-option-' + activeManagementOption">
+        <div [class]="'management-options-container ' + (mode || '') + ' management-option-' + activeManagementOption">
             <div class="management-options wave-effect">
                 <ng-container *ngIf="activeManagementOption !== 'advancedEdit'">
                     <div [class]="'management-option ' + (activeManagementOption === 'projects' ? 'active' : '')" (click)="setActiveManagementOption('projects')">
@@ -123,14 +123,14 @@
                    
                 </ng-container>
             </div>
-            <div [class]="'management-option-active-border ' + mode + ' ' + 'active-' + activeManagementOption">
+            <div [class]="'management-option-active-border ' + (mode || '') + ' ' + 'active-' + activeManagementOption">
                 <!-- active bar -->
             </div>
         </div>
 
         <ng-container *ngIf="activeManagementOption === 'advancedEdit'">
             <div class="advanced-edit-back-wrapper">
-                <a [class]="'waves-effect waves-light btn-flat ' + mode" (click)="setActiveManagementOption('projects')">Back</a>
+                <a [class]="'waves-effect waves-light btn-flat ' + (mode || '')" (click)="setActiveManagementOption('projects')">Back</a>
             </div>
 
             <div class="row">
@@ -146,12 +146,12 @@
                             <moo-input [mode]="mode" [text]="advancedEditImageUrl" [label]="'New Imgur Url'"
                                 (valueChanged)="advancedEditImageUrl = $event"></moo-input>
                             
-                            <a [class]="'waves-effect wave-light btn ' + mode" (click)="addAsset()">Add New Image / Video</a>
+                            <a [class]="'waves-effect wave-light btn ' + (mode || '')" (click)="addAsset()">Add New Image / Video</a>
                         </div>
     
                         <div dragula="IMAGES" [(dragulaModel)]="advancedEditProject.assets" class="advanced-edit-images">
                             <div *ngFor="let asset of advancedEditProject.assets; let i = index; let first = first; let last = last" class="thumbnail-wrapper">
-                                <div [class]="'thumbnail ' + mode" #thumbnail>
+                                <div [class]="'thumbnail ' + (mode || '')" #thumbnail>
                                     <ng-container *ngIf="asset.type === 'image'">
                                         <moo-image [thumbnail]="true" [mode]="mode" [href]="asset.url" [container]="thumbnail" [calcSize]="true">
                                         </moo-image>
@@ -162,9 +162,9 @@
                                         </moo-video>
                                     </ng-container>
     
-                                    <moo-icon [class]="'thumbnail-close ' + mode" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
-                                    <moo-icon *ngIf="!first" [class]="'image-edit-back ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i - 1)"></moo-icon>
-                                    <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + mode" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i + 1)"></moo-icon>
+                                    <moo-icon [class]="'thumbnail-close ' + (mode || '')" [icon]="'close'" (click)="removeAdvancedEditImage(i)"></moo-icon>
+                                    <moo-icon *ngIf="!first" [class]="'image-edit-back ' + (mode || '')" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i - 1)"></moo-icon>
+                                    <moo-icon *ngIf="!last" [class]="'image-edit-forward ' + (mode || '')" [icon]="'navigate_back'" (click)="swapAdvancedEditImages(i, i + 1)"></moo-icon>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +173,7 @@
             </div>
 
             <div class="advanced-edit-back-wrapper">
-                <a [class]="'waves-effect wave-light btn ' + mode" (click)="addTagSection()">Add Tag Section</a>
+                <a [class]="'waves-effect wave-light btn ' + (mode || '')" (click)="addTagSection()">Add Tag Section</a>
             </div>
 
             <div class="editables">
@@ -182,7 +182,7 @@
                         <div class="row">
                             <div class="col s12">
                                 <div class="editable-row">
-                                    <div [class]="'index ' + mode">
+                                    <div [class]="'index ' + (mode || '')">
                                         {{ i + 1 }}.
                                     </div>
                 
@@ -222,7 +222,7 @@
                                             <div class="row">
                                                 <div class="col s12">
                                                     <div class="editable-row">
-                                                        <div [class]="'index ' + mode">
+                                                        <div [class]="'index ' + (mode || '')">
                                                             {{ j + 1 }}.
                                                         </div>
                                     
@@ -282,7 +282,7 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="editable-row">
-                                <div [class]="'index ' + mode">
+                                <div [class]="'index ' + (mode || '')">
                                     {{ i + 1 }}.
                                 </div>
 
@@ -293,7 +293,7 @@
                                         <moo-input [mode]="mode" [text]="project.href" [label]="'Project Url (Optional)'" [textIsInvalidFuncs]="[isInvalidUrl]" (valueChanged)="project.href = $event"></moo-input>
                                     </div>
 
-                                    <span *ngIf="project.useSlideshow" [class]="'project-slideshow-text ' + mode">Project is set to use slideshow instead of a url. <a (click)="setAdvanceEdit(i)">Click here to edit {{ project.text ? (project.text + ' ') : '' }}Slideshow</a></span>
+                                    <span *ngIf="project.useSlideshow" [class]="'project-slideshow-text ' + (mode || '')">Project is set to use slideshow instead of a url. <a (click)="setAdvanceEdit(i)">Click here to edit {{ project.text ? (project.text + ' ') : '' }}Slideshow</a></span>
                                 </div>
 
                                 <div class="editable-buttons">
@@ -336,7 +336,7 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="editable-row">
-                                <div [class]="'index ' + mode">
+                                <div [class]="'index ' + (mode || '')">
                                     {{ i + 1 }}.
                                 </div>
                                 <div class="inputs">
@@ -353,7 +353,7 @@
         </ng-container>
 
         <ng-container *ngIf="activeManagementOption==='tips'">
-            <div [class]="'tips-container ' + mode">
+            <div [class]="'tips-container ' + (mode || '')">
                 <p class="tips-margin-bottom extra" [style.font-size]="'16px'">Setting project names and footer info</p>
                     
                 <p class="tips-margin-bottom extra">What you type is what you'll see with three exceptions: <span class="code-text">\</span> <span class="code-text">\n</span></p>
@@ -361,13 +361,13 @@
                 <p class="tips-margin-bottom extra"><span class="code-text">\s</span>Mobile → newline.&emsp;Tablet / desktop → space</p>
 
                 <p class="tips-margin-bottom">You can change the size of your browser to be the size of mobile / tablet / desktop to see how your site will appear before saving your changes.</p>
-                <p class="tips-margin-bottom extra" [style.margin-bottom]="'24pt'">Below is an interactable example. Change the text below to experiment.</p>
+                <p class="tips-margin-bottom extra margin-bottom-small-font-size-4">Below is an interactable example. Change the text below to experiment.</p>
 
                 <moo-input [mode]="mode" [text]="exampleText" [label]="'Example Project Name'" [textIsInvalidFuncs]="[isEmptyProject]" (valueChanged)="exampleText = $event"></moo-input>
                 
                 <div>
                     <p class="tips-margin-bottom">Mobile example</p>
-                    <div [class]="'example-container ' + mode">
+                    <div [class]="'example-container ' + (mode || '')">
                         <div class="mobile-example-container">
                             <a #mobileExample [href]="'#'" [class]="'themed-text mobile-text'" (click)="mobileExample.blur(); getActive(mobileExample)" (mouseleave)="getNotActive(mobileExample)">
                                 <moo-mobile-spaced [chars]="exampleText"></moo-mobile-spaced>
@@ -379,7 +379,7 @@
                 
                 <div>
                     <p class="tips-margin-bottom">Tablet / desktop example</p>
-                    <div [class]="'example-container ' + mode" [style.margin-bottom]="'48px'">
+                    <div [class]="'example-container ' + (mode || '')" [style.margin-bottom]="'48px'">
                         <div class="desktop-example-container">
                             <!-- "" -->
                             <a #desktopExample [href]="'#'" (click)="desktopExample.blur(); getActive(desktopExample)" (mouseleave)="getNotActive(desktopExample)" [class]="'themed-text'">
@@ -398,18 +398,18 @@
         <div class="fixed-full-container">
                 <div *ngIf="showPoem" class="poem-container" [style.z-index]="mode === 'dark' ? 0 : 1">
                         <div>
-                            <img [class]="'poem-image ' + mode" src="./assets/poem_new.png">
+                            <img [class]="'poem-image ' + (mode || '')" src="./assets/poem_new.png">
                         </div>
                     </div>
             
                     <div #centerButton (click)="centerImageFunc($event)" (mouseenter)="doRipple()" [class]="'center-image' + (mode !== 'dark' ? ' waves-effect waves-light' : '') + ((w <= 812 && h < 450) || (w < h && w < 750) ? ' vertical' : '') + (slideshow ? ' slideshow' : '') + (slideshowAnimate ? ' slideshow-animate' : '')">
-                        <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + mode" src='./assets/dark_logo.jpeg'>
-                        <img class="light-image" [class]="'light-image' + ' ' + mode" src='./assets/light_logo.jpeg'>
+                        <img class="dark-image" [class]="'dark-image-safari-fix dark-image' + ' ' + (mode || '')" src='./assets/dark_logo.jpeg'>
+                        <img class="light-image" [class]="'light-image' + ' ' + (mode || '')" src='./assets/light_logo.jpeg'>
                     </div>
             
                     <div #container id="container" [class]="mode">
                     <div *ngIf="!showSlideshow" class="fixed-full" [style.visibility]="(w <= 812 && h < 450) || (w < h && w < 750) ? '' : 'hidden'">
-                        <div class="wrapper-with-margins">
+                        <div class="mobile-wrapper-with-margins">
                         <div [class]="'center-horizontal justify-vert title-vert title-vert-1 burin-sans'">
                             <div *ngFor="let char of 'SAMANTHAMINK'.split('')">{{ char }}</div>
                             <div [class]="'vertical-image-placeholder' + (w < h && w < 750 ? ' smaller' : '')"></div>
@@ -422,10 +422,10 @@
             
                         <div [class]="'mobile-text-container' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
                             <ng-container *ngFor="let project of appService.projects; let j = index">
-                                <a *ngIf="project.useSlideshow" (click)="a.blur(); getActive(a);" #a [routerLink]="'/project/' + j" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (mouseleave)="getNotActive(a)">
+                                <a *ngIf="project.useSlideshow" (click)="a.blur(); getActive(a);" #a [routerLink]="'/project/' + j" [class]="'themed-text mobile-text margin-bottom-mobile-small-font-size-2' + (!showOthers ? ' not-active' : '')" (mouseleave)="getNotActive(a)">
                                     <moo-mobile-spaced [chars]="project.text"></moo-mobile-spaced>
                                 </a>
-                                <a *ngIf="!project.useSlideshow" #a [href]="project.href || '#'" [style.margin-bottom]="'14pt'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" [target]="!project.href || project.href.indexOf('mailto:') !== -1 || project.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                                <a *ngIf="!project.useSlideshow" #a [href]="project.href || '#'" [class]="'themed-text mobile-text margin-bottom-mobile-small-font-size-2' + (!showOthers ? ' not-active' : '')" [target]="!project.href || project.href.indexOf('mailto:') !== -1 || project.href.indexOf('tel:') !== -1 ? '' : '_blank'" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
                                     <moo-mobile-spaced [chars]="project.text"></moo-mobile-spaced>
                                 </a>
                             </ng-container>
@@ -433,7 +433,7 @@
             
                         <div [class]="'mobile-text-container mobile-text-container-footer' + (showOthers ? ' active' : '') + (w > 420 && h > 420 ? ' with-extra-margins' : '')">
                             <div>
-                            <a *ngFor="let footerUrl of appService.footerUrls; let i = index" #a [href]="footerUrl.href || '#'" [style.margin-bottom]="i < appService.footerUrls.length - 1 ? '14pt' : '0'" [target]="!footerUrl.href || footerUrl.href.indexOf('mailto:') !== -1 || footerUrl.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text' + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
+                            <a *ngFor="let footerUrl of appService.footerUrls; let i = index" #a [href]="footerUrl.href || '#'" [target]="!footerUrl.href || footerUrl.href.indexOf('mailto:') !== -1 || footerUrl.href.indexOf('tel:') !== -1 ? '' : '_blank'" [class]="'themed-text mobile-text ' + (i < appService.footerUrls.length - 1 ? 'margin-bottom-mobile-small-font-size-2' : 'margin-bottom-0') + (!showOthers ? ' not-active' : '')" (click)="a.blur(); getActive(a)" (mouseleave)="getNotActive(a)">
                                 <moo-mobile-spaced [chars]="footerUrl.text"></moo-mobile-spaced>
                             </a>
                             </div>
@@ -459,7 +459,7 @@
                         </div>
             
                         <div *ngIf="!showSlideshow" #linksContainer [class]="'links-container' + (showOthers ? ' active' : '')">
-                            <div *ngFor="let projectRow of projectRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'" [style.margin-bottom]="'14pt'">
+                            <div *ngFor="let projectRow of projectRows; let i = index" [style.display]="'flex'" [style.justify-content]="i === 0 ? 'space-between' : 'center'" class="margin-bottom-small-font-size-2">
                             <ng-container *ngFor="let project of projectRow; let j = index">
                                 <!-- "" -->
                                 <a *ngIf="project.useSlideshow" #a [href]="'#'" (click)="a.blur(); getActive(a); toggleSlideshow($event, project)" (mouseleave)="getNotActive(a)" [class]="'themed-text ' + (!showOthers ? 'not-active' : '')">
