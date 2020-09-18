@@ -197,7 +197,7 @@
 	z-index: 10;
     position: fixed;
     margin-left: 50%;
-    transform: perspective(1px) translateX(-50%);
+    transform: perspective(1px) translateX(-50%) translateZ(0);
 
     max-width: 500px;
 	min-width: calc(320px - 2 * #{$bigFontSize});//calc(320px - 14pt);
@@ -414,7 +414,6 @@
 	font-size: $mobileBigFontSize;//$bigFontSize;//9pt;
 	height: 50%;
 	color: white;
-
 }
 
 .title-vert-2 {
@@ -566,7 +565,7 @@
 .center-vert {
 	position: absolute;
 	top: 50%;
-	transform: perspective(1px) translateY(-50%);
+	transform: perspective(1px) translateY(-50%) translateZ(0);
 	width: 100%;
 }
 
@@ -590,10 +589,6 @@
 .title {
 	font-size: $bigFontSize;//9pt;
 	width: calc(50% + 13px);
-
-	// Using the 'improve css performance' hack
-	// source: https://benfrain.com/improving-css-performance-fixed-position-elements/
-	transform: translate3d(0, 0, 0);
 }
 
 .title div {
