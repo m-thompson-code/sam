@@ -644,14 +644,15 @@
 	position: absolute;
 	bottom: 0;
 	
-	padding-bottom: 70px;
+	padding-bottom: $mediumFontSize;
 
 	transition: opacity 2s linear;
     transition: opacity 2s cubic-bezier(0.35, 0, 0.25, 1);
 	opacity: 0;
 	
 	font-size: $mediumFontSize;
-	font-family: Helvetica, sans-serif;
+	// font-family: Helvetica, sans-serif;
+	text-transform: uppercase;
 }
 
 .footer-container.active {
@@ -731,7 +732,7 @@
 	}
 
 	.footer-container {
-		padding-bottom: $smallFontSize*2;//14pt;
+		padding-bottom: $mediumFontSize;
 	}
 }
 
@@ -765,6 +766,10 @@
 	border-radius: 0 0 4px 0;
 	z-index: 1;
 
+	// Used to correct the white space introduced by the svg
+	margin-left: -4px;
+    margin-top: -4px;
+
 	.icon-holder {
 		.icon-inner {
 			width: 24px;
@@ -787,13 +792,14 @@
 
 	position: fixed;
     width: calc(100vw - 140px);
-	height: calc(100vh - 210px - #{$smallFontSize} - 52px);// calc(100vh - 210px - 7pt - 52px);
+	height: calc(100vh - 57px - #{$smallFontSize} - 52px);// calc(100vh - 210px - 7pt - 52px);
 	z-index: 5;
 
-    margin-top: calc(70px + 52px);
+    // margin-top: calc(70px + 52px);
+    margin-top: 52px;
     margin-left: 70px;
     margin-right: 70px;
-	margin-bottom: calc(140px + #{$smallFontSize});//  calc(140px + 7pt);
+	margin-bottom: calc(57px + #{$smallFontSize});//  calc(140px + 7pt);
 
 	display: flex;
 
@@ -946,7 +952,7 @@
 }
 
 .slideshow.center-image {
-	top: calc(70px + 13px);// margin + half height of image
+	top: $mediumFontSize + 13px/2;// margin + half height of image / 2 (since we use transform style on it already)
 }
 .slideshow-animate.slideshow.center-image {
 	transition: top 500ms linear;
@@ -957,7 +963,7 @@
 	cursor: pointer;
 	
 	.title {
-		top: calc(-50vh + 70px + 1.5 * #{$bigFontSize});//calc(-50vh + 70px + 14.5pt);// half screen (-50vh), margin (70px), line-height (1.5) * fontsize (9pt)
+		top: calc(-50vh + #{$mediumFontSize} + #{$bigFontSize});//calc(-50vh + 70px + 14.5pt);// half screen (-50vh), margin (70px), line-height (1.5) * fontsize (9pt)
 	}
 	.links-container {
 		opacity: 0;

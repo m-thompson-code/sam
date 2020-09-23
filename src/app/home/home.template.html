@@ -76,7 +76,7 @@
     </div>
 </div>
 
-<div class="top-nav">
+<div *ngIf="!showSlideshow" class="top-nav">
     <div *ngIf="loggedIn" [class]="'management-top-nav management-hide waves-effect ' + (mode==='dark' ? 'waves-light ' : '') + (mode || '')">
         <div (click)="toggleShowManagement()">
             <div *ngIf="showManagement" [class]="'top-nav-text'">Hide</div>
