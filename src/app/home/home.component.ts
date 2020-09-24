@@ -1145,7 +1145,6 @@ export class HomeComponent {
 
 	private bindKeyDownListeners(): void {
         this._keyDownFunc = (event: KeyboardEvent) => {
-            console.log(event);
             if (event.key === 'ArrowLeft') {
                 this.backAsset();
             } else if (event.key === 'ArrowRight') {
