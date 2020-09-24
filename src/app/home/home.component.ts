@@ -21,8 +21,6 @@ export type Mode = 'dark' | 'light' | '' | undefined;
 })
 export class HomeComponent {
 	@ViewChild('managementWrapper') private managementWrapper?: ElementRef<HTMLDivElement>;
-	// PROJECTS = "PROJECTS";
-	// Footers = "FOOTERS";
 	
 	@ViewChild("linksContainer") private linksContainer?: ElementRef<HTMLDivElement>;
 
@@ -75,14 +73,7 @@ export class HomeComponent {
 	public slideshowAnimate: boolean;
 	public slideshowAnimateTimeout?: number;
 
-	// public selectedFont: string;
-
-	// public test: boolean;
-
 	public assetIndex: number;
-
-	// public hMargin: number;
-	// public wMargin: number;
 
 	public activeProject?: Project;
 
@@ -91,6 +82,8 @@ export class HomeComponent {
 	public managementWrapperScrollTop: number | null;
 	public advancedEditProject?: Project;
 	public advancedEditImageUrl: string;
+
+	private _keyDownFunc?: (event: KeyboardEvent) => void;
 
 	constructor(private location: Location, private ngZone: NgZone, public appService: AppService) {
 		this.projectRows = [[]];
@@ -349,6 +342,8 @@ export class HomeComponent {
 		this.slideshow = !this.slideshow;
 
 		if (this.slideshow) {
+			this.bindKeyDownListeners();
+
 			this.assetIndex = 0;
 			this.slideshowAnimate = true;
 			clearTimeout(this.slideshowAnimateTimeout);
@@ -357,6 +352,10 @@ export class HomeComponent {
 				this.showSlideshow = true;
 			}, 500);
 		} else {
+			if (this._keyDownFunc) {
+				document.removeEventListener('keydown', this._keyDownFunc);
+			}
+			
 			this.showSlideshow = false;
 			setTimeout(() => {
 					this.recalcEvertyhing();
@@ -1144,8 +1143,27 @@ export class HomeComponent {
 		return true;
 	}
 
-	ngOnDestroy() {
+	private bindKeyDownListeners(): void {
+        this._keyDownFunc = (event: KeyboardEvent) => {
+            console.log(event);
+            if (event.key === 'ArrowLeft') {
+                this.backAsset();
+            } else if (event.key === 'ArrowRight') {
+                this.nextAsset();
+            } else if (event.key === 'Escape') {
+                this.toggleSlideshow();
+            }
+        }
+		
+		document.addEventListener('keydown', this._keyDownFunc);
+    }
+
+	public ngOnDestroy() {
 		// destroy all the subscriptions at once
 		// this.subs.unsubscribe();
+
+		if (this._keyDownFunc) {
+            document.removeEventListener('keydown', this._keyDownFunc);
+        }
 	}
 }
