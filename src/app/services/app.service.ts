@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Project, DBProject } from './app.component';
+import { Project, DBProject } from '../app.component';
 
 import * as firebase from "firebase/app";
-import { Mode } from './home/home.component';
+import { Mode } from '../home/home.component';
 
 export interface BackwardsCompatibleDBProject extends DBProject {
 	imageUrls?: string[];// No longer a thing since we are now supporting videos and images

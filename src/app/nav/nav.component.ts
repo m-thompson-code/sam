@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // TODO: this page is likely not needed anymore since Angular 9+
 
-import { AppService } from '../app.service';
+import { AppService } from '../services/app.service';
 import { Router } from '@angular/router';
 
 @Component({

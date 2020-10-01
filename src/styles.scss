@@ -1,5 +1,11 @@
 @import 'styles/font.scss';
 
+:root {
+  --app-height-100: 100vh;
+  --app-height-95: 95vh;
+  --app-height-50: 50vh;
+}
+
 // Font related styles
 .margin-right-small-font-size {
   margin-right: $smallFontSize;

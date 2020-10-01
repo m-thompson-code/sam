@@ -5,5 +5,6 @@ export const firebaseConfig = {
     databaseURL: "https://samanthamink-66ff9.firebaseio.com",
     projectId: "samanthamink-66ff9",
     storageBucket: "samanthamink-66ff9.appspot.com",
-    messagingSenderId: "604438716605"
+    messagingSenderId: "604438716605",
+    appId: "1:604438716605:web:e6b94e8cc8b8f325c057d4"
 };

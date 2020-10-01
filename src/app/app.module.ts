@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import * as firebase from "firebase/app";
 
+import 'firebase/analytics';
 import 'firebase/auth';
 import 'firebase/database';
 // import 'firebase/firestore';
@@ -11,27 +12,20 @@ import 'firebase/database';
 // import 'firebase/messaging';
 // import 'firebase/functions';
 
-// Initialize Firebase Server
+// Initialize Firebase
 import { firebaseConfig } from './firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
 
+firebase.analytics();
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppService } from './app.service';
 
+import { AppService } from './services/app.service';
+import { AnalyticsService } from './services/analytics.service';
 
-// import { SpacedModule } from './components/spaced/spaced.module';
-// import { MobileSpacedModule } from './components/mobileSpaced/mobileSpaced.module';
-// import { TextPlacementTestModule } from './components/textPlacementTest/textPlacementTest.module';
-
-// import { IconModule } from './components/icon/icon.module';
-// import { ImageModule } from './components/image/image.module';
-// import { VideoModule } from './components/video/video.module';
-// import { InputModule } from './components/input/input.module';
 import { PreloaderModule } from './components/preloader/preloader.module';
-// import { DotsModule } from './components/dots/dots.module';
-// import { SliderModule } from './components/slider/slider.module';
 
 import { PipeModule } from './pipes/pipe.module';
 
@@ -49,25 +43,16 @@ import { NavComponent } from './nav/nav.component';
         DragulaModule.forRoot(),
         BrowserModule,
 
-        // SpacedModule,
-        // MobileSpacedModule,
-        // TextPlacementTestModule,
-
-        // IconModule,
-        // InputModule,
-        // ImageModule,
-        // VideoModule,
         PreloaderModule,
-        // DotsModule,
-        // SliderModule,
 
-        PipeModule
+        PipeModule,
     ],
     providers: [
         DragulaService,
         CanDeactivateGuard,
 
-        AppService
+        AppService,
+        AnalyticsService,
     ],
     bootstrap: [
         AppComponent

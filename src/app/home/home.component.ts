@@ -1,16 +1,15 @@
 import { Component, HostListener, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 
-// import { DragulaService } from 'ng2-dragula';
+import "materialize-css";
 
 import * as firebase from "firebase/app";
 
-// import * as dragula from 'dragula';
-import { AppService } from '../app.service';
+import { AppService } from '../services/app.service';
 
 import { Project, TagElement } from '../app.component';
 
-import "materialize-css";
+import { AnalyticsService } from '../services/analytics.service';
 
 export type Mode = 'dark' | 'light' | '' | undefined;
 
@@ -85,7 +84,8 @@ export class HomeComponent {
 
 	private _keyDownFunc?: (event: KeyboardEvent) => void;
 
-	constructor(private location: Location, private ngZone: NgZone, public appService: AppService) {
+	constructor(private location: Location, private ngZone: NgZone, 
+		public appService: AppService, private analyticsService: AnalyticsService) {
 		this.projectRows = [[]];
 
 		this.showPoem = false;
@@ -312,6 +312,13 @@ export class HomeComponent {
 		if (this.assetIndex > this.activeProject.assets.length - 1) {
 			this.assetIndex = 0;
 		}
+
+		this.analyticsService.addProjectView({
+			project: this.activeProject.text,
+			resourceUrl: this.activeProject?.assets[this.assetIndex]?.url,
+			resourceType: this.activeProject?.assets[this.assetIndex]?.type,
+			index: this.assetIndex,
+		});
 	}
 
 	public backAsset(): void {
@@ -324,6 +331,13 @@ export class HomeComponent {
 		if (this.assetIndex < 0) {
 			this.assetIndex = this.activeProject.assets.length - 1;
 		}
+
+		this.analyticsService.addProjectView({
+			project: this.activeProject.text,
+			resourceUrl: this.activeProject?.assets[this.assetIndex]?.url,
+			resourceType: this.activeProject?.assets[this.assetIndex]?.type,
+			index: this.assetIndex,
+		});
 	}
 
 	public toggleSlideshow(event?: Event, activeProject?: Project): void {
@@ -345,6 +359,16 @@ export class HomeComponent {
 			this.bindKeyDownListeners();
 
 			this.assetIndex = 0;
+
+			if (activeProject) {
+				this.analyticsService.addProjectView({
+					project: activeProject.text,
+					resourceUrl: activeProject?.assets[0]?.url,
+					resourceType: activeProject?.assets[0]?.type,
+					index: 0,
+				});
+			}
+
 			this.slideshowAnimate = true;
 			clearTimeout(this.slideshowAnimateTimeout);
 			this.slideshowAnimateTimeout = window.setTimeout(() => {
@@ -369,7 +393,7 @@ export class HomeComponent {
 	}
 	// END Slideshow stuff
 
-	titleFunc(event: MouseEvent) {
+	public titleFunc(event: MouseEvent) {
 		if (this.slideshow) {
 			this.toggleSlideshow();
 			event.preventDefault();
@@ -377,7 +401,7 @@ export class HomeComponent {
 		}
 	}
 
-	centerImageFunc(event: MouseEvent) {		
+	public centerImageFunc(event: MouseEvent) {		
 		if (this.slideshow) {
 			this.toggleSlideshow();
 		} else {
@@ -434,7 +458,7 @@ export class HomeComponent {
 		this.appService.mode = mode;
 	}
 
-	toggleMode() {
+	public toggleMode() {
 		clearTimeout(this.modeTimeout);
 		clearTimeout(this.toggleModeTimeout);
 
@@ -464,6 +488,8 @@ export class HomeComponent {
 		} else {
 			this.setMode('');
 			this.showPoem = true;
+
+			this.analyticsService.addPoemAnalytic();
 
 			this.modeTimeout = window.setTimeout(() => {
 				this.setMode('light');
@@ -560,15 +586,15 @@ export class HomeComponent {
     // 	return px * 72 / 96;
     // }
 
-    getActive(el: HTMLElement) {
+    public getActive(el: HTMLElement) {
     	el.classList.add("active");
     }
 
-    getNotActive(el: HTMLElement) {
+    public getNotActive(el: HTMLElement) {
     	el.classList.remove("active");
     }
 
-    recalcEvertyhing() {
+    public recalcEvertyhing() {
     	if (this.loading) {
     		return;
     	}
@@ -580,7 +606,7 @@ export class HomeComponent {
 		this.h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     }
 
-    firebasePasswordLogin() {
+    public firebasePasswordLogin() {
 	    if (this.authPending) {
 			M.toast({html: 'Please wait', displayLength: 1250});
 			return;
@@ -636,7 +662,7 @@ export class HomeComponent {
 		})
 	}
 
-	firebaseRequestPasswordReset() {
+	public firebaseRequestPasswordReset() {
 		if (this.authPending) {
 			M.toast({html: 'Please wait', displayLength: 1250});
 			return;
@@ -676,7 +702,7 @@ export class HomeComponent {
 		});
 	}
 
-	authHandler() {
+	public authHandler() {
 		firebase.auth().onAuthStateChanged(user => {
           this.ngZone.run(() => {
           	if (user) {
@@ -688,7 +714,7 @@ export class HomeComponent {
       	});
 	}
 
-	logUserOut() {
+	public logUserOut() {
 		if (this.authPending) {
 			M.toast({html: 'Please wait', displayLength: 1250});
 			return;
@@ -715,7 +741,7 @@ export class HomeComponent {
 		});
 	}
 
-	setActiveManagementOption(option: 'projects' | 'advancedEdit' | 'footer' | 'tips'): void {
+	public setActiveManagementOption(option: 'projects' | 'advancedEdit' | 'footer' | 'tips'): void {
 		this.activeManagementOption = option;
 
 		setTimeout(() => {
@@ -730,7 +756,7 @@ export class HomeComponent {
 		}, 1);
 	}
 
-	getNewProject(): Project {
+	public getNewProject(): Project {
 		return {
 			text: "",
 			href: "",
@@ -745,12 +771,12 @@ export class HomeComponent {
 		}
 	}
 
-	insertProject(index: number) {
+	public insertProject(index: number) {
 		this.appService.projects.splice(index + 1, 0, this.getNewProject());
 		M.toast({html: `New project added, #${index + 2}`, displayLength: 1250});
 	}
 
-	removeProject(index: number) {
+	public removeProject(index: number) {
 		const project = this.appService.projects[index];
 
 		const projectIsEmpty = !project.text || !project.href;// TODO: update to handle advance
@@ -767,7 +793,7 @@ export class HomeComponent {
 		}
 	}
 
-	swapProjects(i: number, j: number) {
+	public swapProjects(i: number, j: number) {
 		if (j < 0 || j > this.appService.projects.length - 1) {
 			return;
 		}
@@ -779,7 +805,7 @@ export class HomeComponent {
 		this.appService.projects[j] = first;
 	}
 
-	toggleAdvancedProject(index: number) {
+	public toggleAdvancedProject(index: number) {
 		this.appService.projects[index].useSlideshow = !this.appService.projects[index].useSlideshow;
 	}
 
@@ -845,7 +871,7 @@ export class HomeComponent {
 		}, 1);
 	}
 
-	save() {
+	public save() {
 		if (this.saving) {
 			M.toast({html: 'Please wait', displayLength: 1250});
 			return;
@@ -940,7 +966,7 @@ export class HomeComponent {
 
 	// https://scotch.io/tutorials/responsive-equal-height-with-angular-directive
 	@HostListener('window:resize')
-    onResize() {
+    public onResize() {
     	// '{
     	setTimeout(() => {
        		this.recalcEvertyhing();
@@ -948,7 +974,7 @@ export class HomeComponent {
     }
 
     @HostListener('window:orientationchange')
-    onOrientationChange() {
+    public onOrientationChange() {
     	// '{
     	setTimeout(() => {
        		this.recalcEvertyhing();
@@ -956,17 +982,17 @@ export class HomeComponent {
     }
 
     // Class stuff
-    hasClass(el: HTMLElement, name: string) {
+    public hasClass(el: HTMLElement, name: string) {
         return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
     }
 
-    addClass(el: HTMLElement, name: string) {
+    public addClass(el: HTMLElement, name: string) {
         if (!this.hasClass(el, name)) {
             el.className = el.className ? [el.className, name].join(' ') : name;
         }
     }
 
-    removeClass(el: HTMLElement, name: string) {
+    public removeClass(el: HTMLElement, name: string) {
         if (this.hasClass(el, name)) {
             el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
         }
@@ -1155,7 +1181,28 @@ export class HomeComponent {
         }
 		
 		document.addEventListener('keydown', this._keyDownFunc);
-    }
+	}
+	
+	public addBasicProjectAnalytic(project: Project): void {
+		this.analyticsService.addProjectView({
+			project: project.text,
+			href: project.href,
+		});
+	}
+
+	public addBasicFooterAnalytic(footerElement: Project): void {
+		this.analyticsService.addFooterView({
+			text: footerElement.text,
+			href: footerElement.href,
+		});
+	}
+
+	public addTagAnalytic(tagElement: TagElement): void {
+		this.analyticsService.addTagElementView({
+			text: tagElement.text,
+			href: tagElement.href,
+		});
+	}
 
 	public ngOnDestroy() {
 		// destroy all the subscriptions at once

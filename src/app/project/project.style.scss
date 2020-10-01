@@ -61,6 +61,7 @@ moo-dots {
 
 	min-height: 100vh;
 	min-height: stretch;
+    min-height: var(--app-height-100);
 
 	height: auto;
 	width: 100vw;
@@ -75,7 +76,7 @@ moo-dots {
 
 	-webkit-font-smoothing: antialiased;
 
-	background-image: url('../../assets/dark_background.jpeg');
+	background-image: url('/assets/dark_background.jpeg');
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

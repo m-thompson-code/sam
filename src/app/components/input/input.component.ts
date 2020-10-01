@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { AppService } from 'src/app/app.service';
+import { AppService } from 'src/app/services/app.service';
 
 import { Mode } from 'src/app/home/home.component';
 
