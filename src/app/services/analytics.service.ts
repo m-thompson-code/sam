@@ -9,23 +9,27 @@ import { AppService } from './app.service';
     providedIn: 'root',
 })
 export class AnalyticsService {
-
+    public sandbox: boolean = true;
     constructor(private appService: AppService) {
-        console.log(firebase);
+        // console.log(firebase);
 
-        // if (this.appService.env !== 'prod') {
-        //     firebase.analytics().setAnalyticsCollectionEnabled(false);
-        // }
+        if (this.appService.env === 'prod') {
+            // firebase.analytics().setAnalyticsCollectionEnabled(false);
+            this.sandbox = false;
+        }
+
+        // // Toggle this value to allow analaytics on dev
+        // this.sandbox = false;
     }
     
     public addPageView(routeData: {url: string}): void {
         try {
             const url = routeData.url || "sam_unknown_url";
 
-            // if (this.appService.env !== 'prod') {
-            //     console.log(routeData);
-            //     return;
-            // }
+            if (this.sandbox) {
+                console.log(routeData);
+                return;
+            }
 
             firebase.analytics().logEvent('page_view', {
                 page_path: url,
@@ -38,7 +42,7 @@ export class AnalyticsService {
         
     public addProjectView(projectData: {project: string, resourceUrl?: string, resourceType?: string, index?: number, href?: string}): void {
         try {
-            if (this.appService.env !== 'prod') {
+            if (this.sandbox) {
                 console.log(projectData);
                 return;
             }
@@ -47,7 +51,7 @@ export class AnalyticsService {
                 project: projectData?.project || '(unknown_project)',
                 resource_url: projectData?.resourceUrl || '(no_resource_url)',
                 resource_type: projectData?.resourceType || '(no_resource_type)',
-                index: projectData?.index || -1,
+                index: (projectData?.index || projectData?.index === 0) ? projectData?.index : -1,
                 href: projectData?.href || '(no_href)',
             });
         }catch(error) {
@@ -57,7 +61,7 @@ export class AnalyticsService {
             
     public addFooterView(footerData: {text: string, href?: string}): void {
         try {
-            if (this.appService.env !== 'prod') {
+            if (this.sandbox) {
                 console.log(footerData);
                 return;
             }
@@ -73,7 +77,7 @@ export class AnalyticsService {
 
     public addTagElementView(tagElementData: {text: string, href?: string}): void {
         try {
-            if (this.appService.env !== 'prod') {
+            if (this.sandbox) {
                 console.log(tagElementData);
                 return;
             }
@@ -89,7 +93,7 @@ export class AnalyticsService {
 
     public addPoemAnalytic(): void {
         try {
-            if (this.appService.env !== 'prod') {
+            if (this.sandbox) {
                 console.log('addPoemAnalytic');
                 return;
             }
