@@ -16,9 +16,9 @@
 }
 
 .management-options-container {
-	width: 300px;
+	width: 400px;
 	// height: 20px;
-	font-size: 16px;
+	font-size: $bigFontSize;//16px;
 	margin-left: calc(17px + 2 * #{$bigFontSize});//calc(17px + 18pt);
 	margin-bottom: 32px;
 	color: rgba(0,0,0,0.87);
@@ -55,7 +55,7 @@
     cursor: pointer;
 }
 .management-option.advancedEdit {
-	width: 300px;
+	width: 400px;
 }
 
 .management-option.active {
@@ -87,9 +87,12 @@
 .management-option-active-border.active-tips {
 	margin-left: 200px;
 }
+.management-option-active-border.active-analytics {
+	margin-left: 300px;
+}
 .management-option-active-border.active-advancedEdit {
 	margin-left: 0;
-	width: 300px;
+	width: 400px;
 }
 
 .tips-container {
@@ -441,6 +444,8 @@
 	right: 0;
 	bottom: 0;
 	height: auto;
+
+	text-transform: uppercase;
 }
 
 .mobile-text {

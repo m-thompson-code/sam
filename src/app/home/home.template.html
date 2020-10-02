@@ -95,7 +95,7 @@
 </div>
 
 <div *ngIf="loggedIn && showManagement" #managementWrapper [class]="'management-wrapper ' + (mode || '')">
-    <div [class]="'fixed-action-btn ' + (mode || '')" (click)="save()">
+    <div *ngIf="activeManagementOption === 'projects' || activeManagementOption === 'footer'" [class]="'fixed-action-btn ' + (mode || '')" (click)="save()">
         <a [class]="'btn-floating btn-large waves-effect waves-light ' + (mode || '')">
             <moo-icon [icon]="'upload'"></moo-icon>
         </a>
@@ -113,6 +113,9 @@
                     </div>
                     <div [class]="'management-option ' + (activeManagementOption === 'tips' ? 'active' : '')" (click)="setActiveManagementOption('tips')">
                         <span>Tips</span>
+                    </div>
+                    <div [class]="'management-option ' + (activeManagementOption === 'analytics' ? 'active' : '')" (click)="setActiveManagementOption('analytics')">
+                        <span>Analytics</span>
                     </div>
                 </ng-container>
 
@@ -352,9 +355,30 @@
             </div>
         </ng-container>
 
+        <ng-container *ngIf="activeManagementOption==='analytics'">
+            <div [class]="'tips-container ' + (mode || '')">
+                <p class="tips-header tips-margin-bottom extra">The following links will provide you analytics</p>
+                    
+                <p class="tips-margin-bottom extra">Google and Firebase analytics should be the same at the end of the day. The main difference would be the ui/ux on their websites.</p>
+                
+                <p class="tips-margin-bottom extra">Firebase analytics</p>
+
+                <p class="tips-margin-bottom"><a href="https://console.firebase.google.com/u/0/project/samanthamink-66ff9/analytics/" target="_blank">Dashboard</a> - General analytics</p>
+                <p class="tips-margin-bottom"><a href="https://console.firebase.google.com/u/0/project/samanthamink-66ff9/analytics/app/web:YmY4YWQyMTgtZjk4ZS00ZWMyLTg2MGMtNDg1MmQ1YjQ5OTZi/events/~2Foverview%3Ft%3D1601666807534&fpn%3D604438716605&swu%3D1&sgu%3D1&sus%3Dupgraded&params%3D_r..layo" target="_blank">Events</a> - Simplier version of dashboard</p>
+                <p class="tips-margin-bottom extra"><a href="https://console.firebase.google.com/u/0/project/samanthamink-66ff9/analytics/app/web:YmY4YWQyMTgtZjk4ZS00ZWMyLTg2MGMtNDg1MmQ1YjQ5OTZi/streamview/~2F%3Ft%3D1601667103045&fpn%3D604438716605&swu%3D1&sgu%3D1&sus%3Dupgraded&params%3D_u..pageSize%253D25&cs%3Dapp.m.streamview.overview&g%3D1" target="_blank">StreamView</a> - Live analytics</p>
+
+                <p class="tips-margin-bottom extra">Google analytics</p>
+
+                <p class="tips-margin-bottom"><a href="https://analytics.google.com/analytics/web/?hl=en_US#/p248089922/reports/home?params=_u..nav%3Dga1-experimental" target="_blank">Dashboard</a> - General analytics</p>
+                <p class="tips-margin-bottom"><a href="https://analytics.google.com/analytics/web/?hl=en_US#/m/p248089922/events/overview?params=_u..nav%3Dga1-experimental%26_r..layout.pageNumber%3D0%26_u..pageSize%3D25" target="_blank">Events</a> - Simplier version of dashboard</p>
+                <p class="tips-margin-bottom"><a href="https://analytics.google.com/analytics/web/?hl=en_US#/p248089922/realtime/overview?params=_u..nav%3Dga1-experimental" target="_blank">Realtime</a> - Live analytics</p>
+                <p class="tips-margin-bottom"><a href="https://analytics.google.com/analytics/web/?hl=en_US#/analysis/p248089922" target="_blank">Analysis</a> - Report making</p>
+            </div>
+        </ng-container>
+
         <ng-container *ngIf="activeManagementOption==='tips'">
             <div [class]="'tips-container ' + (mode || '')">
-                <p class="tips-margin-bottom extra" [style.font-size]="'16px'">Setting project names and footer info</p>
+                <p class="tips-header tips-margin-bottom extra">Setting project names and footer info</p>
                     
                 <p class="tips-margin-bottom extra">What you type is what you'll see with three exceptions: <span class="code-text">\</span> <span class="code-text">\n</span></p>
                 <p class="tips-margin-bottom"><span class="code-text">\n</span>Mobile → newline.&emsp;Tablet / desktop → nothing</p>

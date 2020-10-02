@@ -57,7 +57,7 @@ export class HomeComponent {
 
 	public toggleModeTimeout?: number;
 
-	public activeManagementOption: 'projects' | 'advancedEdit' | 'footer' | 'tips' = 'projects';
+	public activeManagementOption: 'projects' | 'advancedEdit' | 'footer' | 'tips' | 'analytics' = 'projects';
 
 	public authPending: boolean;
 
@@ -741,7 +741,7 @@ export class HomeComponent {
 		});
 	}
 
-	public setActiveManagementOption(option: 'projects' | 'advancedEdit' | 'footer' | 'tips'): void {
+	public setActiveManagementOption(option: 'projects' | 'advancedEdit' | 'footer' | 'tips' | 'analytics'): void {
 		this.activeManagementOption = option;
 
 		setTimeout(() => {
