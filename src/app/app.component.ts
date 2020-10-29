@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { AppService } from './services/app.service';
 import { AnalyticsService } from './services/analytics.service';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { OverlayGalleryService } from './services/overlay-gallery.service';
 
 export interface TagElement {
 	text: string;
@@ -50,9 +51,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	private _routerEventsSub?: Subscription;
 
-	private _onResize?: () => void;
+	private _detachListeners?: () => void;
 
-	constructor(private router: Router, public appService: AppService, private analyticsService: AnalyticsService) {
+	constructor(private router: Router, private renderer: Renderer2, public appService: AppService, 
+		private analyticsService: AnalyticsService, public overlayGalleryService: OverlayGalleryService) {
 		this.loading = false;
 		this.dataLoading = false;
 		this.backgroundImageLoading = false;
@@ -64,9 +66,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.loading = true;
 
 		this._loadProjects();
-	}
 
-	public ngAfterViewInit(): void {
 		// Handle getting screen height css variables
         const appHeight = () => {
             try {
@@ -78,22 +78,30 @@ export class AppComponent implements OnInit, AfterViewInit {
                 doc.style.setProperty('--app-height-95', `${windowHeight * .95}px`);
                 doc.style.setProperty('--app-height-50', `${windowHeight * .5}px`);
             } catch(error) {
-                if (this.appService.env !== 'prod') {
+                if (this.appService.env === 'dev') {
                     console.error(error);
                     debugger;
                 }
             }
         }
 
-        this._onResize = () => {
+        const _onResize = () => {
             appHeight();
-		}
+            // updateResponsiveService();
+        }
 
-		window.addEventListener('resize', this._onResize);
-        window.addEventListener('orientationchange', this._onResize);
+        const _off__resize = this.renderer.listen('window', 'resize', _onResize);
+        const _off__orientationchange = this.renderer.listen('window', 'orientationchange', _onResize);
         
+        this._detachListeners = () => {
+            _off__resize();
+            _off__orientationchange();
+        };
+
         appHeight();
-		
+	}
+
+	public ngAfterViewInit(): void {
 		this._routerEventsSub = this.router.events.subscribe(routerEvent=> {
 			this._checkRouterEvent(routerEvent as RouterEvent);
 		});
@@ -163,9 +171,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	public ngOnDestroy(): void {
 		this._routerEventsSub?.unsubscribe();
 
-		if (this._onResize) {
-			window.removeEventListener('resize', this._onResize);
-			window.removeEventListener('orientationchange', this._onResize);
+		if (this._detachListeners) {
+			this._detachListeners();
 		}
 	}
 }

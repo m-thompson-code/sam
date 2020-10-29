@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 
 import "materialize-css";
 
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 
 import { AppService } from '../services/app.service';
 

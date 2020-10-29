@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Project, DBProject } from '../app.component';
 
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import { Mode } from '../home/home.component';
 
 export interface BackwardsCompatibleDBProject extends DBProject {

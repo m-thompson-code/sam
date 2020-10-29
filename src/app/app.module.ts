@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { DragulaModule, DragulaService } from 'ng2-dragula';
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 
 import 'firebase/analytics';
 import 'firebase/auth';
@@ -22,15 +22,19 @@ firebase.analytics();
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AppService } from './services/app.service';
-import { AnalyticsService } from './services/analytics.service';
+import { PreloaderModule } from '@app/components/preloader/preloader.module';
+import { OverlayGalleryModule } from '@app/components/overlay-gallery';
 
-import { PreloaderModule } from './components/preloader/preloader.module';
+import { DirectivesModule } from '@app/directives';
 
-import { PipeModule } from './pipes/pipe.module';
+import { PipeModule } from '@app/pipes/pipe.module';
 
-import { CanDeactivateGuard } from './guards/can-deactivate.guard';
-import { NavComponent } from './nav/nav.component';
+import { CanDeactivateGuard } from '@app/guards/can-deactivate.guard';
+import { NavComponent } from '@app/nav/nav.component';
+
+import { AppService } from '@app/services/app.service';
+import { AnalyticsService } from '@app/services/analytics.service';
+import { OverlayGalleryService } from '@app/services/overlay-gallery.service';
 
 @NgModule({
     declarations: [
@@ -44,6 +48,9 @@ import { NavComponent } from './nav/nav.component';
         BrowserModule,
 
         PreloaderModule,
+        OverlayGalleryModule,
+
+        DirectivesModule,
 
         PipeModule,
     ],
@@ -53,6 +60,8 @@ import { NavComponent } from './nav/nav.component';
 
         AppService,
         AnalyticsService,
+
+        OverlayGalleryService,
     ],
     bootstrap: [
         AppComponent

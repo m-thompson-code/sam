@@ -59,7 +59,9 @@
               "moment",
               "moment-timezone",
               "hammerjs",
-              "materialize-css"
+              "materialize-css",
+              "dragula",
+              "ng2-dragula"
             ]
           },
           "configurations": {

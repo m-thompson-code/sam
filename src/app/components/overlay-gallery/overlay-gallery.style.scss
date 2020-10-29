@@ -1,0 +1,207 @@
+@import 'styles/variables.scss';
+
+@keyframes overlay-gallery-animation-show {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes overlay-gallery-animation-hide {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    width: 100%;
+    height: 100vh;
+    height: var(--app-height-100);
+
+    overflow: hidden;
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+
+    animation-name: overlay-gallery-animation-show;
+    animation-duration: 200ms;
+
+    background: rgba(#303030, .975);
+    background: linear-gradient(#303030, rgba(#303030, .975));
+}
+.overlay.hide {
+    animation-name: overlay-gallery-animation-hide;
+    animation-duration: 200ms;
+    opacity: 0;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+
+    padding: 16px 0;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    display: flex;
+    height: auto;
+    width: 100%;
+
+    justify-content: space-between;
+
+    padding: 0 10vw 16px;
+    box-sizing: border-box;
+
+    font-size: 20px;
+    line-height: 1;
+}
+
+.close-icon {
+    position: relative;
+    top: 0;
+    left: 0;
+
+    height: 27px;
+    width: 27px;
+
+    border-radius: 50%;
+
+    svg {
+        height: 27px;
+        width: 27px;
+        fill: currentColor;
+    }
+    .icon-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 200%;
+        height: 200%;
+
+        transform: translate(-50%, -50%);
+
+        border-radius: 50%;
+
+        cursor: pointer;
+    }
+}
+
+.gallery-container {
+    height: 100%;
+    width: 100%;
+    flex-grow: 2;
+}
+
+.nav {
+    height: 40px;
+    width: 40px;
+
+    svg {
+        height: 40px;
+        width: 40px;
+        fill: currentColor;
+        transform: translateX(5px);
+    }
+
+    .icon-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 200%;
+        height: 200%;
+
+        transform: translate(-50%, -50%);
+
+        border-radius: 50%;
+
+        cursor: pointer;
+    }
+}
+
+.left-nav {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    margin-left: 20px;
+}
+
+.right-nav {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    margin-right: 20px;
+}
+
+@media only screen and (max-width: $desktop_width) {
+    // pass
+}
+
+@media only screen and (max-width: $tablet_width) and (orientation: portrait) {
+    .nav {
+        display: none;
+    }
+
+    .top {
+        padding: 0 16px 16px;
+    }
+
+    .container {
+        padding: 16px 0;
+    }
+}
+
+@media only screen and (max-width: $mobile_width) and (orientation: portrait) {
+    .nav {
+        display: none;
+    }
+
+    .top {
+        padding: 0 4px 4px;
+    }
+
+    .container {
+        padding: 4px 0;
+    }
+}
+
+@media only screen and (max-width: $landscape_width) and (max-height: $tablet_height) and (orientation: landscape) {
+    .nav {
+        display: none;
+    }
+
+    .top {
+        padding: 0 16px 16px;
+    }
+
+    .container {
+        padding: 16px 0;
+    }
+}
+
+@media only screen and (max-width: $landscape_width) and (max-height: $mobile_height) and (orientation: landscape) {
+    .nav {
+        display: none;
+    }
+
+    .top {
+        padding: 0 4px 4px;
+    }
+
+    .container {
+        padding: 4px 0;
+    }
+}
