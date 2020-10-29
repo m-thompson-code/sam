@@ -14,7 +14,7 @@
                 </ng-container>
                 
                 <ng-container *ngIf="!thumbnail">
-                    <video #video [src]="dhref" [style.width]="getMaxHeight().width || defaultWidth || 'auto'" controls 
+                    <video #video [src]="dhref" [style.width]="getMaxHeight().width || defaultWidth || 'auto'" controls loop  
                         [style.height]="getMaxHeight().height || defaultHeight || 'auto'">
                     </video>
                 </ng-container>

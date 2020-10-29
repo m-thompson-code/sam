@@ -147,6 +147,7 @@ body.project {
   overflow-y: visible;
 	min-height: 100vh;
   min-height: stretch;
+  min-height: var(--app-height-100);
   height: auto;
   background: black;
 }
@@ -165,6 +166,22 @@ img, video {
   height: 100%;
 
   object-fit: contain;
+}
+
+.responsive, .responsive-height {
+  height: 100%;
+  width: auto;
+  // better support for responsive images/videos ie 11 / edge
+  // source: https://github.com/philipwalton/flexbugs/issues/75
+  min-width: 1px;
+}
+
+.responsive-width {
+  height: auto;
+  // better support for responsive images/videos ie 11 / edge
+  // source: https://github.com/philipwalton/flexbugs/issues/75
+  min-height: 1px;
+  width: 100%;
 }
 
 a {
@@ -316,7 +333,6 @@ p.center {
 }
 /* END Dragula CSS */
 
-
 .trash .gu-transit {
 	/*display: none;*/
 	position: absolute;
@@ -326,4 +342,9 @@ p.center {
 	opacity: .9;
 	width: 48px;
 	height: 48px;
+}
+
+// materialize-css overrides
+video {
+  display: block;
 }

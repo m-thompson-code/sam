@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { AppService } from '../services/app.service';
 import { Project, TagElement } from '../app.component';
 import { AnalyticsService } from '../services/analytics.service';
+import { OverlayGalleryService } from '@app/services/overlay-gallery.service';
+import { AssetClickEvent } from '@app/components/slider/slider.component';
 
 declare var M: any;
 
@@ -22,7 +24,8 @@ export class ProjectComponent  implements OnInit, OnDestroy {
 
 	private paramSubscription?: Subscription;
 
-	constructor(public appService: AppService, private activatedRoute: ActivatedRoute, private analyticsService: AnalyticsService) {
+	constructor(public appService: AppService, private activatedRoute: ActivatedRoute, 
+		private analyticsService: AnalyticsService, private overlayGalleryService: OverlayGalleryService) {
 	}
 
 	public ngOnInit(): void {
@@ -67,6 +70,16 @@ export class ProjectComponent  implements OnInit, OnDestroy {
 			text: tagElement.text,
 			href: tagElement.href,
 		});
+	}
+
+	public handleAssetClick(assetClickEvent: AssetClickEvent): void {
+		console.log(assetClickEvent);
+		
+		if (!this.activeProject) {
+			return;
+		}
+
+		this.overlayGalleryService.activate(assetClickEvent.index, this.activeProject.assets);
 	}
 
 	public ngOnDestroy(): void {

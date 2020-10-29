@@ -1,10 +1,17 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 // import { environment } from '@environment';
 
 export interface SlideImage {
     src?: string | ArrayBuffer | null | undefined;
     url?: string | ArrayBuffer | null | undefined;
+    type?: "image" | "video";
+}
+
+export interface SlideAsset extends SlideImage {
+    src?: string | ArrayBuffer | null | undefined;
+    url?: string | ArrayBuffer | null | undefined;
+    type: "image" | "video";
 }
 
 @Component({
@@ -12,9 +19,9 @@ export interface SlideImage {
     templateUrl: './gallery.template.html',
     styleUrls: ['./gallery.style.scss']
 })
-export class GalleryComponent implements OnInit, AfterViewInit, OnDestroy {
-    @Input() public images: SlideImage[] = [];
-    public activeSlides: SlideImage[] = [];
+export class GalleryComponent implements OnInit {
+    @Input() public assets: SlideAsset[] = [];
+    public activeSlides: SlideAsset[] = [];
 
     @Input() public currentIndex: number = 0;
 
@@ -45,7 +52,7 @@ export class GalleryComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
             this.currentIndex += 1;
 
-            if (this.currentIndex > this.images.length - 1) {
+            if (this.currentIndex > this.assets.length - 1) {
                 this.currentIndex = 0;
             }
 
@@ -65,7 +72,7 @@ export class GalleryComponent implements OnInit, AfterViewInit, OnDestroy {
             this.currentIndex -= 1;
 
             if (this.currentIndex < 0) {
-                this.currentIndex = this.images.length - 1;
+                this.currentIndex = this.assets.length - 1;
             }
     
             this.updateCurrentImage();
@@ -73,22 +80,44 @@ export class GalleryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public updateCurrentImage(): void {
-        this.activeSlides = [
-            this.images[this.currentIndex - 1] || this.images[this.images.length - 1],
-            this.images[this.currentIndex],
-            this.images[this.currentIndex + 1] || this.images[0],
-        ];
+        if (this.assets.length) {
+            if (this.assets.length === 1) {
+                this.activeSlides = [
+                    this.assets[this.currentIndex],
+                ];
+            } else {
+                const before = this.assets[this.currentIndex - 1] || this.assets[this.assets.length - 1];
+                const current = this.assets[this.currentIndex];
+                const after = this.assets[this.currentIndex + 1] || this.assets[0];
+
+                this.activeSlides = [
+                    before,
+                    current,
+                    after,
+                ];
+
+                const videos = document.getElementsByTagName('video');
+                
+                for (let i = 0; i < videos.length; i++) {
+                    const video = videos[i];
+
+                    video.pause();
+                }
+            }
+        } else {
+            this.activeSlides = [];
+        }
 
         this.animate = false;
         this.slideDir = undefined;
     }
 
-    public ngAfterViewInit(): void {
-        
-    }
-
     public panHandler(event: any): void {
         const hammerEvent: HammerInput = event as HammerInput;
+
+        if (this.assets.length === 1) {
+            return;
+        }
 
         if (this.animate) {
             return;
@@ -108,6 +137,10 @@ export class GalleryComponent implements OnInit, AfterViewInit, OnDestroy {
     public panEndHandler(event: any): void {
         const hammerEvent: HammerInput = event as HammerInput;
 
+        if (this.assets.length === 1) {
+            return;
+        }
+
         if (this.animate) {
             return;
         }
@@ -126,9 +159,5 @@ export class GalleryComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 100);
 
         this.dragging = false;
-    }
-
-    public ngOnDestroy(): void {
-        
     }
 }

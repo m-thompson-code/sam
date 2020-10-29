@@ -1,8 +1,9 @@
-<div [class]="'moo-slides-container slides-container' + (animate ? ' animate': '') + (dragging ? ' dragging' : '') + (slideDir ? (' slide-to-' + (slideDir || '')): '')"
+<div [class]="'moo-slides-container slides-container' + (animate ? ' animate': '') + (dragging ? ' dragging' : '') + (slideDir ? (' slide-to-' + (slideDir || '')): '') + (activeSlides.length === 1 ? ' single-asset' : '')"
     (pan)="panHandler($event)" (panEnd)="panEndHandler($event)" [style.transform]="panTransformStyle">
     <div class="slides">
-        <div #slideContainer class="slide" *ngFor="let slide of activeSlides">
-            <moo-gallery-image *ngIf="slide.src || slide.url" [src]="slide.src || slide.url" [containerElement]="slideContainer"></moo-gallery-image>
+        <div #slideContainer [class]="'slide ' + slide.type" *ngFor="let slide of activeSlides">
+            <moo-gallery-image *ngIf="slide.type === 'image' && (slide.src || slide.url)" [src]="slide.src || slide.url" [containerElement]="slideContainer"></moo-gallery-image>
+            <moo-gallery-video *ngIf="slide.type === 'video' && (slide.src || slide.url)" [src]="slide.src || slide.url" [slideAsset]="slide" [containerElement]="slideContainer"></moo-gallery-video>
         </div>
     </div>
 </div>

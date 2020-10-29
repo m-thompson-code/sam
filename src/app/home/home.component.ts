@@ -1023,12 +1023,15 @@ export class HomeComponent {
 
 		let type: 'image' | 'video' = 'image';
 
-		if (this.advancedEditImageUrl.endsWith('.mp4')) {
+		if (this.advancedEditImageUrl.endsWith('.mp4') || this.advancedEditImageUrl.endsWith('.avi') || this.advancedEditImageUrl.endsWith('.webm') || this.advancedEditImageUrl.endsWith('.mpg')) {
 			type = 'video';
 		}
 
+		const thumbnail_url = this.appService.getThumbnailUrl(this.advancedEditImageUrl, type);
+
 		this.advancedEditProject.assets.push({
 			url: this.advancedEditImageUrl,
+			thumbnail_url: thumbnail_url,
 			type: type,
 		});
 

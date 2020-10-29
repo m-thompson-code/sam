@@ -3,6 +3,11 @@ import { Component, Input, AfterViewInit, ViewChild, ElementRef, Output, EventEm
 import * as Hammer from 'hammerjs';
 import { Asset } from 'src/app/app.component';
 
+export interface AssetClickEvent {
+	asset: Asset;
+	index: number;
+}
+
 @Component({
   selector: 'moo-slider',
   styleUrls: [ './slider.style.scss' ],
@@ -27,6 +32,7 @@ export class SliderComponent implements AfterViewInit {
 	private swipV: number = .25;
 
 	@Output() public activeSlideSet: EventEmitter<number> = new EventEmitter();
+	@Output() public assetClicked: EventEmitter<AssetClickEvent> = new EventEmitter();
 
 	constructor() {
 	}

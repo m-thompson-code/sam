@@ -1,13 +1,14 @@
 <div #outerContainer class="has-slider">
     <div #sliderContainer id="slider" class="slider" [style.margin-left]="marginPercent | margin:-delta:assets&&assets.length||0-1 | noSanitizeStyle" [style.width]="assets&&assets.length||0 + '00%'">
         <ng-container *ngIf="assets">
-            <div *ngFor="let asset of assets; let assetIndex = index" class="slider-panel">
+            <div *ngFor="let asset of assets; let assetIndex = index" class="slider-panel" (click)="assetClicked.emit({asset: asset, index: assetIndex})">
                 <ng-container *ngIf="assets[assetIndex].type === 'image'">
                     <moo-image [mode]="'dark'" [href]="assets[assetIndex].url" [container]="outerContainer"></moo-image>
                 </ng-container>
                 
                 <ng-container *ngIf="assets[assetIndex].type === 'video'">
-                    <moo-video [mode]="'dark'" [href]="assets[assetIndex].url" [container]="outerContainer"></moo-video>
+                    <moo-video *ngIf="!assets[assetIndex].thumbnail_url" [mode]="'dark'" [href]="assets[assetIndex].url" [container]="outerContainer"></moo-video>
+                    <moo-image *ngIf="assets[assetIndex].thumbnail_url" [mode]="'dark'" [href]="assets[assetIndex].thumbnail_url" [container]="outerContainer"></moo-image>
                 </ng-container>
             </div>
         </ng-container>

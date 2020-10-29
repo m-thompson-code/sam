@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { SlideImage } from '@app/components/gallery/gallery.component';
+import { SlideAsset } from '@app/components/gallery/gallery.component';
 
 import { AppService } from '@app/services/app.service';
-
 
 @Injectable({
     providedIn: 'root',
 })
 export class OverlayGalleryService {
-    public images?: SlideImage[];
+    public assets?: SlideAsset[];
 
     public active?: boolean;
 
@@ -20,8 +19,8 @@ export class OverlayGalleryService {
     constructor(private appService: AppService) {
     }
 
-    public activate(activateIndex: number, images: SlideImage[]): void {
-        this.images = images;
+    public activate(activateIndex: number, assets: SlideAsset[]): void {
+        this.assets = assets;
         this.initalIndex = activateIndex;
 
         setTimeout(() => {

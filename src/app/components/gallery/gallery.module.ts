@@ -6,6 +6,7 @@ import { GalleryComponent } from './gallery.component';
 // import { DirectivesModule } from '@app/directives';
 
 import { GalleryImageModule } from '@app/components/gallery-image';
+import { GalleryVideoModule } from '@app/components/gallery-video';
 
 @NgModule({
     declarations: [GalleryComponent],
@@ -15,6 +16,7 @@ import { GalleryImageModule } from '@app/components/gallery-image';
         // DirectivesModule,
 
         GalleryImageModule,
+        GalleryVideoModule,
     ],
     exports: [GalleryComponent]
 })

@@ -1,5 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
+import { Injectable, NgModule } from '@angular/core';
 
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import firebase from "firebase/app";
@@ -36,6 +36,20 @@ import { AppService } from '@app/services/app.service';
 import { AnalyticsService } from '@app/services/analytics.service';
 import { OverlayGalleryService } from '@app/services/overlay-gallery.service';
 
+import * as hammer from 'hammerjs';
+
+@Injectable()
+export class MyHammerConfig extends HammerGestureConfig {
+    overrides = <any> {
+        pinch: { enable: false },
+        rotate: { enable: false },
+        pan: {
+            direction: hammer.DIRECTION_HORIZONTAL,
+            enable: true,
+        },
+    }
+}
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -46,6 +60,7 @@ import { OverlayGalleryService } from '@app/services/overlay-gallery.service';
 
         DragulaModule.forRoot(),
         BrowserModule,
+        HammerModule,
 
         PreloaderModule,
         OverlayGalleryModule,
@@ -62,6 +77,11 @@ import { OverlayGalleryService } from '@app/services/overlay-gallery.service';
         AnalyticsService,
 
         OverlayGalleryService,
+
+        {
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: MyHammerConfig
+        },
     ],
     bootstrap: [
         AppComponent

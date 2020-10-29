@@ -19,6 +19,7 @@ export interface Tag {
 export interface Asset {
 	type: 'image' | 'video';
 	url: string;
+	thumbnail_url: string;
 }
 
 export interface DBProject {

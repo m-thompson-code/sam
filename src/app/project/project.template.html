@@ -19,7 +19,7 @@
     
     <ng-container *ngIf="activeProject">
         <div #container class="slider-container">
-            <moo-slider [container]="container" [assets]="activeProject.assets" (activeSlideSet)="setActiveSlide($event)"></moo-slider>
+            <moo-slider [container]="container" [assets]="activeProject.assets" (activeSlideSet)="setActiveSlide($event)" (assetClicked)="handleAssetClick($event)"></moo-slider>
         </div>
     
         <moo-dots [items]="activeProject.assets" [activeIndex]="activeSlide"></moo-dots>

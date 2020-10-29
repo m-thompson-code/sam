@@ -66,11 +66,11 @@ export class AppService {
 				for (var i = 0; i < projects.length; i++) {
 					const url: BackwardsCompatibleDBProject = projects[i];
 
-					const project = {
+					const project: Project = {
 						width: 0, 
 						text: url.text, 
 						href: url.href,
-						assets: url.assets || [],
+						assets: [],
 						useSlideshow: url.useSlideshow || false,
 						desc: url.desc || "",
 						tags: url.tags || [],
@@ -80,11 +80,24 @@ export class AppService {
 						marginRight: 0,
 					};
 
+					if (url.assets) {
+						for (const asset of url.assets) {
+							let thumbnail_url = asset.thumbnail_url || this.getThumbnailUrl(asset.url, asset.type);
+	
+							project.assets.push({
+								type: asset.type || 'image',
+								url: asset.url,
+								thumbnail_url: thumbnail_url,
+							});
+						}
+					}
+
 					if (url.imageUrls) {
 						for (const imageUrl of url.imageUrls) {
 							project.assets.push({
 								type: 'image',
 								url: imageUrl,
+								thumbnail_url: imageUrl,
 							});
 						}
 					}
@@ -122,5 +135,32 @@ export class AppService {
 				}
 			}
 		});
-    }
+	}
+	
+	public getThumbnailUrl(url: string, assetType: 'image' | 'video'): string {
+		if (assetType !== 'video') {
+			return url;
+		}
+	
+		// Handle thumbnail url
+		const parts = url.split('/');
+		// This part is handled by the slider component itself
+		// parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
+
+		// Update ext to jpg for videos
+		if (assetType === 'video') {
+			parts[parts.length - 1] = parts[parts.length - 1].replace(/\..*/, '.jpg');
+		}
+
+		let jpgHref = "";
+		for (let part of parts) {
+			if (jpgHref) {
+				jpgHref += '/';
+			}
+
+			jpgHref += part;
+		}
+
+		return jpgHref;
+	}
 }

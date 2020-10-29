@@ -21,6 +21,8 @@
     height: var(--app-height-100);
 
     overflow: hidden;
+
+    color: white;
 }
 
 .overlay {
@@ -30,8 +32,8 @@
     animation-name: overlay-gallery-animation-show;
     animation-duration: 200ms;
 
-    background: rgba(#303030, .975);
-    background: linear-gradient(#303030, rgba(#303030, .975));
+    background: rgba(#121212, .975);
+    background: linear-gradient(#121212, rgba(#121212, .975));
 }
 .overlay.hide {
     animation-name: overlay-gallery-animation-hide;

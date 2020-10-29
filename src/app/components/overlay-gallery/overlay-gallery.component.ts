@@ -76,7 +76,7 @@ export class OverlayGalleryComponent implements OnInit, AfterViewInit, OnDestroy
                 this.overlayGalleryService.active = false;
 
                 // Setting active to false is handled by overlay component
-                this.overlayGalleryService.images = [];
+                this.overlayGalleryService.assets = [];
                 this.overlayGalleryService.initalIndex = 0;
             }, 0);
         }, 200);
