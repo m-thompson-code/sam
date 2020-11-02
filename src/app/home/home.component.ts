@@ -1136,13 +1136,13 @@ export class HomeComponent {
 		elements[j] = first;
 	}
 	
-	public canDeactivate(): boolean {
+	public canDeactivate(): Promise<boolean> {
 		if (this.showSlideshow) {
 			this.toggleSlideshow();
 			setTimeout(() => {
 				this.location.replaceState('/');
 			}, 1);
-			return false;
+			return Promise.resolve(false);
 		}
 
 		if (this.showManagement) {
@@ -1151,14 +1151,14 @@ export class HomeComponent {
 				setTimeout(() => {
 					this.location.replaceState('/');
 				}, 1);
-				return false
+				return Promise.resolve(false);
 			}
 
 			this.toggleShowManagement();
 			setTimeout(() => {
 				this.location.replaceState('/');
 			}, 1);
-			return false;
+			return Promise.resolve(false);
 		}
 
 		if (this.showLogin) {
@@ -1166,10 +1166,10 @@ export class HomeComponent {
 			setTimeout(() => {
 				this.location.replaceState('/');
 			}, 1);
-			return false;
+			return Promise.resolve(false);
 		}
 
-		return true;
+		return Promise.resolve(true);;
 	}
 
 	private bindKeyDownListeners(): void {
