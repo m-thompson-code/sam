@@ -11,22 +11,23 @@ export class ImageComponent implements OnInit, OnChanges {
 	// @Input() href: string;
 
 	public thref: string;
-	public mhref: string;
+	public lhref: string;
 	public dhref: string;
 
+	// imgur thumbnail docs: https://api.imgur.com/models/image
 	private _href: string;
     @Input()
     set href(href: string) {
 			this._href = href;
 
 			const parts = href.split('/');
-			parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'm.');
-			this.mhref = "";
+			parts[parts.length - 1] = parts[parts.length - 1].replace('.', 'l.');
+			this.lhref = "";
 			for (let part of parts) {
-				if (this.mhref) {
-					this.mhref += '/';
+				if (this.lhref) {
+					this.lhref += '/';
 				}
-				this.mhref += part;
+				this.lhref += part;
 			}
 
 			const parts2 = href.split('/');
@@ -72,7 +73,7 @@ export class ImageComponent implements OnInit, OnChanges {
 
 	constructor() {
 		this.thref = "";
-		this.mhref = "";
+		this.lhref = "";
 		this.dhref = "";
 		this._href = "";
 
@@ -203,7 +204,7 @@ export class ImageComponent implements OnInit, OnChanges {
 			this.errored = false;
 
 			if (!this.calcSize) {
-				this._image.src = this.mhref;
+				this._image.src = this.lhref;
 			} else if (this.thumbnail) {
 				this._image.src = this.thref;
 			} else {
